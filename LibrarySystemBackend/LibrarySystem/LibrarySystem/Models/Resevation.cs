@@ -1,7 +1,11 @@
-﻿namespace LibrarySystem.Models
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
+
+namespace LibrarySystem.Models
 {
     public class Resevation
     {
+        [Key] 
         public int ReservationID { get; set; }
         public int MemberID { get; set; }
         public Member Member { get; set; }

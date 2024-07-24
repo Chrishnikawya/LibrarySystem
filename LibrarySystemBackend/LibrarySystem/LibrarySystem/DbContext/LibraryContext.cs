@@ -1,4 +1,6 @@
-﻿namespace LibrarySystem.Models
+﻿using LibrarySystem.Models;
+
+namespace LibrarySystem.DbContext
 {
     using Microsoft.EntityFrameworkCore;
 

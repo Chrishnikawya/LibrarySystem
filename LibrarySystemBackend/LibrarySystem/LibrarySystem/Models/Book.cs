@@ -1,0 +1,15 @@
+﻿namespace LibrarySystem.Models
+{
+    public class Book
+    {
+        public int BookID { get; set; }
+        public string BookName { get; set; } 
+        public string Category { get; set; } 
+
+        public int AuthorID { get; set; }
+        public virtual Author Author { get; set; }
+        public int PublisherID { get; set; }
+        public virtual Publisher Publisher { get; set; }
+    }
+}
+// public virtual ICollection Resevations { get; set; }

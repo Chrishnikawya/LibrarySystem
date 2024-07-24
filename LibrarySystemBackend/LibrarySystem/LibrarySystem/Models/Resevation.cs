@@ -8,7 +8,7 @@
         public int StaffID { get; set; }
         public int BookID { get; set; }
         public DateTime ReservationDate { get; set; }
-        public string Status { get; set; } = string.Empty;
+        public string Status { get; set; } 
 
         public Member Member { get; set; } 
         public Staff Staff { get; set; }

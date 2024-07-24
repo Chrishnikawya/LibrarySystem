@@ -6,6 +6,9 @@ C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debu
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\LibrarySystem.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\LibrarySystem.pdb
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Humanizer.dll
+C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -14,6 +17,8 @@ C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debu
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.Identity.Client.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll

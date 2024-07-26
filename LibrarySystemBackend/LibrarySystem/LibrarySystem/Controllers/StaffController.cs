@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LibrarySystem.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,10 +9,16 @@ namespace LibrarySystem.Controllers
     [ApiController]
     public class StaffController : ControllerBase
     {
+        private readonly IStaffService _staffService;
+        public StaffController(IStaffService staffService)
+        {
+            _staffService = staffService;
+        }
         // GET: api/<StaffController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            _staffService.GetStaffs();
             return new string[] { "value1", "value2" };
         }
 
@@ -26,18 +33,24 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            _staffService.PostStaffs();
+            return;
         }
 
         // PUT api/<StaffController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            _staffService.PutStaffs();
+            return;
         }
 
         // DELETE api/<StaffController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _staffService.DeleteStaffs();
+            return;
         }
     }
 }

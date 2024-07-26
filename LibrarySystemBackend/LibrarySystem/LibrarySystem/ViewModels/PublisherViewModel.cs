@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.Models
+﻿namespace LibrarySystem.ViewModels
 {
     public class PublisherViewModel
     {
@@ -6,8 +6,7 @@
         public string PublisherName { get; set; } 
         public string PublisherAddress { get; set; } 
         public string PublisherEmail { get; set; } 
-        public string PublisherPhoneNumber { get; set; } 
-        public ICollection<BookViewModel> Books { get; set; }
+        public string PublisherPhoneNumber { get; set; }
         
     }
 }

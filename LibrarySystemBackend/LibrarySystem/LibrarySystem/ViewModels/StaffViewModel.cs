@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.Models
+﻿namespace LibrarySystem.ViewModels
 {
     public class StaffViewModel
     {
@@ -6,6 +6,5 @@
         public string StaffName { get; set; } 
         public string StaffEmail { get; set;} 
         public DateTime EnrollmentDate { get; set; }
-        public ICollection<ResevationViewModel> Resevations { get; set; }
     }
 }

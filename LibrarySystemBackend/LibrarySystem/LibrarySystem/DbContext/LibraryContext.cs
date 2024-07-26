@@ -6,12 +6,12 @@ namespace LibrarySystem.DbContext
 {
     public class LibraryContext : IdentityDbContext
     {
-        public DbSet<Member> Members { get; set; }
-        public DbSet<Resevation> Resevations { get; set; }
-        public DbSet<Staff> Staffs { get; set; }
-        public DbSet<Publisher> Publishers { get; set; }
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Author> Authors { get; set; }
+        public DbSet<MemberViewModel> Members { get; set; }
+        public DbSet<ResevationViewModel> Resevations { get; set; }
+        public DbSet<StaffViewModel> Staffs { get; set; }
+        public DbSet<PublisherViewModel> Publishers { get; set; }
+        public DbSet<BookViewModel> Books { get; set; }
+        public DbSet<AuthorViewModel> Authors { get; set; }
         public LibraryContext(DbContextOptions options)
 : base(options)
         {

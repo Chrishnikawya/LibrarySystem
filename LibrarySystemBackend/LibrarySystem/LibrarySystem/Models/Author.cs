@@ -1,12 +1,12 @@
 ﻿namespace LibrarySystem.Models
 {
-    public class AuthorViewModel
+    public class Author
     {
         public int AuthorID { get; set; }
         public string AuthorName { get; set; } 
         public string AuthorAddress { get; set; } 
         public string AuthorEmail { get; set; }
         public string AuthorPhoneNumber{ get; set; }
-        public virtual ICollection <BookViewModel> Books { get; set; }
+        public virtual ICollection <Book> Books { get; set; }
     }
 }

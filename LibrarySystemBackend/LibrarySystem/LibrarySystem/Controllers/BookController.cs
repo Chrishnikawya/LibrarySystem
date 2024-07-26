@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using LibrarySystem.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LibrarySystem.Controllers
@@ -8,10 +8,16 @@ namespace LibrarySystem.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
+        private readonly IBookService _bookService;
+        public BookController(IBookService bookService)
+        {
+            _bookService = bookService;
+        }
         // GET: api/<BookController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            _bookService.GetBooks();
             return new string[] { "value1", "value2" };
         }
 
@@ -26,18 +32,24 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            _bookService.PostBooks();
+            return;
         }
 
         // PUT api/<BookController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            _bookService.PutBooks();
+            return;
         }
 
         // DELETE api/<BookController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _bookService.DeleteBooks();
+            return;
         }
     }
 }

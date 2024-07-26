@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.Models
+﻿namespace LibrarySystem.ViewModels
 {
     public class AuthorViewModel
     {
@@ -7,6 +7,5 @@
         public string AuthorAddress { get; set; } 
         public string AuthorEmail { get; set; }
         public string AuthorPhoneNumber{ get; set; }
-        public virtual ICollection <BookViewModel> Books { get; set; }
     }
 }

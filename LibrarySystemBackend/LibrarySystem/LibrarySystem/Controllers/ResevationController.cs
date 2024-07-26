@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LibrarySystem.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,10 +9,16 @@ namespace LibrarySystem.Controllers
     [ApiController]
     public class ResevationController : ControllerBase
     {
+        private readonly IResevationService _resevationService;
+        public ResevationController(IResevationService resevationService)
+        {
+            _resevationService = resevationService;
+        }
         // GET: api/<ResevationController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            _resevationService.GetResevations();
             return new string[] { "value1", "value2" };
         }
 
@@ -26,18 +33,24 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            _resevationService.PostResevations();
+            return;
         }
 
         // PUT api/<ResevationController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            _resevationService.PutResevations();
+            return;
         }
 
         // DELETE api/<ResevationController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _resevationService.DeleteResevations();
+            return;
         }
     }
 }

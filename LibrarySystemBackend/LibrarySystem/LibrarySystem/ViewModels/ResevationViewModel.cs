@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using LibrarySystem.Repositories;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.ViewModels
 {
     public class ResevationViewModel
     {
+        
         [Key] 
         public int ReservationID { get; set; }
         public int MemberID { get; set; }

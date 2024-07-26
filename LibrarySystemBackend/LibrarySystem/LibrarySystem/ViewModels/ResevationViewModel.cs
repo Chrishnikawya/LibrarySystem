@@ -6,7 +6,6 @@ namespace LibrarySystem.ViewModels
 {
     public class ResevationViewModel
     {
-        
         [Key] 
         public int ReservationID { get; set; }
         public int MemberID { get; set; }

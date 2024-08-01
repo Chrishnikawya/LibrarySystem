@@ -5,7 +5,7 @@ using LibrarySystem.Repositories;
 
 namespace LibrarySystem.Services
 {
-    public class BookService : IBookService
+    public class BookService :IBookService 
     {
         private readonly IUnitOfWorkRepository _unitOfWork;
         public BookService(IUnitOfWorkRepository unitOfWork)
@@ -52,15 +52,6 @@ namespace LibrarySystem.Services
             return await _unitOfWork.Repository<Book>()
                 .DeleteAsync(new Book() { BookID = BookId }) > 0;
         }
-
-        public void GetBooks()
-        {}
-        public void PostBooks()
-        {}
-        public void PutBooks()
-        {}
-        public void DeleteBooks()
-        {}
     }
 }
 

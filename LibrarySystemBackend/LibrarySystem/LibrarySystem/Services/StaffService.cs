@@ -53,13 +53,5 @@ namespace LibrarySystem.Services
             return await _unitOfWork.Repository<Staff>()
                 .DeleteAsync(new Staff() { StaffID = staffId }) > 0;
         }
-        public void GetStaffs()
-        {}
-        public void PostStaffs()
-        {}
-        public void PutStaffs()
-        {}
-        public void DeleteStaffs()
-        {}
     }
 }

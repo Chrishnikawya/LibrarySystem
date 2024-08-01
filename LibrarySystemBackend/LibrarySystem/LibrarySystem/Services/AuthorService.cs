@@ -47,23 +47,15 @@ namespace LibrarySystem.Services
             }
 
         }
-        private async Task<bool> RemoveAuthorAsync(int authorId)
+        public async Task<bool>RemoveAuthorAsync(int authorId)
         {
 
 
             return await _unitOfWork.Repository<Author>()
                 .DeleteAsync(new Author() { AuthorID = authorId }) > 0;
         }
-
-        public void GetAuthors()
-       {}
-
-        public void PostAuthors()
-        {}
-       public void PutAuthors()
-       {}
-        public void DeleteAuthors()
-        {}
+        
+        
     }
 }
 

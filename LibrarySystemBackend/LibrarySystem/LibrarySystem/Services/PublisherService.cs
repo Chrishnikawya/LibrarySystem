@@ -52,13 +52,5 @@ namespace LibrarySystem.Services
             return await _unitOfWork.Repository<Publisher>()
                 .DeleteAsync(new Publisher() { PublisherID = publisherId }) > 0;
         }
-        public void GetPublishers()
-        {}
-        public void PostPublishers()
-        {}
-        public void PutPublishers()
-        {}
-        public void DeletePublishers()
-        {}
     }
 }

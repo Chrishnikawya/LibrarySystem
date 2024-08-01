@@ -59,7 +59,7 @@ namespace LibrarySystem.Repositories
 
         public async Task<T> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _dbContext.Set<T>().FirstOrDefaultAsync(predicate);
+            return await _dbContext.Set<T>().SingleOrDefaultAsync(predicate);
         }
     }
 }

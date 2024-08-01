@@ -52,14 +52,6 @@ namespace LibrarySystem.Services
             return await _unitOfWork.Repository<Member>()
                 .DeleteAsync(new Member() { MemberID = memberId }) > 0;
         }
-        public void GetMembers()
-        {}
-        public void PostMembers()
-        {}
-        public void PutMembers()
-        {}
-        public void DeleteMembers()
-        {}
     }
 }
  

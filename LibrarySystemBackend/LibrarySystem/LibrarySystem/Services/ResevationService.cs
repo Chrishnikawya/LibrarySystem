@@ -52,14 +52,5 @@ namespace LibrarySystem.Services
             return await _unitOfWork.Repository<Resevation>()
                 .DeleteAsync(new Resevation() { ReservationID = resevationId }) > 0;
         }
-        public void GetResevations()
-        {}
-
-        public void PostResevations()
-        {}
-        public void PutResevations()
-        {}
-        public void DeleteResevations()
-        {}
     }
 }

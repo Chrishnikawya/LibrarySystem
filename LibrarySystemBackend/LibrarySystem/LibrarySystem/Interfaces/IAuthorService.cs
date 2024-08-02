@@ -1,10 +1,14 @@
-﻿namespace LibrarySystem.Interfaces
+﻿using LibrarySystem.Models;
+
+namespace LibrarySystem.Interfaces
 {
     public interface IAuthorService
     {
-        void GetAuthors();
-        void PostAuthors();
-        void PutAuthors();
-        void DeleteAuthors();
+        Task<bool> AddAuthorAsync(Author author);
+        Task<IList<Author>> GetAuthorAsync();      
+        Task<bool>EditAuthorAsync(Author author);
+        Task<bool> RemoveAuthorAsync(int authorId);
     }
 }
+
+

@@ -18,7 +18,7 @@ namespace LibrarySystem.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            _memberService.GetMembers();
+            _memberService.GetMemberAsync();
             return new string[] { "value1", "value2" };
         }
 
@@ -33,7 +33,7 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            _memberService.PostMembers();
+            _memberService.AddMemberAsync();
             return;
         }
 
@@ -41,7 +41,7 @@ namespace LibrarySystem.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
-            _memberService.PutMembers();
+            _memberService.EditMemberAsync();
             return;
         }
 
@@ -49,7 +49,7 @@ namespace LibrarySystem.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _memberService.DeleteMembers();
+            _memberService.RemoveMemberAsync();
             return;
         }
     }

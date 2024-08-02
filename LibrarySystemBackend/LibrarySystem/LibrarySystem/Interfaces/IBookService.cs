@@ -1,10 +1,14 @@
-﻿namespace LibrarySystem.Interfaces
+﻿using LibrarySystem.Models;
+
+namespace LibrarySystem.Interfaces
 {
     public interface IBookService
     {
-        void GetBooks();
-        void PostBooks();
-        void PutBooks();
-        void DeleteBooks();
+        Task<bool> AddBookAsync(Book book);
+        //Task<IList<Book>> AddBookAsync();
+        Task<bool> EditBookAsync(Book book);
+        Task<bool> RemoveBookAsync(int BookId);
+        Task<IList<Book>> GetBookAsync();
+
     }
 }

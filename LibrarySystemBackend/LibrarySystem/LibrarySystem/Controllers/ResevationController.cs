@@ -18,7 +18,7 @@ namespace LibrarySystem.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            _resevationService.GetResevations();
+            _resevationService.GetResevationAsync();
             return new string[] { "value1", "value2" };
         }
 
@@ -33,7 +33,7 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            _resevationService.PostResevations();
+            _resevationService.AddResevationAsync();
             return;
         }
 
@@ -41,7 +41,7 @@ namespace LibrarySystem.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
-            _resevationService.PutResevations();
+            _resevationService.EditResevationAsync();
             return;
         }
 
@@ -49,7 +49,7 @@ namespace LibrarySystem.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _resevationService.DeleteResevations();
+            _resevationService.RemoveResevationAsync();
             return;
         }
     }

@@ -2,6 +2,7 @@
 using LibrarySystem.Repositories;
 using LibrarySystem.DbContext;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Linq.Expressions;
 
 namespace LibrarySystem.Repositories
 {
@@ -49,6 +50,16 @@ namespace LibrarySystem.Repositories
             var res = await _unitOfWork.Commit();
 
             return res > 0 ? entity : null;
+        }
+
+        public IQueryable<T> Query()
+        {
+            return _dbContext.Set<T>().AsQueryable();
+        }
+
+        public async Task<T> FindAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().SingleOrDefaultAsync(predicate);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿
+using System.Linq.Expressions;
+
 namespace LibrarySystem.Repositories
 {
     public interface IGenericRepository<T> where T : class
@@ -8,7 +10,9 @@ namespace LibrarySystem.Repositories
             Task<T> AddAsync(T entity);
             Task<int> DeleteAsync(T entity);
             Task<T> UpdateAsync(T entity);
-        
+        IQueryable<T> Query();
+        Task<T> FindAsync(Expression<Func<T, bool>> predicate);
+
     }
 }
 

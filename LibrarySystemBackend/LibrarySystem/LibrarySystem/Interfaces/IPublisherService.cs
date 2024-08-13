@@ -1,11 +1,13 @@
-﻿namespace LibrarySystem.Interfaces
+﻿using LibrarySystem.Models;
+
+namespace LibrarySystem.Interfaces
 {
 
     public interface IPublisherService
     {
-        void GetPublishers();
-        void PostPublishers();
-        void PutPublishers();
-        void DeletePublishers();
+        Task<bool> AddPublisherAsync(Publisher publisher);
+        Task<IList<Publisher>> GetPublisherAsync();
+        Task<bool> EditPublisherAsync(Publisher publisher);
+        Task<bool> RemovePublisherAsync(int publisherId);
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace LibrarySystem.Interfaces
+﻿using LibrarySystem.Models;
+
+namespace LibrarySystem.Interfaces
 {
     public interface IStaffService
     {
-        void GetStaffs();
-        void PostStaffs();
-        void PutStaffs();
-        void DeleteStaffs();
+        Task<bool> AddStaffAsync(Staff staff);
+        Task<IList<Staff>> GetStaffAsync();
+        Task<bool> EditStaffAsync(Staff staff);
+        Task<bool> RemoveStaffAsync(int staffId);
     }
 }

@@ -1,11 +1,13 @@
-﻿namespace LibrarySystem.Interfaces
+﻿using LibrarySystem.Models;
+
+namespace LibrarySystem.Interfaces
 {
    
     public interface IMemberService
     {
-        void GetMembers();
-        void PostMembers();
-        void PutMembers();
-        void DeleteMembers();
+        Task<bool> AddMemberAsync(Member member);
+        Task<IList<Member>> GetMemberAsync();
+        Task<bool> EditMemberAsync(Member member);
+        Task<bool> RemoveMemberAsync(int memberId);
     }
 }

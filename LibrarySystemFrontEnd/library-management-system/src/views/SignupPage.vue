@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     signup() {
-      // Handle signup logic here
       console.log('Name:', this.name, 'Email:', this.email, 'Password:', this.password);
     }
   }

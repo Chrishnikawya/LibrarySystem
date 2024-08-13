@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     login() {
-      // Handle login logic here
+    
       console.log('Email:', this.email, 'Password:', this.password);
     }
   }

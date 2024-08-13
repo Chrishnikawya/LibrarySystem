@@ -9,7 +9,6 @@ export default {
   name: 'MemberView'
 };
 </script>
-
 <style scoped>
 
 </style>

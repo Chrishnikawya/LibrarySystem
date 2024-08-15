@@ -1,6 +1,7 @@
 ﻿using LibrarySystem.Interfaces;
+using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 
 namespace LibrarySystem.Controllers
 {
@@ -9,47 +10,71 @@ namespace LibrarySystem.Controllers
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
+
         public BookController(IBookService bookService)
         {
             _bookService = bookService;
         }
-        // GET: api/<BookController>
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<Book>>> Get()
         {
-            _bookService.GetBookAsync();
-            return new string[] { "value1", "value2" };
+            var books = await _bookService.GetBookAsync();
+            return Ok(books);
         }
 
-        // GET api/<BookController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Book>> Get(int id)
         {
-            return "value";
+            var books = await _bookService.GetBookAsync();
+            var book = books.FirstOrDefault(b => b.BookID == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return Ok(book);
         }
 
-        // POST api/<BookController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] Book book)
         {
-            _bookService.AddBookAsync();
-            return;
+            if (book == null)
+            {
+                return BadRequest();
+            }
+            var inserted = await _bookService.AddBookAsync(book);
+            if (inserted)
+            {
+                return CreatedAtAction(nameof(Get), new { id = book.BookID }, book);
+            }
+            return BadRequest("Failed to add book.");
         }
 
-        // PUT api/<BookController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(int id, [FromBody] Book book)
         {
-            _bookService.EditBookAsync();
-            return;
+            if (book == null || id != book.BookID)
+            {
+                return BadRequest();
+            }
+
+            var updated = await _bookService.EditBookAsync(book);
+            if (updated)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
 
-        // DELETE api/<BookController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _bookService.RemoveBookAsync();
-            return;
+            var removed = await _bookService.RemoveBookAsync(id);
+            if (removed)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 }

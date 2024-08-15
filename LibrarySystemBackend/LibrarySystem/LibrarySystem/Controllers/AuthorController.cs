@@ -1,7 +1,7 @@
 ﻿using LibrarySystem.Interfaces;
+using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LibrarySystem.Controllers
 {
@@ -10,50 +10,71 @@ namespace LibrarySystem.Controllers
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _authorService;
+
         public AuthorController(IAuthorService authorService)
         {
             _authorService = authorService;
         }
 
-        
-
-        // GET: api/<AuthorController1>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<Author>>> Get()
         {
-            _authorService.GetAuthorAsync();
-            return new string[] { "value1", "value2" };
+            var authors = await _authorService.GetAuthorAsync();
+            return Ok(authors);
         }
 
-        // GET api/<AuthorController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Author>> Get(int id)
         {
-            return "value";
+            var authors = await _authorService.GetAuthorAsync();
+            var author = authors.FirstOrDefault(a => a.AuthorID == id);
+            if (author == null)
+            {
+                return NotFound();
+            }
+            return Ok(author);
         }
 
-        // POST api/<AuthorController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] Author author)
         {
-            _authorService.AddAuthorAsync();
-            return ;
+            if (author == null)
+            {
+                return BadRequest();
+            }
+            var inserted = await _authorService.AddAuthorAsync(author);
+            if (inserted)
+            {
+                return CreatedAtAction(nameof(Get), new { id = author.AuthorID }, author);
+            }
+            return BadRequest("Failed to add author.");
         }
 
-        // PUT api/<AuthorController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(int id, [FromBody] Author author)
         {
-            _authorService.EditAuthorAsync();
-            return;
+            if (author == null || id != author.AuthorID)
+            {
+                return BadRequest();
+            }
+
+            var updated = await _authorService.EditAuthorAsync(author);
+            if (updated)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
 
-        // DELETE api/<AuthorController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _authorService.RemoveAuthorAsync();
-            return;
+            var removed = await _authorService.RemoveAuthorAsync(id);
+            if (removed)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 }

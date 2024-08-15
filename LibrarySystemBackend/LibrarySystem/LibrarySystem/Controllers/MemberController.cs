@@ -1,7 +1,7 @@
 ﻿using LibrarySystem.Interfaces;
+using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LibrarySystem.Controllers
 {
@@ -10,47 +10,76 @@ namespace LibrarySystem.Controllers
     public class MemberController : ControllerBase
     {
         private readonly IMemberService _memberService;
+
         public MemberController(IMemberService memberService)
         {
             _memberService = memberService;
         }
-        // GET: api/<MemberController>
+
+        // GET: api/Member
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<Member>>> Get()
         {
-            _memberService.GetMemberAsync();
-            return new string[] { "value1", "value2" };
+            var members = await _memberService.GetMemberAsync();
+            return Ok(members);
         }
 
-        // GET api/<MemberController>/5
+        // GET api/Member/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Member>> Get(int id)
         {
-            return "value";
+            var members = await _memberService.GetMemberAsync();
+            var member = members.FirstOrDefault(m => m.MemberID == id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+            return Ok(member);
         }
 
-        // POST api/<MemberController>
+        // POST api/Member
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] Member member)
         {
-            _memberService.AddMemberAsync();
-            return;
+            if (member == null)
+            {
+                return BadRequest();
+            }
+            var inserted = await _memberService.AddMemberAsync(member);
+            if (inserted)
+            {
+                return CreatedAtAction(nameof(Get), new { id = member.MemberID }, member);
+            }
+            return BadRequest("Failed to add member.");
         }
 
-        // PUT api/<MemberController>/5
+        // PUT api/Member/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(int id, [FromBody] Member member)
         {
-            _memberService.EditMemberAsync();
-            return;
+            if (member == null || id != member.MemberID)
+            {
+                return BadRequest();
+            }
+
+            var updated = await _memberService.EditMemberAsync(member);
+            if (updated)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
 
-        // DELETE api/<MemberController>/5
+        // DELETE api/Member/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _memberService.RemoveMemberAsync();
-            return;
+            var removed = await _memberService.RemoveMemberAsync(id);
+            if (removed)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 }

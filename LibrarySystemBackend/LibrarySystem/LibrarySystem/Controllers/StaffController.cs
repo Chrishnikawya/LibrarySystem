@@ -1,7 +1,7 @@
 ﻿using LibrarySystem.Interfaces;
+using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LibrarySystem.Controllers
 {
@@ -10,47 +10,71 @@ namespace LibrarySystem.Controllers
     public class StaffController : ControllerBase
     {
         private readonly IStaffService _staffService;
+
         public StaffController(IStaffService staffService)
         {
             _staffService = staffService;
         }
-        // GET: api/<StaffController>
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<Staff>>> Get()
         {
-            _staffService.GetStaffAsync();
-            return new string[] { "value1", "value2" };
+            var staff = await _staffService.GetStaffAsync();
+            return Ok(staff);
         }
 
-        // GET api/<StaffController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Staff>> Get(int id)
         {
-            return "value";
+            var staff = await _staffService.GetStaffAsync();
+            var member = staff.FirstOrDefault(s => s.StaffID == id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+            return Ok(member);
         }
 
-        // POST api/<StaffController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] Staff staff)
         {
-            _staffService.AddStaffAsync();
-            return;
+            if (staff == null)
+            {
+                return BadRequest();
+            }
+            var inserted = await _staffService.AddStaffAsync(staff);
+            if (inserted)
+            {
+                return CreatedAtAction(nameof(Get), new { id = staff.StaffID }, staff);
+            }
+            return BadRequest("Failed to add staff.");
         }
 
-        // PUT api/<StaffController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(int id, [FromBody] Staff staff)
         {
-            _staffService.EditStaffAsync();
-            return;
+            if (staff == null || id != staff.StaffID)
+            {
+                return BadRequest();
+            }
+
+            var updated = await _staffService.EditStaffAsync(staff);
+            if (updated)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
 
-        // DELETE api/<StaffController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _staffService.RemoveStaffAsync();
-            return;
+            var removed = await _staffService.RemoveStaffAsync(id);
+            if (removed)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 }

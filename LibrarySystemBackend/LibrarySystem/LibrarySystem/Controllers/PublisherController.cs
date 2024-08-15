@@ -1,7 +1,6 @@
 ﻿using LibrarySystem.Interfaces;
+using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LibrarySystem.Controllers
 {
@@ -10,47 +9,76 @@ namespace LibrarySystem.Controllers
     public class PublisherController : ControllerBase
     {
         private readonly IPublisherService _publisherService;
+
         public PublisherController(IPublisherService publisherService)
         {
             _publisherService = publisherService;
         }
-        // GET: api/<PublisherController>
+
+        // GET: api/Publisher
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<Publisher>>> Get()
         {
-            _publisherService.GetPublisherAsync();
-            return new string[] { "value1", "value2" };
+            var publishers = await _publisherService.GetPublisherAsync();
+            return Ok(publishers);
         }
 
-        // GET api/<PublisherController>/5
+        // GET api/Publisher/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Publisher>> Get(int id)
         {
-            return "value";
+            var publishers = await _publisherService.GetPublisherAsync();
+            var publisher = publishers.FirstOrDefault(p => p.PublisherID == id);
+            if (publisher == null)
+            {
+                return NotFound();
+            }
+            return Ok(publisher);
         }
 
-        // POST api/<PublisherController>
+        // POST api/Publisher
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody] Publisher publisher)
         {
-            _publisherService.AddPublisherAsync();
-            return;
+            if (publisher == null)
+            {
+                return BadRequest();
+            }
+            var inserted = await _publisherService.AddPublisherAsync(publisher);
+            if (inserted)
+            {
+                return CreatedAtAction(nameof(Get), new { id = publisher.PublisherID }, publisher);
+            }
+            return BadRequest("Failed to add publisher.");
         }
 
-        // PUT api/<PublisherController>/5
+        // PUT api/Publisher/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put(int id, [FromBody] Publisher publisher)
         {
-            _publisherService.EditPublisherAsync();
-            return;
+            if (publisher == null || id != publisher.PublisherID)
+            {
+                return BadRequest();
+            }
+
+            var updated = await _publisherService.EditPublisherAsync(publisher);
+            if (updated)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
 
-        // DELETE api/<PublisherController>/5
+        // DELETE api/Publisher/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _publisherService.RemovePublisherAsync();   
-            return ;
+            var removed = await _publisherService.RemovePublisherAsync(id);
+            if (removed)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 }

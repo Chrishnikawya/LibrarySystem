@@ -37,7 +37,6 @@ export class Publishers {
       credentials: "include",
     });
   }
-
   static DeletePublisher(id) {
     let dataUrl = this.url + id;
     return axios.delete(dataUrl, {

@@ -13,7 +13,6 @@ export class Staffs {
       credentials: "include",
     });
   }
-
   static GetStaff(id) {
     let dataUrl = this.url + id;
     return axios.get(dataUrl, {

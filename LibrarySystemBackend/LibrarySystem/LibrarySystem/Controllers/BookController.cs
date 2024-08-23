@@ -1,7 +1,8 @@
 ﻿using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using LibrarySystem.ViewModels;
+using LibrarySystem.Response;
 
 namespace LibrarySystem.Controllers
 {
@@ -17,64 +18,111 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> Get()
+        [ProducesResponseType(typeof(List<AuthorViewModel>), StatusCodes.Status200OK)]
+        public async Task<List<BookViewModel>> GetBooks()
         {
-            var books = await _bookService.GetBookAsync();
-            return Ok(books);
+            try
+            {
+                var books = await _bookService.GetBookAsync();
+                return books.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> Get(int id)
         {
-            var books = await _bookService.GetBookAsync();
-            var book = books.FirstOrDefault(b => b.BookID == id);
-            if (book == null)
+            try
             {
-                return NotFound();
+                var books = await _bookService.GetBookAsync();
+                var book = books.FirstOrDefault(a => a.BookID == id);
+                if (book == null)
+                {
+                    return NotFound();
+                }
+                return Ok(book);
             }
-            return Ok(book);
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Book book)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> AddBook([FromBody] BookViewModel bookViewModel)
         {
-            if (book == null)
+            try
             {
-                return BadRequest();
+                var insertRes = await _bookService.AddBookAsync(bookViewModel);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = insertRes,
+                    Message = insertRes ? Message.BOOK_ADD_SUCCESSFUL : Message.BOOK_ADD_UNSUCCESSFUL
+                };
+                return response;
             }
-            var inserted = await _bookService.AddBookAsync(book);
-            if (inserted)
+            catch (Exception ex)
             {
-                return CreatedAtAction(nameof(Get), new { id = book.BookID }, book);
+
+                throw ex;
             }
-            return BadRequest("Failed to add book.");
+
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] Book book)
+        [HttpPut]
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> EditBook([FromBody] BookViewModel bookViewModel)
         {
-            if (book == null || id != book.BookID)
+            try
             {
-                return BadRequest();
+                var editRes = await _bookService.EditBookAsync(bookViewModel);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = editRes,
+                    Message = editRes ? Message.BOOK_EDIT_SUCCESSFUL : Message.BOOK_EDIT_UNSUCCESSFUL
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
 
-            var updated = await _bookService.EditBookAsync(book);
-            if (updated)
-            {
-                return NoContent();
-            }
-            return NotFound();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> DeleteBook(int bookId)
         {
-            var removed = await _bookService.RemoveBookAsync(id);
-            if (removed)
+            try
             {
-                return NoContent();
+                var deleteRes = await _bookService.RemoveBookAsync(bookId);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = deleteRes,
+                    Message = deleteRes ? Message.BOOK_DELETE_SUCCESSFUL : Message.BOOK_DELETE_UNSUCCESSFUL
+                };
+                return response;
             }
-            return NotFound();
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }
+
+

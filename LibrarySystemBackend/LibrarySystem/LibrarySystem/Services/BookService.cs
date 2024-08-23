@@ -1,59 +1,105 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using LibrarySystem.Models;
 using LibrarySystem.Interfaces;
+using LibrarySystem.Models;
 using LibrarySystem.Repositories;
-
+using LibrarySystem.ViewModels;
 namespace LibrarySystem.Services
 {
-    public class BookService :IBookService 
+    public class BookService : IBookService
     {
         private readonly IUnitOfWorkRepository _unitOfWork;
         public BookService(IUnitOfWorkRepository unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<bool> AddBookAsync(Book book)
+        /// <summary>
+        /// Add an Author
+        /// </summary>
+        /// <param name="bookViewModel"></param>
+        /// <returns></returns>
+        public async Task<bool> AddBookAsync(BookViewModel bookViewModel)
         {
-            var inserted = await _unitOfWork.Repository<Book>().AddAsync(book) != null;
-            return inserted;
-        }
-        public async Task<IList<Book>> GetBookAsync()
-        {
-
-            var books = await _unitOfWork.Repository<Book>()
-               .Query()
-               .ToListAsync();
-
-            return books;
-        }
-        public async Task<bool> EditBookAsync(Book book)
-        {
-
-            if (book.BookName != "")
+            try
             {
-                var bookFromDb = await _unitOfWork.Repository<Book>()
-                    .FindAsync(a => a.BookID == book.BookID);
-                bookFromDb.BookName = book.BookName;
+                var books = new Book
+                {
+                    BookID = bookViewModel.BookID,
+                    BookName = bookViewModel.BookName,
+                    AuthorID = bookViewModel.AuthorID,
+                    Category = bookViewModel.Category,
+                    PublisherID = bookViewModel.PublisherID
+                };
+                var inserted = await _unitOfWork.Repository<Book>().AddAsync(books) != null;
+                return inserted;
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
+        public async Task<IList<BookViewModel>> GetBookAsync()
+        {
+            try
+            {
+                var books = await _unitOfWork.Repository<Book>()
+                .Query()
+                 .ToListAsync();
+
+                return books.Select(a => new BookViewModel
+                {
+                   BookID = a.BookID,
+                   BookName = a.BookName,
+                   AuthorID = a.AuthorID,
+                   Category = a.Category,
+                   PublisherID = a.PublisherID
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<bool> EditBookAsync(BookViewModel bookViewModel)
+        {
+            try
+            {
+                var books = new Book
+                {
+                    BookID = bookViewModel.BookID,
+                    BookName = bookViewModel.BookName,
+                    AuthorID = bookViewModel.AuthorID,
+                    Category = bookViewModel.Category,
+                    PublisherID = bookViewModel.PublisherID
+                };
                 var updated = await _unitOfWork.Repository<Book>()
-                    .UpdateAsync(bookFromDb) != null;
+               .UpdateAsync(books) != null;
                 return updated;
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
-
         }
-        public async Task<bool> RemoveBookAsync(int BookId)
+        public async Task<bool> RemoveBookAsync(int bookId)
         {
+            try
+            {
+                return await _unitOfWork.Repository<Book>()
+                .DeleteAsync(new Book() { BookID = bookId }) > 0;
+            }
+            catch (Exception ex)
+            {
 
-
-            return await _unitOfWork.Repository<Book>()
-                .DeleteAsync(new Book() { BookID = BookId }) > 0;
+                throw ex;
+            }
         }
     }
 }
+
+
+
+
 
 
 

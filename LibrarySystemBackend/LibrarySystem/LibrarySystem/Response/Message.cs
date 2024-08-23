@@ -24,7 +24,7 @@
         public const string MEMBER_ADD_UNSUCCESSFUL = "Member wasn't added.";
 
         public const string MEMBER_DELETE_SUCCESSFUL = "Member successfully deleted.";
-        public const string MEMEBER_DELETE_UNSUCCESSFUL = "Member wasn't deleted.";
+        public const string MEMBER_DELETE_UNSUCCESSFUL = "Member wasn't deleted.";
 
         public const string MEMBER_EDIT_SUCCESSFUL = "Member successfully edited.";
         public const string MEMBER_EDIT_UNSUCCESSFUL = "Member wasn't edited.";

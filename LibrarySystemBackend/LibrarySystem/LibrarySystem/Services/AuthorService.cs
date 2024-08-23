@@ -2,7 +2,7 @@
 using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Repositories;
-
+using LibrarySystem.ViewModels;
 namespace LibrarySystem.Services
 {
     public class AuthorService:IAuthorService
@@ -12,50 +12,88 @@ namespace LibrarySystem.Services
         { 
             _unitOfWork = unitOfWork;
         }
-
-        public async Task<bool> AddAuthorAsync(Author author)
+        /// <summary>
+        /// Add an Author
+        /// </summary>
+        /// <param name="authorViewModel"></param>
+        /// <returns></returns>
+        public async Task<bool> AddAuthorAsync(AuthorViewModel authorViewModel)
         {
-            var inserted = await _unitOfWork.Repository<Author>().AddAsync(author) != null;
-            return inserted;
-
-        }
-        public async Task<IList<Author>> GetAuthorAsync()
-        {
-
-            var authors = await _unitOfWork.Repository<Author>()
-               .Query()
-               .ToListAsync();
-
-            return authors;
-        }
-        public async Task<bool> EditAuthorAsync(Author author)
-        {
-
-            if (author.AuthorName != "")
+            try
             {
-                var authorFromDb = await _unitOfWork.Repository<Author>()
-                    .FindAsync(a => a.AuthorID == author.AuthorID);
-                authorFromDb.AuthorName = author.AuthorName;
+                var authors = new Author
+                {
+                    AuthorAddress = authorViewModel.AuthorAddress,
+                    AuthorName = authorViewModel.AuthorName,
+                    AuthorEmail = authorViewModel.AuthorEmail,
+                    AuthorID = authorViewModel.AuthorID,
+                    AuthorPhoneNumber = authorViewModel.AuthorPhoneNumber
+                };
+                var inserted = await _unitOfWork.Repository<Author>().AddAsync(authors) != null;
+                return inserted;
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
+        public async Task<IList<AuthorViewModel>> GetAuthorAsync()
+        {
+            try
+            {
+                var authors = await _unitOfWork.Repository<Author>()
+                .Query()
+                 .ToListAsync();
+
+                return authors.Select(a => new AuthorViewModel
+                {
+                    AuthorAddress = a.AuthorAddress,
+                    AuthorName = a.AuthorName,
+                    AuthorEmail = a.AuthorEmail,
+                    AuthorID = a.AuthorID,
+                    AuthorPhoneNumber = a.AuthorPhoneNumber
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<bool> EditAuthorAsync(AuthorViewModel authorViewModel)
+        {
+            try
+            {
+                var authors = new Author
+                {
+                    AuthorAddress = authorViewModel.AuthorAddress,
+                    AuthorName = authorViewModel.AuthorName,
+                    AuthorEmail = authorViewModel.AuthorEmail,
+                    AuthorID = authorViewModel.AuthorID,
+                    AuthorPhoneNumber = authorViewModel.AuthorPhoneNumber
+                };
                 var updated = await _unitOfWork.Repository<Author>()
-                    .UpdateAsync(authorFromDb) != null;
+               .UpdateAsync(authors) != null;
                 return updated;
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
-
         }
         public async Task<bool>RemoveAuthorAsync(int authorId)
         {
-
-
-            return await _unitOfWork.Repository<Author>()
+            try
+            {
+                return await _unitOfWork.Repository<Author>()
                 .DeleteAsync(new Author() { AuthorID = authorId }) > 0;
-        }
-        
-        
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }  
+        }   
     }
 }
 

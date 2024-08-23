@@ -29,7 +29,7 @@ namespace LibrarySystem.Repositories
 
         public async Task<T> AddAsync(T entity)
         {
-            _dbContext.Set<T>().AddAsync(entity);
+            _dbContext.Set<T>().Add(entity);
             return (await _unitOfWork.Commit()) > 0 ? entity : null;
         }
 

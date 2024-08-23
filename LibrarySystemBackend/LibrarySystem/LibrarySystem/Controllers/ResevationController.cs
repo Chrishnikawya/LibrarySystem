@@ -1,7 +1,8 @@
 ﻿using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using LibrarySystem.ViewModels;
+using LibrarySystem.Response;
 
 namespace LibrarySystem.Controllers
 {
@@ -17,64 +18,102 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Resevation>>> Get()
+        [ProducesResponseType(typeof(List<ResevationViewModel>), StatusCodes.Status200OK)]
+        public async Task<List<ResevationViewModel>> GetResevations()
         {
-            var resevations = await _resevationService.GetResevationAsync();
-            return Ok(resevations);
+            try
+            {
+                var resevations = await _resevationService.GetResevationAsync();
+                return resevations.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Resevation>> Get(int id)
         {
-            var resevations = await _resevationService.GetResevationAsync();
-            var resevation = resevations.FirstOrDefault(r => r.ReservationID == id);
-            if (resevation == null)
+            try
             {
-                return NotFound();
+                var resevations = await _resevationService.GetResevationAsync();
+                var resevation = resevations.FirstOrDefault(a => a.ReservationID == id);
+                if (resevation == null)
+                {
+                    return NotFound();
+                }
+                return Ok(resevation);
             }
-            return Ok(resevation);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Resevation resevation)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> AddResevation([FromBody] ResevationViewModel resevationViewModel)
         {
-            if (resevation == null)
+            try
             {
-                return BadRequest();
+                var insertRes = await _resevationService.AddResevationAsync(resevationViewModel);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = insertRes,
+                    Message = insertRes ? Message.RESEVATION_ADD_SUCCESSFUL : Message.RESEVATION_ADD_UNSUCCESSFUL
+                };
+                return response;
             }
-            var inserted = await _resevationService.AddResevationAsync(resevation);
-            if (inserted)
+            catch (Exception ex)
             {
-                return CreatedAtAction(nameof(Get), new { id = resevation.ReservationID }, resevation);
+                throw ex;
             }
-            return BadRequest("Failed to add reservation.");
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] Resevation resevation)
+        [HttpPut]
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> EditResevation([FromBody] ResevationViewModel resevationViewModel)
         {
-            if (resevation == null || id != resevation.ReservationID)
+            try
             {
-                return BadRequest();
-            }
+                var editRes = await _resevationService.EditResevationAsync(resevationViewModel);
 
-            var updated = await _resevationService.EditResevationAsync(resevation);
-            if (updated)
-            {
-                return NoContent();
+                var response = new CommonResponse
+                {
+                    IsSuccess = editRes,
+                    Message = editRes ? Message.RESEVATION_EDIT_SUCCESSFUL : Message.RESEVATION_EDIT_UNSUCCESSFUL
+                };
+                return response;
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> DeleteResevation(int resevationId)
         {
-            var removed = await _resevationService.RemoveResevationAsync(id);
-            if (removed)
+            try
             {
-                return NoContent();
+                var deleteRes = await _resevationService.RemoveResevationAsync(resevationId);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = deleteRes,
+                    Message = deleteRes ? Message.RESEVATION_DELETE_SUCCESSFUL : Message.RESEVATION_DELETE_UNSUCCESSFUL
+                };
+                return response;
             }
-            return NotFound();
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
+
+

@@ -1,7 +1,8 @@
 ﻿using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using LibrarySystem.ViewModels;
+using LibrarySystem.Response;
 
 namespace LibrarySystem.Controllers
 {
@@ -17,64 +18,100 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Staff>>> Get()
+        [ProducesResponseType(typeof(List<StaffViewModel>), StatusCodes.Status200OK)]
+        public async Task<List<StaffViewModel>> GetStaffs()
         {
-            var staff = await _staffService.GetStaffAsync();
-            return Ok(staff);
+            try
+            {
+                var staffs = await _staffService.GetStaffAsync();
+                return staffs.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Staff>> Get(int id)
         {
-            var staff = await _staffService.GetStaffAsync();
-            var member = staff.FirstOrDefault(s => s.StaffID == id);
-            if (member == null)
+            try
             {
-                return NotFound();
+                var staffs = await _staffService.GetStaffAsync();
+                var staff = staffs.FirstOrDefault(a => a.StaffID == id);
+                if (staff == null)
+                {
+                    return NotFound();
+                }
+                return Ok(staff);
             }
-            return Ok(member);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Staff staff)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> AddStaff([FromBody] StaffViewModel staffViewModel)
         {
-            if (staff == null)
+            try
             {
-                return BadRequest();
+                var insertRes = await _staffService.AddStaffAsync(staffViewModel);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = insertRes,
+                    Message = insertRes ? Message.STAFF_ADD_SUCCESSFUL : Message.STAFF_ADD_UNSUCCESSFUL
+                };
+                return response;
             }
-            var inserted = await _staffService.AddStaffAsync(staff);
-            if (inserted)
+            catch (Exception ex)
             {
-                return CreatedAtAction(nameof(Get), new { id = staff.StaffID }, staff);
+                throw ex;
             }
-            return BadRequest("Failed to add staff.");
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] Staff staff)
+        [HttpPut]
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> EditStaff([FromBody] StaffViewModel staffViewModel)
         {
-            if (staff == null || id != staff.StaffID)
+            try
             {
-                return BadRequest();
-            }
+                var editRes = await _staffService.EditStaffAsync(staffViewModel);
 
-            var updated = await _staffService.EditStaffAsync(staff);
-            if (updated)
-            {
-                return NoContent();
+                var response = new CommonResponse
+                {
+                    IsSuccess = editRes,
+                    Message = editRes ? Message.STAFF_EDIT_SUCCESSFUL : Message.STAFF_EDIT_UNSUCCESSFUL
+                };
+                return response;
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> DeleteStaff(int staffId)
         {
-            var removed = await _staffService.RemoveStaffAsync(id);
-            if (removed)
+            try
             {
-                return NoContent();
+                var deleteRes = await _staffService.RemoveStaffAsync(staffId);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = deleteRes,
+                    Message = deleteRes ? Message.STAFF_DELETE_SUCCESSFUL : Message.STAFF_DELETE_UNSUCCESSFUL
+                };
+                return response;
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

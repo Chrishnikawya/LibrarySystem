@@ -31,28 +31,6 @@ namespace LibrarySystem.Controllers
                 throw ex;
             } 
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Author>> Get(int id)
-        {
-            try
-            {
-                var authors = await _authorService.GetAuthorAsync();
-                var author = authors.FirstOrDefault(a => a.AuthorID == id);
-                if (author == null)
-                {
-                    return NotFound();
-                }
-                return Ok(author);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-            
-        }
-
         [HttpPost]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddAuthor([FromBody] AuthorViewModel authorViewModel)
@@ -120,7 +98,7 @@ namespace LibrarySystem.Controllers
 
                 throw;
             }
-            
+
         }
     }
 }

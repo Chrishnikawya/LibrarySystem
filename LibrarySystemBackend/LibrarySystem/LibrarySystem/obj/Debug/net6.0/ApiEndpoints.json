@@ -73,32 +73,6 @@
   },
   {
     "ContainingType": "LibrarySystem.Controllers.AuthorController",
-    "Method": "Get",
-    "RelativePath": "api/Author/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "LibrarySystem.Models.Author",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LibrarySystem.Controllers.AuthorController",
     "Method": "DeleteAuthor",
     "RelativePath": "api/Author/{id}",
     "HttpMethod": "DELETE",
@@ -331,32 +305,6 @@
   },
   {
     "ContainingType": "LibrarySystem.Controllers.MemberController",
-    "Method": "Get",
-    "RelativePath": "api/Member/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "LibrarySystem.Models.Member",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LibrarySystem.Controllers.MemberController",
     "Method": "DeleteMember",
     "RelativePath": "api/Member/{id}",
     "HttpMethod": "DELETE",
@@ -449,32 +397,6 @@
     "ReturnTypes": [
       {
         "Type": "LibrarySystem.Response.CommonResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LibrarySystem.Controllers.PublisherController",
-    "Method": "Get",
-    "RelativePath": "api/Publisher/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "LibrarySystem.Models.Publisher",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -589,32 +511,6 @@
   },
   {
     "ContainingType": "LibrarySystem.Controllers.ResevationController",
-    "Method": "Get",
-    "RelativePath": "api/Resevation/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "LibrarySystem.Models.Resevation",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LibrarySystem.Controllers.ResevationController",
     "Method": "DeleteResevation",
     "RelativePath": "api/Resevation/{id}",
     "HttpMethod": "DELETE",
@@ -707,32 +603,6 @@
     "ReturnTypes": [
       {
         "Type": "LibrarySystem.Response.CommonResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LibrarySystem.Controllers.StaffController",
-    "Method": "Get",
-    "RelativePath": "api/Staff/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "LibrarySystem.Models.Staff",
         "MediaTypes": [
           "text/plain",
           "application/json",

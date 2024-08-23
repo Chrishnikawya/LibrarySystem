@@ -32,25 +32,6 @@ namespace LibrarySystem.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Staff>> Get(int id)
-        {
-            try
-            {
-                var staffs = await _staffService.GetStaffAsync();
-                var staff = staffs.FirstOrDefault(a => a.StaffID == id);
-                if (staff == null)
-                {
-                    return NotFound();
-                }
-                return Ok(staff);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         [HttpPost]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddStaff([FromBody] StaffViewModel staffViewModel)

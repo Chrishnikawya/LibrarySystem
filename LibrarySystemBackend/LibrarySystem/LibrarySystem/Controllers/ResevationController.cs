@@ -32,25 +32,6 @@ namespace LibrarySystem.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Resevation>> Get(int id)
-        {
-            try
-            {
-                var resevations = await _resevationService.GetResevationAsync();
-                var resevation = resevations.FirstOrDefault(a => a.ReservationID == id);
-                if (resevation == null)
-                {
-                    return NotFound();
-                }
-                return Ok(resevation);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         [HttpPost]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddResevation([FromBody] ResevationViewModel resevationViewModel)

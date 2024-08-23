@@ -3,6 +3,7 @@ using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
+using LibrarySystem.Services;
 
 namespace LibrarySystem.Controllers
 {
@@ -31,27 +32,6 @@ namespace LibrarySystem.Controllers
                 throw ex;
             }
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Member>> Get(int id)
-        {
-            try
-            {
-                var members = await _memberService.GetMemberAsync();
-                var member = members.FirstOrDefault(a => a.MemberID == id);
-                if (member == null)
-                {
-                    return NotFound();
-                }
-                return Ok(member);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-
         [HttpPost]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddMember([FromBody] MemberViewModel memberViewModel)
@@ -112,6 +92,7 @@ namespace LibrarySystem.Controllers
             }
             catch (Exception)
             {
+
                 throw;
             }
 

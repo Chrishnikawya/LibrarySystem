@@ -45,17 +45,24 @@
     <div v-if="showEditPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeEditPopup">&times;</span>
-        <h3>{{ isEditing ? 'Edit Book' : 'Add New Book' }}</h3>
+        <h3>{{ isEditing ? "Edit Book" : "Add New Book" }}</h3>
         <form @submit.prevent="saveBook">
           <label for="BookName">Book Name:</label>
-          <input v-model="currentBook.BookName" type="text" id="BookName" required />
+          <input v-model="book.BookName" type="text" id="BookName" required />
           <label for="Category">Category:</label>
-          <input v-model="currentBook.Category" type="text" id="Category" required />
+          <input v-model="book.Category" type="text" id="Category" required />
           <label for="AuthorID">Author ID:</label>
-          <input v-model="currentBook.AuthorID" type="number" id="AuthorID" required />
+          <input v-model="book.AuthorID" type="number" id="AuthorID" required />
           <label for="PublisherID">Publisher ID:</label>
-          <input v-model="currentBook.PublisherID" type="number" id="PublisherID" required />
-          <button type="submit">{{ isEditing ? 'Save Changes' : 'Add Book' }}</button>
+          <input
+            v-model="book.PublisherID"
+            type="number"
+            id="PublisherID"
+            required
+          />
+          <button type="submit">
+            {{ isEditing ? "Save Changes" : "Add Book" }}
+          </button>
         </form>
       </div>
     </div>
@@ -63,60 +70,142 @@
 </template>
 
 <script>
+import { Books } from "@/services/BookService";
 export default {
-  name: 'BookView',
+  name: "BookView",
   data() {
     return {
-      books: [
-        { BookID: 1, BookName: 'Harry Potter', Category: 'Fantasy', AuthorID: 1, PublisherID: 1 },
-        { BookID: 2, BookName: 'Famous Five', Category: 'Adventure', AuthorID: 3, PublisherID: 2 },
-      ],
+      books: [],
+      Book: {
+        BookID: null,
+        BookName: "",
+        Category: "",
+        AuthorID: "",
+        PublisherID: "",
+      },
+      ErrorList: [],
+      ErrorText: "",
+      IsSuccess: false,
       showPopup: false,
       showEditPopup: false,
       selectedBook: null,
-      currentBook: { BookID: null, BookName: '', Category: '', AuthorID: null, PublisherID: null },
-      isEditing: false
+      //currentBook: { BookID: null, BookName: '', Category: '', AuthorID: null, PublisherID: null },
+      isEditing: false,
     };
   },
+  created: async function () {
+    await this.getBooks();
+  },
   methods: {
+    //Get Books
+    async getBooks() {
+      try {
+        let response = await Books.GetAllBooks();
+        this.Books = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Open Popup
     openPopup(book) {
       this.selectedBook = book;
       this.showPopup = true;
     },
+    //Close Popup
     closePopup() {
       this.showPopup = false;
       this.selectedBook = null;
     },
+    //Open Add Popup
     openAddPopup() {
-      this.currentBook = { BookID: null, BookName: '', Category: '', AuthorID: null, PublisherID: null };
+      this.book = {
+        BookID: null,
+        BookName: "",
+        Category: "",
+        AuthorID: null,
+        PublisherID: null,
+      };
       this.isEditing = false;
       this.showEditPopup = true;
     },
+    //Open Edit popup
     openEditPopup(book) {
-      this.currentBook = { ...book };
+      this.book = { ...book };
       this.isEditing = true;
       this.showEditPopup = true;
     },
+    //Close Edit Popup
     closeEditPopup() {
       this.showEditPopup = false;
-      this.currentBook = { BookID: null, BookName: '', Category: '', AuthorID: null, PublisherID: null };
+      this.book = {
+        BookID: null,
+        BookName: "",
+        Category: "",
+        AuthorID: null,
+        PublisherID: null,
+      };
     },
-    saveBook() {
-      if (this.isEditing) {
-        const index = this.books.findIndex(book => book.BookID === this.currentBook.BookID);
-        if (index !== -1) {
-          this.$set(this.books, index, this.currentBook);
+    // Edit Books
+    async editBook() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Books.UpdateBook(this.Book);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
         }
-      } else {
-        const newBook = { ...this.currentBook, BookID: this.books.length + 1 };
-        this.books.push(newBook);
+      } catch (error) {
+        console.log(error);
       }
       this.closeEditPopup();
     },
-    removeBook(bookID) {
-      this.books = this.books.filter(book => book.BookID !== bookID);
-    }
-  }
+    // Add Books
+    async addBook() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Books.CreateBook(this.Book);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    },
+    // Remove Books
+    async removeBook(bookId) {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Books.DeleteBook(bookId);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    },
+  },
 };
 </script>
 
@@ -132,7 +221,8 @@ table {
   margin-top: 20px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -192,7 +282,7 @@ th {
   position: relative;
 }
 
-  .close {
+.close {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -225,8 +315,6 @@ button[type="submit"]:hover {
 }
 
 .page {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
-
-
 </style>

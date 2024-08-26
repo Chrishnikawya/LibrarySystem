@@ -42,15 +42,32 @@
     <div v-if="showEditPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeEditPopup">&times;</span>
-        <h3>{{ isEditing ? 'Edit Member' : 'Add New Member' }}</h3>
+        <h3>{{ isEditing ? "Edit Member" : "Add New Member" }}</h3>
         <form @submit.prevent="saveMember">
           <label for="MemberName">Member Name:</label>
-          <input v-model="currentMember.MemberName" type="text" id="MemberName" required />
+          <input
+            v-model="currentMember.MemberName"
+            type="text"
+            id="MemberName"
+            required
+          />
           <label for="Email">Email:</label>
-          <input v-model="currentMember.Email" type="email" id="Email" required />
+          <input
+            v-model="currentMember.Email"
+            type="email"
+            id="Email"
+            required
+          />
           <label for="PhoneNumber">Phone Number:</label>
-          <input v-model="currentMember.PhoneNumber" type="text" id="PhoneNumber" required />
-          <button type="submit">{{ isEditing ? 'Save Changes' : 'Add Member' }}</button>
+          <input
+            v-model="currentMember.PhoneNumber"
+            type="text"
+            id="PhoneNumber"
+            required
+          />
+          <button type="submit">
+            {{ isEditing ? "Save Changes" : "Add Member" }}
+          </button>
         </form>
       </div>
     </div>
@@ -60,31 +77,31 @@
 <script>
 import { Members } from "@/services/MemberService";
 export default {
-  name: 'MemberView',
+  name: "MemberView",
   data() {
     return {
       Members: [],
-      Member:{
-        MemberID : null,
-        MemberName :"",
-        MemberEmail :"",
-        MemberPhoneNumber :""
-       },
-        ErrorList: [],
+      Member: {
+        MemberID: null,
+        MemberName: "",
+        MemberEmail: "",
+        MemberPhoneNumber: "",
+      },
+      ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
       showEditPopup: false,
       selectedMember: null,
       //currentMember: { MemberID: null, MemberName: '', Email: '', PhoneNumber: '' },
-      isEditing: false
+      isEditing: false,
     };
   },
   created: async function () {
-    await this.getAuthors();
+    await this.getMembers();
   },
   methods: {
-      //Get Members
+    //Get Members
     async getMembers() {
       try {
         let response = await Members.GetAllMembers();
@@ -105,15 +122,16 @@ export default {
     },
     //Open Add Popup
     openAddPopup() {
-      this.currentMember = { MemberID: null,
-       MemberName: '', 
-       Email: '', 
-       PhoneNumber: ''
-        };
+      this.currentMember = {
+        MemberID: null,
+        MemberName: "",
+        Email: "",
+        PhoneNumber: "",
+      };
       this.isEditing = false;
       this.showEditPopup = true;
     },
-     //Open Edit Popup
+    //Open Edit Popup
     openEditPopup(member) {
       this.currentMember = { ...member };
       this.isEditing = true;
@@ -122,14 +140,19 @@ export default {
     //Close Edit Popup
     closeEditPopup() {
       this.showEditPopup = false;
-      this.currentMember = { MemberID: null, MemberName: '', Email: '', PhoneNumber: '' };
+      this.currentMember = {
+        MemberID: null,
+        MemberName: "",
+        Email: "",
+        PhoneNumber: "",
+      };
     },
     //Add Members
     async addMember() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Members.CreateMember(memberId);
+        let response = await Members.CreateMember(this.Member);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -149,7 +172,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Members.UpdateMember(memberId);
+        let response = await Members.UpdateMember(this.Member);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -165,7 +188,7 @@ export default {
       this.closeEditPopup();
     },
     //Remove Meembers
-    async removeMember(authorId) {
+    async removeMember(memberId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
@@ -184,8 +207,7 @@ export default {
       }
       this.closeEditPopup();
     },
-   
-  }
+  },
 };
 </script>
 
@@ -200,7 +222,8 @@ table {
   margin-top: 20px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -260,7 +283,7 @@ th {
   position: relative;
 }
 
-  .close {
+.close {
   position: absolute;
   top: 10px;
   right: 10px;

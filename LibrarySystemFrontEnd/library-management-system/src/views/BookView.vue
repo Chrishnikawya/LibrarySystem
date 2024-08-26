@@ -190,7 +190,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Books.DeleteBook(this.Book);
+        let response = await Books.DeleteBook(bookId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

@@ -66,10 +66,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+       
         /// <summary>
-        /// Get resevation
+        /// Edit Resevation
         /// </summary>
-        /// <param name="resevationViewModel"></param>
+        /// <param name="resevationId"></param>
         /// <returns></returns>
         public async Task<bool> EditResevationAsync(ResevationViewModel resevationViewModel)
         {
@@ -92,8 +93,9 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        
         /// <summary>
-        /// Edit Resevation
+        /// Delete Resevation
         /// </summary>
         /// <param name="resevationId"></param>
         /// <returns></returns>
@@ -109,11 +111,7 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Delete Resevation
-        /// </summary>
-        /// <param name="resevationId"></param>
-        /// <returns></returns>
+       
     }
 }
 

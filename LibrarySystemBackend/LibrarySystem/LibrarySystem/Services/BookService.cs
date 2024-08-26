@@ -40,7 +40,7 @@ namespace LibrarySystem.Services
            
         }
         /// <summary>
-        /// Add a book
+        /// Get Book
         /// </summary>
         /// <returns></returns>
         public async Task<IList<BookViewModel>> GetBookAsync()
@@ -65,11 +65,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Get a book
-        /// </summary>
-        /// <param name="bookViewModel"></param>
-        /// <returns></returns>
+    /// <summary>
+    /// Edit Book
+    /// </summary>
+    /// <param name="bookViewModel"></param>
+    /// <returns></returns>
         public async Task<bool> EditBookAsync(BookViewModel bookViewModel)
         {
             try
@@ -91,11 +91,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Edit Book
-        /// </summary>
-        /// <param name="bookId"></param>
-        /// <returns></returns>
+      /// <summary>
+      /// Remove Book
+      /// </summary>
+      /// <param name="bookId"></param>
+      /// <returns></returns>
         public async Task<bool> RemoveBookAsync(int bookId)
         {
             try
@@ -109,11 +109,7 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Delete Book
-        /// </summary>
-        /// <param name="bookId"></param>
-        /// <returns></returns>  
+       
     }
 }
 

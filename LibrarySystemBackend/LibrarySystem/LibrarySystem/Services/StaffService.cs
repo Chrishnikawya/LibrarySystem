@@ -40,7 +40,7 @@ namespace LibrarySystem.Services
             }
         }
         /// <summary>
-        /// Add Staff
+        /// Get Staff
         /// </summary>
         /// <returns></returns>
         public async Task<IList<StaffViewModel>> GetStaffAsync()
@@ -64,11 +64,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-          /// <summary>
-          /// Get Staff
-          /// </summary>
-          /// <param name="staffViewModel"></param>
-          /// <returns></returns>
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="staffViewModel"></param>
+       /// <returns></returns>
         public async Task<bool> EditStaffAsync(StaffViewModel staffViewModel)
         {
             try
@@ -89,11 +89,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-         /// <summary>
-         /// Edit Staff
-         /// </summary>
-         /// <param name="staffId"></param>
-         /// <returns></returns>
+        /// <summary>
+        /// Delete Staff
+        /// </summary>
+        /// <param name="staffId"></param>
+        /// <returns></returns>
         public async Task<bool> RemoveStaffAsync(int staffId)
         {
             try
@@ -106,10 +106,6 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Delete Staff
-        /// </summary>
-        /// <param name="staffId"></param>
-        /// <returns></returns>
+       
     }
 }

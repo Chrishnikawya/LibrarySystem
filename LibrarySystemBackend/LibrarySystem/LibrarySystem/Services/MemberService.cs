@@ -37,10 +37,10 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-          /// <summary>
-          /// Add Member
-          /// </summary>
-          /// <returns></returns>
+         /// <summary>
+         /// Get Member
+         /// </summary>
+         /// <returns></returns>
         public async Task<IList<MemberViewModel>> GetMemberAsync()
         {
             try
@@ -63,11 +63,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Edit Member
-        /// </summary>
-        /// <param name="memberViewModel"></param>
-        /// <returns></returns>
+      /// <summary>
+      /// Edit Member
+      /// </summary>
+      /// <param name="memberViewModel"></param>
+      /// <returns></returns>
         public async Task<bool> EditMemberAsync(MemberViewModel memberViewModel)
         {
             try
@@ -88,6 +88,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+       /// <summary>
+       /// Remove Member
+       /// </summary>
+       /// <param name="memberId"></param>
+       /// <returns></returns>
         public async Task<bool> RemoveMemberAsync(int memberId)
         {
             try
@@ -101,11 +106,6 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Delete Member
-        /// </summary>
-        /// <param name="memberId"></param>
-        /// <returns></returns>
     }
 
 }

@@ -38,7 +38,7 @@ namespace LibrarySystem.Services
             }
         }
         /// <summary>
-        /// Add Publisher
+        /// Get Publisher
         /// </summary>
         /// <returns></returns>
         public async Task<IList<PublisherViewModel>> GetPublisherAsync()
@@ -64,7 +64,7 @@ namespace LibrarySystem.Services
             }
         }
         /// <summary>
-        /// Get Publisher
+        /// Edit Publisher
         /// </summary>
         /// <param name="publisherViewModel"></param>
         /// <returns></returns>
@@ -90,7 +90,7 @@ namespace LibrarySystem.Services
             }
         }
         /// <summary>
-        /// Edit Publisher
+        /// Remove Publisher
         /// </summary>
         /// <param name="publisherId"></param>
         /// <returns></returns>
@@ -106,11 +106,6 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Delete Publisher
-        /// </summary>
-        /// <param name="publisherId"></param>
-        /// <returns></returns>
     }
 }
 

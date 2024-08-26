@@ -39,10 +39,10 @@ namespace LibrarySystem.Services
             }
         }
         
-        /// <summary>
-        /// Add an Author
-        /// </summary>
-        /// <returns></returns>
+       /// <summary>
+       /// Get Author
+       /// </summary>
+       /// <returns></returns>
         public async Task<IList<AuthorViewModel>> GetAuthorAsync()
         {
             try
@@ -65,6 +65,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Edit Author
+        /// </summary>
+        /// <param name="authorViewModel"></param>
+        /// <returns></returns>
         public async Task<bool> EditAuthorAsync(AuthorViewModel authorViewModel)
         {
             try
@@ -86,11 +91,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-        /// <summary>
-        /// Edit Author
-        /// </summary>
-        /// <param name="authorId"></param>
-        /// <returns></returns>
+       /// <summary>
+       /// Remove Author
+       /// </summary>
+       /// <param name="authorId"></param>
+       /// <returns></returns>
         public async Task<bool>RemoveAuthorAsync(int authorId)
         {
             try

@@ -1,14 +1,13 @@
-﻿using LibrarySystem.Models;
+﻿using LibrarySystem.ViewModels;
 
 namespace LibrarySystem.Interfaces
 {
     public interface IBookService
     {
-        Task<bool> AddBookAsync(Book book);
-        //Task<IList<Book>> AddBookAsync();
-        Task<bool> EditBookAsync(Book book);
-        Task<bool> RemoveBookAsync(int BookId);
-        Task<IList<Book>> GetBookAsync();
+        Task<bool> AddBookAsync(BookViewModel bookViewModel);
+        Task<bool> EditBookAsync(BookViewModel bookViewModel);
+        Task<bool> RemoveBookAsync(int bookId);
+        Task<IList<BookViewModel>> GetBookAsync();
 
     }
 }

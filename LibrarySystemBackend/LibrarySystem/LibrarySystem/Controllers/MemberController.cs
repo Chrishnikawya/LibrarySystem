@@ -1,7 +1,9 @@
 ﻿using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using LibrarySystem.ViewModels;
+using LibrarySystem.Response;
+using LibrarySystem.Services;
 
 namespace LibrarySystem.Controllers
 {
@@ -16,70 +18,84 @@ namespace LibrarySystem.Controllers
             _memberService = memberService;
         }
 
-        // GET: api/Member
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> Get()
+        [ProducesResponseType(typeof(List<MemberViewModel>), StatusCodes.Status200OK)]
+        public async Task<List<MemberViewModel>> GetMembers()
         {
-            var members = await _memberService.GetMemberAsync();
-            return Ok(members);
-        }
-
-        // GET api/Member/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Member>> Get(int id)
-        {
-            var members = await _memberService.GetMemberAsync();
-            var member = members.FirstOrDefault(m => m.MemberID == id);
-            if (member == null)
+            try
             {
-                return NotFound();
+                var members = await _memberService.GetMemberAsync();
+                return members.ToList();
             }
-            return Ok(member);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-
-        // POST api/Member
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Member member)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> AddMember([FromBody] MemberViewModel memberViewModel)
         {
-            if (member == null)
+            try
             {
-                return BadRequest();
+                var insertRes = await _memberService.AddMemberAsync(memberViewModel);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = insertRes,
+                    Message = insertRes ? Message.MEMBER_ADD_SUCCESSFUL : Message.MEMBER_ADD_UNSUCCESSFUL
+                };
+                return response;
             }
-            var inserted = await _memberService.AddMemberAsync(member);
-            if (inserted)
+            catch (Exception ex)
             {
-                return CreatedAtAction(nameof(Get), new { id = member.MemberID }, member);
+                throw ex;
             }
-            return BadRequest("Failed to add member.");
         }
 
-        // PUT api/Member/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] Member member)
+        [HttpPut]
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> EditMember([FromBody] MemberViewModel memberViewModel)
         {
-            if (member == null || id != member.MemberID)
+            try
             {
-                return BadRequest();
+                var editRes = await _memberService.EditMemberAsync(memberViewModel);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = editRes,
+                    Message = editRes ? Message.MEMBER_EDIT_SUCCESSFUL : Message.MEMBER_EDIT_UNSUCCESSFUL
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
-            var updated = await _memberService.EditMemberAsync(member);
-            if (updated)
-            {
-                return NoContent();
-            }
-            return NotFound();
         }
 
-        // DELETE api/Member/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> DeleteMember(int memberId)
         {
-            var removed = await _memberService.RemoveMemberAsync(id);
-            if (removed)
+            try
             {
-                return NoContent();
+                var deleteRes = await _memberService.RemoveMemberAsync(memberId);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = deleteRes,
+                    Message = deleteRes ? Message.MEMBER_DELETE_SUCCESSFUL : Message.MEMBER_DELETE_UNSUCCESSFUL
+                };
+                return response;
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
     }
 }

@@ -13,7 +13,6 @@ export class Resevations {
       credentials: "include",
     });
   }
-
   static GetResevation(id) {
     let dataUrl = this.url + id;
     return axios.get(dataUrl, {
@@ -21,7 +20,6 @@ export class Resevations {
       credentials: "include",
     });
   }
-
   static CreateResevation(obj) {
     let dataUrl = this.url;
     return axios.post(dataUrl, obj, {
@@ -37,7 +35,6 @@ export class Resevations {
       credentials: "include",
     });
   }
-
   static DeleteResevation(id) {
     let dataUrl = this.url + id;
     return axios.delete(dataUrl, {

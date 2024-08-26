@@ -1,12 +1,12 @@
 ﻿using LibrarySystem.Models;
-
+using LibrarySystem.ViewModels;
 namespace LibrarySystem.Interfaces
 {
     public interface IStaffService
     {
-        Task<bool> AddStaffAsync(Staff staff);
-        Task<IList<Staff>> GetStaffAsync();
-        Task<bool> EditStaffAsync(Staff staff);
+        Task<bool> AddStaffAsync(StaffViewModel staffViewModel);
+        Task<IList<StaffViewModel>> GetStaffAsync();
+        Task<bool> EditStaffAsync(StaffViewModel staffViewModel);
         Task<bool> RemoveStaffAsync(int staffId);
     }
 }

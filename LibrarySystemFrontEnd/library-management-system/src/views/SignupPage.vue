@@ -37,4 +37,29 @@ export default {
 </script>
 
 <style scoped>
+nav {
+  background-color: #333; 
+  padding: 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+li {
+  margin-right: 200px; 
+}
+
+a {
+  text-decoration: none;
+  color: white; 
+}
+
+a.router-link-active {
+  font-weight: bold;
+}
 </style>

@@ -1,57 +1,112 @@
-﻿using LibrarySystem.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Repositories;
-using Microsoft.EntityFrameworkCore;
-
+using LibrarySystem.ViewModels;
 namespace LibrarySystem.Services
 {
-    public class MemberService:IMemberService
+    public class MemberService : IMemberService
     {
         private readonly IUnitOfWorkRepository _unitOfWork;
         public MemberService(IUnitOfWorkRepository unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<bool> AddMemberAsync(Member member)
+        /// <summary>
+        /// Add a Member
+        /// </summary>
+        /// <param name="memberViewModel"></param>
+        /// <returns></returns>
+        public async Task<bool> AddMemberAsync(MemberViewModel memberViewModel)
         {
-            var inserted = await _unitOfWork.Repository<Member>().AddAsync(member) != null;
-            return inserted;
-
-        }
-        public async Task<IList<Member>> GetMemberAsync()
-        {
-
-            var members = await _unitOfWork.Repository<Member>()
-               .Query()
-               .ToListAsync();
-
-            return members;
-        }
-        public async Task<bool> EditMemberAsync(Member member)
-        {
-
-            if (member.MemberName != "")
+            try
             {
-                var memberFromDb = await _unitOfWork.Repository<Member>()
-                    .FindAsync(a => a.MemberID == member.MemberID);
-                memberFromDb.MemberName = member.MemberName;
+                var member = new Member
+                {
+                    MemberID = memberViewModel.MemberID,
+                    MemberName = memberViewModel.MemberName,
+                    MemberEmail = memberViewModel.MemberEmail,
+                    MemberPhoneNumber = memberViewModel.MemberPhoneNumber
+                };
+                var inserted = await _unitOfWork.Repository<Member>().AddAsync(member) != null;
+                return inserted;
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
+         /// <summary>
+         /// Get Member
+         /// </summary>
+         /// <returns></returns>
+        public async Task<IList<MemberViewModel>> GetMemberAsync()
+        {
+            try
+            {
+                var members = await _unitOfWork.Repository<Member>()
+                .Query()
+                 .ToListAsync();
+
+                return members.Select(m => new MemberViewModel
+                {
+                    MemberID = m.MemberID,
+                    MemberName = m.MemberName,
+                    MemberEmail = m.MemberEmail,
+                    MemberPhoneNumber = m.MemberPhoneNumber
+                }).ToList();
+            }
+           
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+      /// <summary>
+      /// Edit Member
+      /// </summary>
+      /// <param name="memberViewModel"></param>
+      /// <returns></returns>
+        public async Task<bool> EditMemberAsync(MemberViewModel memberViewModel)
+        {
+            try
+            {
+                var member = new Member
+                {
+                    MemberID = memberViewModel.MemberID,
+                    MemberName = memberViewModel.MemberName,
+                    MemberEmail = memberViewModel.MemberEmail,
+                    MemberPhoneNumber = memberViewModel.MemberPhoneNumber
+                };
                 var updated = await _unitOfWork.Repository<Member>()
-                    .UpdateAsync(memberFromDb) != null;
+               .UpdateAsync(member) != null;
                 return updated;
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
+       /// <summary>
+       /// Remove Member
+       /// </summary>
+       /// <param name="memberId"></param>
+       /// <returns></returns>
         public async Task<bool> RemoveMemberAsync(int memberId)
         {
-
-
-            return await _unitOfWork.Repository<Member>()
+            try
+            {
+                return await _unitOfWork.Repository<Member>()
                 .DeleteAsync(new Member() { MemberID = memberId }) > 0;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
+
 }
- 
+

@@ -1,56 +1,117 @@
-﻿using LibrarySystem.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Repositories;
-using Microsoft.EntityFrameworkCore;
+using LibrarySystem.ViewModels;
 
 namespace LibrarySystem.Services
 {
-    public class ResevationService:IResevationService
+    public class ResevationService : IResevationService
     {
         private readonly IUnitOfWorkRepository _unitOfWork;
+
         public ResevationService(IUnitOfWorkRepository unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<bool> AddResevationAsync(Resevation resevation)
+
+        /// <summary>
+        /// Add a Resevation
+        /// </summary>
+        /// <param name="resevationViewModel"></param>
+        /// <returns></returns>
+        public async Task<bool> AddResevationAsync(ResevationViewModel resevationViewModel)
         {
-            var inserted = await _unitOfWork.Repository<Resevation>().AddAsync(resevation) != null;
-            return inserted;
-
-        }
-        public async Task<IList<Resevation>> GetResevationAsync()
-        {
-
-            var resevations = await _unitOfWork.Repository<Resevation>()
-               .Query()
-               .ToListAsync();
-
-            return resevations;
-        }
-        public async Task<bool> EditResevationAsync(Resevation resevation)
-        {
-
-            if (resevation.ReservationID != null)
+            try
             {
-                var resevationFromDb = await _unitOfWork.Repository<Resevation>()
-                    .FindAsync(a => a.ReservationID == resevation.ReservationID);
-                resevationFromDb.ReservationID = resevation.ReservationID;
+                var resevations = new Resevation
+                {
+                    ReservationDate = resevationViewModel.ReservationDate,
+                    Status = resevationViewModel.Status,
+                    MemberID = resevationViewModel.MemberID,
+                    StaffID = resevationViewModel.StaffID,
+                    BookID = resevationViewModel.BookID
+                };
+                var inserted = await _unitOfWork.Repository<Resevation>().AddAsync(resevations) != null;
+                return inserted;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Add Resevation
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IList<ResevationViewModel>> GetResevationAsync()
+        {
+            try
+            {
+                var resevations = await _unitOfWork.Repository<Resevation>()
+                .Query()
+                .ToListAsync();
 
+                return resevations.Select(r => new ResevationViewModel
+                {
+                    ReservationDate = r.ReservationDate,
+                    Status = r.Status,
+                    MemberID = r.MemberID,
+                    StaffID = r.StaffID,
+                    BookID = r.BookID
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       
+        /// <summary>
+        /// Edit Resevation
+        /// </summary>
+        /// <param name="resevationId"></param>
+        /// <returns></returns>
+        public async Task<bool> EditResevationAsync(ResevationViewModel resevationViewModel)
+        {
+            try
+            {
+                var resevations = new Resevation
+                {
+                    ReservationDate = resevationViewModel.ReservationDate,
+                    Status = resevationViewModel.Status,
+                    MemberID = resevationViewModel.MemberID,
+                    StaffID = resevationViewModel.StaffID,
+                    BookID = resevationViewModel.BookID
+                };
                 var updated = await _unitOfWork.Repository<Resevation>()
-                    .UpdateAsync(resevationFromDb) != null;
+               .UpdateAsync(resevations) != null;
                 return updated;
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
+        
+        /// <summary>
+        /// Delete Resevation
+        /// </summary>
+        /// <param name="resevationId"></param>
+        /// <returns></returns>
         public async Task<bool> RemoveResevationAsync(int resevationId)
         {
-
-
-            return await _unitOfWork.Repository<Resevation>()
+            try
+            {
+                return await _unitOfWork.Repository<Resevation>()
                 .DeleteAsync(new Resevation() { ReservationID = resevationId }) > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+       
     }
 }
+

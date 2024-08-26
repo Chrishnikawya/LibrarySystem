@@ -1,7 +1,8 @@
 ﻿using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using LibrarySystem.ViewModels;
+using LibrarySystem.Response;
 
 namespace LibrarySystem.Controllers
 {
@@ -17,64 +18,87 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Author>>> Get()
+        [ProducesResponseType(typeof(List<AuthorViewModel>), StatusCodes.Status200OK)]
+        public async Task<List<AuthorViewModel>> GetAuthors()
         {
-            var authors = await _authorService.GetAuthorAsync();
-            return Ok(authors);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Author>> Get(int id)
-        {
-            var authors = await _authorService.GetAuthorAsync();
-            var author = authors.FirstOrDefault(a => a.AuthorID == id);
-            if (author == null)
+            try
             {
-                return NotFound();
+                var authors = await _authorService.GetAuthorAsync();
+                return authors.ToList();
             }
-            return Ok(author);
+            catch (Exception ex)
+            {
+                throw ex;
+            } 
         }
-
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Author author)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> AddAuthor([FromBody] AuthorViewModel authorViewModel)
         {
-            if (author == null)
+            try
             {
-                return BadRequest();
+                var insertRes = await _authorService.AddAuthorAsync(authorViewModel);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = insertRes,
+                    Message = insertRes ? Message.AUTHOR_ADD_SUCCESSFUL : Message.AUTHOR_ADD_UNSUCCESSFUL
+                };
+                return response;
             }
-            var inserted = await _authorService.AddAuthorAsync(author);
-            if (inserted)
+            catch (Exception ex)
             {
-                return CreatedAtAction(nameof(Get), new { id = author.AuthorID }, author);
+
+                throw ex;
             }
-            return BadRequest("Failed to add author.");
+           
+            
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] Author author)
+        [HttpPut]
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> EditAuthor([FromBody] AuthorViewModel authorViewModel)
         {
-            if (author == null || id != author.AuthorID)
+            try
             {
-                return BadRequest();
-            }
+                var editRes = await _authorService.EditAuthorAsync(authorViewModel);
 
-            var updated = await _authorService.EditAuthorAsync(author);
-            if (updated)
-            {
-                return NoContent();
+                var response = new CommonResponse
+                {
+                    IsSuccess = editRes,
+                    Message = editRes ? Message.AUTHOR_EDIT_SUCCESSFUL : Message.AUTHOR_EDIT_UNSUCCESSFUL
+                };
+                return response;
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
+        public async Task<CommonResponse> DeleteAuthor(int authorId)
         {
-            var removed = await _authorService.RemoveAuthorAsync(id);
-            if (removed)
+            try
             {
-                return NoContent();
+                var deleteRes = await _authorService.RemoveAuthorAsync(authorId);
+
+                var response = new CommonResponse
+                {
+                    IsSuccess = deleteRes,
+                    Message = deleteRes ? Message.AUTHOR_DELETE_SUCCESSFUL : Message.AUTHOR_DELETE_UNSUCCESSFUL
+                };
+                return response;
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
     }
 }

@@ -29,7 +29,6 @@ export class Members {
       credentials: "include",
     });
   }
-
   static UpdateMember(obj) {
     let dataUrl = this.url + obj.MemberID;
     return axios.put(dataUrl, obj, {

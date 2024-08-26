@@ -24,7 +24,9 @@
           <td>{{ publisher.PublisherPhoneNumber }}</td>
           <td>
             <button @click="openEditPopup(publisher)">Edit</button>
-            <button @click="removePublisher(publisher.PublisherID)">Remove</button>
+            <button @click="removePublisher(publisher.PublisherID)">
+              Remove
+            </button>
           </td>
         </tr>
       </tbody>
@@ -34,28 +36,63 @@
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>Publisher Details</h3>
-        <p><strong>Publisher ID:</strong> {{ selectedPublisher.PublisherID }}</p>
-        <p><strong>Publisher Name:</strong> {{ selectedPublisher.PublisherName }}</p>
-        <p><strong>Publisher Address:</strong> {{ selectedPublisher.PublisherAddress }}</p>
-        <p><strong>Publisher Email:</strong> {{ selectedPublisher.PublisherEmail }}</p>
-        <p><strong>Publisher Phone Number:</strong> {{ selectedPublisher.PublisherPhoneNumber }}</p>
+        <p>
+          <strong>Publisher ID:</strong> {{ selectedPublisher.PublisherID }}
+        </p>
+        <p>
+          <strong>Publisher Name:</strong> {{ selectedPublisher.PublisherName }}
+        </p>
+        <p>
+          <strong>Publisher Address:</strong>
+          {{ selectedPublisher.PublisherAddress }}
+        </p>
+        <p>
+          <strong>Publisher Email:</strong>
+          {{ selectedPublisher.PublisherEmail }}
+        </p>
+        <p>
+          <strong>Publisher Phone Number:</strong>
+          {{ selectedPublisher.PublisherPhoneNumber }}
+        </p>
       </div>
     </div>
 
     <div v-if="showEditPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeEditPopup">&times;</span>
-        <h3>{{ isEditing ? 'Edit Publisher' : 'Add New Publisher' }}</h3>
+        <h3>{{ isEditing ? "Edit Publisher" : "Add New Publisher" }}</h3>
         <form @submit.prevent="savePublisher">
           <label for="PublisherName">Publisher Name:</label>
-          <input v-model="currentPublisher.PublisherName" type="text" id="PublisherName" required />
+          <input
+            v-model="currentPublisher.PublisherName"
+            type="text"
+            id="PublisherName"
+            required
+          />
           <label for="PublisherAddress">Publisher Address:</label>
-          <input v-model="currentPublisher.PublisherAddress" type="text" id="PublisherAddress" required />
+          <input
+            v-model="currentPublisher.PublisherAddress"
+            type="text"
+            id="PublisherAddress"
+            required
+          />
           <label for="PublisherEmail">Publisher Email:</label>
-          <input v-model="currentPublisher.PublisherEmail" type="email" id="PublisherEmail" required />
+          <input
+            v-model="currentPublisher.PublisherEmail"
+            type="email"
+            id="PublisherEmail"
+            required
+          />
           <label for="PublisherPhoneNumber">Publisher Phone Number:</label>
-          <input v-model="currentPublisher.PublisherPhoneNumber" type="text" id="PublisherPhoneNumber" required />
-          <button type="submit">{{ isEditing ? 'Save Changes' : 'Add Publisher' }}</button>
+          <input
+            v-model="currentPublisher.PublisherPhoneNumber"
+            type="text"
+            id="PublisherPhoneNumber"
+            required
+          />
+          <button type="submit">
+            {{ isEditing ? "Save Changes" : "Add Publisher" }}
+          </button>
         </form>
       </div>
     </div>
@@ -65,25 +102,25 @@
 <script>
 import { Publishers } from "@/services/PublisherService";
 export default {
-  name: 'PublisherView',
+  name: "PublisherView",
   data() {
     return {
       Publishers: [],
-      Publisher:{
-        PublisherID : null,
-        PublisherName :"",
-        PublisherAddress :"",
-        PublisherEmail:"",
-        PublisherPhoneNumber
-       },
-        ErrorList: [],
+      Publisher: {
+        PublisherID: null,
+        PublisherName: "",
+        PublisherAddress: "",
+        PublisherEmail: "",
+        PublisherPhoneNumber,
+      },
+      ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
       showEditPopup: false,
       selectedPublisher: null,
-     // currentPublisher: { PublisherID: null, PublisherName: '', PublisherAddress: '', PublisherEmail: '', PublisherPhoneNumber: '' },
-      isEditing: false
+      // currentPublisher: { PublisherID: null, PublisherName: '', PublisherAddress: '', PublisherEmail: '', PublisherPhoneNumber: '' },
+      isEditing: false,
     };
   },
   created: async function () {
@@ -104,19 +141,20 @@ export default {
       this.selectedPublisher = publisher;
       this.showPopup = true;
     },
-   // Close Popup
+    // Close Popup
     closePopup() {
       this.showPopup = false;
       this.selectedPublisher = null;
     },
     //Open Add Popup
     openAddPopup() {
-      this.currentPublisher = { PublisherID: null,
-       PublisherName: '',
-        PublisherAddress: '', 
-        PublisherEmail: '',
-         PublisherPhoneNumber: ''
-          };
+      this.currentPublisher = {
+        PublisherID: null,
+        PublisherName: "",
+        PublisherAddress: "",
+        PublisherEmail: "",
+        PublisherPhoneNumber: "",
+      };
       this.isEditing = false;
       this.showEditPopup = true;
     },
@@ -129,7 +167,13 @@ export default {
     //Close Edit Popup
     closeEditPopup() {
       this.showEditPopup = false;
-      this.currentPublisher = { PublisherID: null, PublisherName: '', PublisherAddress: '', PublisherEmail: '', PublisherPhoneNumber: '' };
+      this.currentPublisher = {
+        PublisherID: null,
+        PublisherName: "",
+        PublisherAddress: "",
+        PublisherEmail: "",
+        PublisherPhoneNumber: "",
+      };
     },
     //Add Publishers
     async addPublisher() {
@@ -191,7 +235,7 @@ export default {
       }
       this.closeEditPopup();
     },
-  }
+  },
 };
 </script>
 
@@ -207,7 +251,8 @@ table {
   margin-top: 20px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -267,7 +312,7 @@ th {
   position: relative;
 }
 
-  .close {
+.close {
   position: absolute;
   top: 10px;
   right: 10px;

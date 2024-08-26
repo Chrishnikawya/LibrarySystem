@@ -15,15 +15,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="reservation in reservations" :key="reservation.ReservationID">
+        <tr
+          v-for="reservation in reservations"
+          :key="reservation.ReservationID"
+        >
           <td>{{ reservation.ReservationID }}</td>
           <td>{{ reservation.MemberID }}</td>
           <td>{{ reservation.BookID }}</td>
           <td>{{ reservation.ReservationDate }}</td>
-          
+
           <td>
             <button @click="openEditPopup(reservation)">Edit</button>
-            <button @click="removeReservation(reservation.ReservationID)">Remove</button>
+            <button @click="removeReservation(reservation.ReservationID)">
+              Remove
+            </button>
           </td>
         </tr>
       </tbody>
@@ -32,15 +37,32 @@
     <div v-if="showEditPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeEditPopup">&times;</span>
-        <h3>{{ isEditing ? 'Edit Reservation' : 'Add New Reservation' }}</h3>
+        <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
         <form @submit.prevent="saveReservation">
           <label for="MemberID">Member ID:</label>
-          <input v-model="currentReservation.MemberID" type="number" id="MemberID" required />
+          <input
+            v-model="currentReservation.MemberID"
+            type="number"
+            id="MemberID"
+            required
+          />
           <label for="BookID">Book ID:</label>
-          <input v-model="currentReservation.BookID" type="number" id="BookID" required />
+          <input
+            v-model="currentReservation.BookID"
+            type="number"
+            id="BookID"
+            required
+          />
           <label for="ReservationDate">Reservation Date:</label>
-          <input v-model="currentReservation.ReservationDate" type="date" id="ReservationDate" required />
-          <button type="submit">{{ isEditing ? 'Save Changes' : 'Add Reservation' }}</button>
+          <input
+            v-model="currentReservation.ReservationDate"
+            type="date"
+            id="ReservationDate"
+            required
+          />
+          <button type="submit">
+            {{ isEditing ? "Save Changes" : "Add Reservation" }}
+          </button>
         </form>
       </div>
     </div>
@@ -48,33 +70,33 @@
 </template>
 
 <script>
-import { Resevations} from "@/services/ReservationService";
+import { Resevations } from "@/services/ReservationService";
 export default {
-  name: 'ReservationView',
+  name: "ReservationView",
   data() {
     return {
       Reservations: [],
-      Reservation:{
-         ReservationID: null,
-        ReservationDate :"",
-        Status :"",
-        MemberID :"",
-        StaffID :"",
-        BookID :""
-       },
-         ErrorList: [],
+      Reservation: {
+        ReservationID: null,
+        ReservationDate: "",
+        Status: "",
+        MemberID: "",
+        StaffID: "",
+        BookID: "",
+      },
+      ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
-     showEditPopup: false,
+      showEditPopup: false,
       //currentReservation: { ReservationID: null, MemberID: '', BookID: '', ReservationDate: '' },
-      isEditing: false
+      isEditing: false,
     };
   },
   created: async function () {
     await this.getReservations();
-    },
-   methods: {
-      //Get Reservations
+  },
+  methods: {
+    //Get Reservations
     async getReservations() {
       try {
         let response = await Resevations.GetAllReservations();
@@ -85,7 +107,12 @@ export default {
     },
     //Open Add Popup
     openAddPopup() {
-      this.currentReservation = { ReservationID: null, MemberID: '', BookID: '', ReservationDate: '' };
+      this.currentReservation = {
+        ReservationID: null,
+        MemberID: "",
+        BookID: "",
+        ReservationDate: "",
+      };
       this.isEditing = false;
       this.showEditPopup = true;
     },
@@ -98,14 +125,21 @@ export default {
     //Close Edit Popup
     closeEditPopup() {
       this.showEditPopup = false;
-      this.currentReservation = { ReservationID: null, MemberID: '', BookID: '', ReservationDate: '' };
+      this.currentReservation = {
+        ReservationID: null,
+        MemberID: "",
+        BookID: "",
+        ReservationDate: "",
+      };
     },
     //Add Reservations
     async addResevation() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await this.Reservations.CreateReservation(this.Resevation);
+        let response = await this.Reservations.CreateReservation(
+          this.Resevation
+        );
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -120,12 +154,14 @@ export default {
       }
       this.closeEditPopup();
     },
-     //Edit Reservations
+    //Edit Reservations
     async editResevation() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await this.Reservations.UpdateReservation(this.Resevation);
+        let response = await this.Reservations.UpdateReservation(
+          this.Resevation
+        );
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -140,7 +176,7 @@ export default {
       }
       this.closeEditPopup();
     },
-     //Remove Reservations
+    //Remove Reservations
     async removeResevation(resevationId) {
       this.ErrorText = null;
       this.ErrorList = [];
@@ -160,7 +196,7 @@ export default {
       }
       this.closeEditPopup();
     },
-  }
+  },
 };
 </script>
 
@@ -175,7 +211,8 @@ table {
   margin-top: 20px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -235,7 +272,7 @@ th {
   position: relative;
 }
 
-  .close {
+.close {
   position: absolute;
   top: 10px;
   right: 10px;

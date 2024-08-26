@@ -47,49 +47,116 @@
 </template>
 
 <script>
+import {Staffs} from "@/services/StaffService";
 export default {
   name: 'StaffView',
   data() {
     return {
-      staffMembers: [
-        { StaffID: 1, StaffName: 'John ',  StaffEmail: 'john.@gmail.com', StaffPhoneNumber: '1234567890' },
-        { StaffID: 2, StaffName: 'Jane ', StaffEmail: 'jane.@gmail.com', StaffPhoneNumber: '9876543210' },
-      ],
+      StaffMembers: [],
+      Staff : { 
+        StaffID : null,
+        StaffName: "",
+        StaffEmail :"",
+        EnrollmentDate :"",
+      },
+      ErrorList: [],
+      ErrorText: "",
+      IsSuccess: false,
       showEditPopup: false,
-      currentStaff: { StaffID: null, StaffName: '', StaffEmail: '', StaffPhoneNumber: '' },
+      //currentStaff: { StaffID: null, StaffName: '', StaffEmail: '', StaffPhoneNumber: '' },
       isEditing: false
     };
   },
+  created: async function () {
+    await this.getStaffs();
+   }, 
   methods: {
+    //Get Staffs
+    async getStaffs() {
+      try {
+        let response = await Staffs.GetAllStaffs();
+        this.Staffs = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Open Add Popup
     openAddPopup() {
       this.currentStaff = { StaffID: null, StaffName: '',StaffEmail: '', StaffPhoneNumber: '' };
       this.isEditing = false;
       this.showEditPopup = true;
     },
+    //Open Edit Popup
     openEditPopup(staff) {
       this.currentStaff = { ...staff };
       this.isEditing = true;
       this.showEditPopup = true;
     },
+    //Close Edit Popup
     closeEditPopup() {
       this.showEditPopup = false;
       this.currentStaff = { StaffID: null, StaffName: '', StaffPosition: '', StaffEmail: '', StaffPhoneNumber: '' };
     },
-    saveStaff() {
-      if (this.isEditing) {
-        const index = this.staffMembers.findIndex(staff => staff.StaffID === this.currentStaff.StaffID);
-        if (index !== -1) {
-          this.$set(this.staffMembers, index, this.currentStaff);
+   //Add Staff
+    async addStaff() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Staffs.CreateStaff(this.Staff);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
         }
-      } else {
-        const newStaff = { ...this.currentStaff, StaffID: this.staffMembers.length + 1 };
-        this.staffMembers.push(newStaff);
+      } catch (error) {
+        console.log(error);
       }
       this.closeEditPopup();
-    },
-    removeStaff(staffID) {
-      this.staffMembers = this.staffMembers.filter(staff => staff.StaffID !== staffID);
-    }
+    }, 
+    //Edit Staff
+    async editStaff() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Staffs.UpdateStaff(this.Staff);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    }, 
+    //remove Staff
+    async removeStaff(staffId) {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Staffs.DeleteStaff(staffId);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    }, 
   }
 };
 </script>

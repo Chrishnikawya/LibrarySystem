@@ -116,10 +116,10 @@ namespace LibrarySystem.Controllers
                 };
                 return response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
 
         }

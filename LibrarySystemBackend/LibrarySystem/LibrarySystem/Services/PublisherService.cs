@@ -37,6 +37,10 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Add Publisher
+        /// </summary>
+        /// <returns></returns>
         public async Task<IList<PublisherViewModel>> GetPublisherAsync()
         {
             try
@@ -59,6 +63,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Get Publisher
+        /// </summary>
+        /// <param name="publisherViewModel"></param>
+        /// <returns></returns>
         public async Task<bool> EditPublisherAsync(PublisherViewModel publisherViewModel)
         {
             try
@@ -80,6 +89,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Edit Publisher
+        /// </summary>
+        /// <param name="publisherId"></param>
+        /// <returns></returns>
         public async Task<bool> RemovePublisherAsync(int publisherId)
         {
             try
@@ -92,6 +106,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Delete Publisher
+        /// </summary>
+        /// <param name="publisherId"></param>
+        /// <returns></returns>
     }
 }
 

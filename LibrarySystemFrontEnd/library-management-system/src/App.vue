@@ -22,5 +22,37 @@ export default {
 </script>
 
 <style>
+nav {
+  background-color: #333;
+  padding: 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 10;
+}
+
+li {
+  display: inline;
+  margin-right: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #f3f4f0;
+}
+
+a.router-link-active {
+  font-weight: bold;
+}
+
+.page {
+  margin-bottom: 20px;
+  }
+
+  .spacer {
+  flex-grow: 11; 
+}
 
 </style>
+

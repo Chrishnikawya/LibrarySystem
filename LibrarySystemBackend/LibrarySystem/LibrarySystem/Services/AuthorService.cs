@@ -38,6 +38,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        
+        /// <summary>
+        /// Add an Author
+        /// </summary>
+        /// <returns></returns>
         public async Task<IList<AuthorViewModel>> GetAuthorAsync()
         {
             try
@@ -81,6 +86,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Edit Author
+        /// </summary>
+        /// <param name="authorId"></param>
+        /// <returns></returns>
         public async Task<bool>RemoveAuthorAsync(int authorId)
         {
             try
@@ -92,8 +102,8 @@ namespace LibrarySystem.Services
             {
 
                 throw ex;
-            }  
-        }   
+            }
+        }
     }
 }
 

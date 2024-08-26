@@ -13,7 +13,7 @@ namespace LibrarySystem.Services
             _unitOfWork = unitOfWork;
         }
         /// <summary>
-        /// Add an Author
+        /// Add an Book
         /// </summary>
         /// <param name="bookViewModel"></param>
         /// <returns></returns>
@@ -37,7 +37,12 @@ namespace LibrarySystem.Services
 
                 throw ex;
             }
+           
         }
+        /// <summary>
+        /// Add a book
+        /// </summary>
+        /// <returns></returns>
         public async Task<IList<BookViewModel>> GetBookAsync()
         {
             try
@@ -46,13 +51,13 @@ namespace LibrarySystem.Services
                 .Query()
                  .ToListAsync();
 
-                return books.Select(a => new BookViewModel
+                return books.Select(b => new BookViewModel
                 {
-                   BookID = a.BookID,
-                   BookName = a.BookName,
-                   AuthorID = a.AuthorID,
-                   Category = a.Category,
-                   PublisherID = a.PublisherID
+                   BookID = b.BookID,
+                   BookName = b.BookName,
+                   AuthorID = b.AuthorID,
+                   Category = b.Category,
+                   PublisherID = b.PublisherID
                 }).ToList();
             }
             catch (Exception ex)
@@ -60,6 +65,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Get a book
+        /// </summary>
+        /// <param name="bookViewModel"></param>
+        /// <returns></returns>
         public async Task<bool> EditBookAsync(BookViewModel bookViewModel)
         {
             try
@@ -81,6 +91,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Edit Book
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
         public async Task<bool> RemoveBookAsync(int bookId)
         {
             try
@@ -94,6 +109,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Delete Book
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>  
     }
 }
 

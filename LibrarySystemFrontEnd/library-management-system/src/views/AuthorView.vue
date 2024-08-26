@@ -2,10 +2,8 @@
   <div class="author">
     <h1>Authors</h1>
 
-    
     <button @click="openAddPopup">Add New Author</button>
 
-    
     <table>
       <thead>
         <tr>
@@ -30,31 +28,48 @@
       </tbody>
     </table>
 
-   
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>Author Details</h3>
         <p><strong>Author ID:</strong> {{ selectedAuthor.AuthorID }}</p>
         <p><strong>Author Name:</strong> {{ selectedAuthor.AuthorName }}</p>
-        <p><strong>Author Address:</strong> {{ selectedAuthor.AuthorAddress }}</p>
+        <p>
+          <strong>Author Address:</strong> {{ selectedAuthor.AuthorAddress }}
+        </p>
         <p><strong>Author Email:</strong> {{ selectedAuthor.AuthorEmail }}</p>
       </div>
     </div>
 
-   
     <div v-if="showEditPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeEditPopup">&times;</span>
-        <h3>{{ isEditing ? 'Edit Author' : 'Add New Author' }}</h3>
-        <form @submit.prevent="saveAuthor">
+        <h3>{{ isEditing ? "Edit Author" : "Add New Author" }}</h3>
+        <form @submit.prevent="addAuthor">
           <label for="AuthorName">Author Name:</label>
-          <input v-model="currentAuthor.AuthorName" type="text" id="AuthorName" required />
+          <input
+            v-model="author.AuthorName"
+            type="text"
+            id="AuthorName"
+            required
+          />
           <label for="AuthorAddress">Author Address:</label>
-          <input v-model="currentAuthor.AuthorAddress" type="text" id="AuthorAddress" required />
+          <input
+            v-model="author.AuthorAddress"
+            type="text"
+            id="AuthorAddress"
+            required
+          />
           <label for="AuthorEmail">Author Email:</label>
-          <input v-model="currentAuthor.AuthorEmail" type="email" id="AuthorEmail" required />
-          <button type="submit">{{ isEditing ? 'Save Changes' : 'Add Author' }}</button>
+          <input
+            v-model="author.AuthorEmail"
+            type="email"
+            id="AuthorEmail"
+            required
+          />
+          <button type="submit">
+            {{ isEditing ? "Save Changes" : "Add Author" }}
+          </button>
         </form>
       </div>
     </div>
@@ -62,62 +77,140 @@
 </template>
 
 <script>
+import { Authors } from "@/services/AuthorService";
 export default {
-  name: 'AuthorView',
+  name: "AuthorView",
   data() {
     return {
-      authors: [
-        { AuthorID: 1, AuthorName: 'J.K Rowling', AuthorAddress: 'Silvan Lane', AuthorEmail: 'rowling12@gmail.com' },
-        { AuthorID: 2, AuthorName: 'Enid Blyton', AuthorAddress: 'Perera Road', AuthorEmail: 'enid1@gmail.com' },
-      ],
+      Authors: [],
+      Author: {
+        AuthorID: null,
+        AuthorName: "",
+        AuthorAddress: "",
+        AuthorEmail: "",
+        AuthorPhoneNumber: "",
+      },
+      ErrorList: [],
+      ErrorText: "",
+      IsSuccess: false,
       showPopup: false,
       showEditPopup: false,
       selectedAuthor: null,
-      currentAuthor: { AuthorID: null, AuthorName: '', AuthorAddress: '', AuthorEmail: '' },
-      isEditing: false
+      isEditing: false,
     };
   },
+  created: async function () {
+    await this.getAuthors();
+  },
+
   methods: {
+    //Get Authors
+    async getAuthors() {
+      try {
+        let response = await Authors.GetAllAuthors();
+        this.Authors = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Open Popup
     openPopup(author) {
       this.selectedAuthor = author;
       this.showPopup = true;
     },
+    //Close Popup
     closePopup() {
       this.showPopup = false;
       this.selectedAuthor = null;
     },
+    //Open Add Popup
     openAddPopup() {
-      this.currentAuthor = { AuthorID: null, AuthorName: '', AuthorAddress: '', AuthorEmail: '' };
+      this.author = {
+        AuthorID: null,
+        AuthorName: "",
+        AuthorAddress: "",
+        AuthorEmail: "",
+      };
       this.isEditing = false;
       this.showEditPopup = true;
     },
+    //Open Edit Popup
     openEditPopup(author) {
-      this.currentAuthor = { ...author };
+      this.author = { ...author };
       this.isEditing = true;
       this.showEditPopup = true;
     },
+    //close edit popup
     closeEditPopup() {
       this.showEditPopup = false;
-      this.currentAuthor = { AuthorID: null, AuthorName: '', AuthorAddress: '', AuthorEmail: '' };
+      this.author = {
+        AuthorID: null,
+        AuthorName: "",
+        AuthorAddress: "",
+        AuthorEmail: "",
+      };
     },
-    saveAuthor() {
-      if (this.isEditing) {
-       
-        const index = this.authors.findIndex(author => author.AuthorID === this.currentAuthor.AuthorID);
-        if (index !== -1) {
-          this.$set(this.authors, index, this.currentAuthor);
+    // Add Authors
+    async addAuthor() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Authors.CreateAuthor(this.Author);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
         }
-      } else {
-        
-        const newAuthor = { ...this.currentAuthor, AuthorID: this.authors.length + 1 };
-        this.authors.push(newAuthor);
+      } catch (error) {
+        console.log(error);
       }
       this.closeEditPopup();
     },
-    removeAuthor(authorID) {
-      this.authors = this.authors.filter(author => author.AuthorID !== authorID);
-    }
-  }
+    // Edit Authors
+    async editAuthor() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Authors.UpdateAuthor(this.Author);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    },
+    //Remove Authors
+    async removeAuthor(authorId) {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Authors.DeleteAuthor(authorId);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    },
+  },
 };
 </script>
 
@@ -132,7 +225,8 @@ table {
   margin-top: 20px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -192,7 +286,7 @@ th {
   position: relative;
 }
 
-  .close {
+.close {
   position: absolute;
   top: 10px;
   right: 10px;

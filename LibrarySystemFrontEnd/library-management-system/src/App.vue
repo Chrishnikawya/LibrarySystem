@@ -3,13 +3,13 @@
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/login">Login</router-link> |
-      <router-link to="/signup">Signup</router-link>
-      <li><router-link to="/book">Book</router-link></li>
-        <li><router-link to="/author">Author</router-link></li>
-        <li><router-link to="/publisher">Publisher</router-link></li>
-        <li><router-link to="/member">Member</router-link></li>
-        <li><router-link to="/staff">Staff</router-link></li>
-        <li><router-link to="/reservation">Reservation</router-link></li>
+      <router-link to="/signup">Signup</router-link> |
+      <router-link to="/book">Book</router-link> |
+      <router-link to="/author">Author</router-link> |
+      <router-link to="/publisher">Publisher</router-link> |
+      <router-link to="/member">Member</router-link> |
+      <router-link to="/staff">Staff</router-link> |
+      <router-link to="/reservation">Reservation</router-link> |
     </nav>
     <router-view/>
   </div>
@@ -23,7 +23,7 @@ export default {
 
 <style>
 nav {
-  background-color: #333;
+  background-color: #05225b;
   padding: 10px;
 }
 

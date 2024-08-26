@@ -63,13 +63,13 @@
 </template>
 
 <script>
-import { Members } from "@/services/PublisherService";
+import { Publishers } from "@/services/PublisherService";
 export default {
   name: 'PublisherView',
   data() {
     return {
-      publishers: [],
-      Member:{
+      Publishers: [],
+      Publisher:{
         PublisherID : null,
         PublisherName :"",
         PublisherAddress :"",

@@ -48,49 +48,118 @@
 </template>
 
 <script>
+import { Resevations} from "@/services/ReservationService";
 export default {
   name: 'ReservationView',
   data() {
     return {
-      reservations: [
-        { ReservationID: 1, MemberID: 1, BookID: 101, ReservationDate: '2024-08-01' },
-        { ReservationID: 2, MemberID: 2, BookID: 102, ReservationDate: '2024-08-02'},
-      ],
-      showEditPopup: false,
-      currentReservation: { ReservationID: null, MemberID: '', BookID: '', ReservationDate: '' },
+      Reservations: [],
+      Reservation:{
+         ReservationID: null,
+        ReservationDate :"",
+        Status :"",
+        MemberID :"",
+        StaffID :"",
+        BookID :""
+       },
+         ErrorList: [],
+      ErrorText: "",
+      IsSuccess: false,
+     showEditPopup: false,
+      //currentReservation: { ReservationID: null, MemberID: '', BookID: '', ReservationDate: '' },
       isEditing: false
     };
   },
-  methods: {
+  created: async function () {
+    await this.getReservations();
+    },
+   methods: {
+      //Get Reservations
+    async getReservations() {
+      try {
+        let response = await Resevations.GetAllReservations();
+        this.Resevations = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Open Add Popup
     openAddPopup() {
       this.currentReservation = { ReservationID: null, MemberID: '', BookID: '', ReservationDate: '' };
       this.isEditing = false;
       this.showEditPopup = true;
     },
+    //Open Edit Popup
     openEditPopup(reservation) {
       this.currentReservation = { ...reservation };
       this.isEditing = true;
       this.showEditPopup = true;
     },
+    //Close Edit Popup
     closeEditPopup() {
       this.showEditPopup = false;
       this.currentReservation = { ReservationID: null, MemberID: '', BookID: '', ReservationDate: '' };
     },
-    saveReservation() {
-      if (this.isEditing) {
-        const index = this.reservations.findIndex(reservation => reservation.ReservationID === this.currentReservation.ReservationID);
-        if (index !== -1) {
-          this.$set(this.reservations, index, this.currentReservation);
+    //Add Reservations
+    async addResevation() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await this.Reservations.CreateReservation(this.Resevation);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
         }
-      } else {
-        const newReservation = { ...this.currentReservation, ReservationID: this.reservations.length + 1 };
-        this.reservations.push(newReservation);
+      } catch (error) {
+        console.log(error);
       }
       this.closeEditPopup();
     },
-    removeReservation(reservationID) {
-      this.reservations = this.reservations.filter(reservation => reservation.ReservationID !== reservationID);
-    }
+     //Edit Reservations
+    async editResevation() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await this.Reservations.UpdateReservation(this.Resevation);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    },
+     //Remove Reservations
+    async removeResevation(resevationId) {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await this.Reservations.CreateReservation(resevationId);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    },
   }
 };
 </script>

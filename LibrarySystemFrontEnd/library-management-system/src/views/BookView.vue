@@ -186,7 +186,7 @@ export default {
       this.closeEditPopup();
     },
     // Remove Books
-    async removeBook() {
+    async removeBook(bookId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {

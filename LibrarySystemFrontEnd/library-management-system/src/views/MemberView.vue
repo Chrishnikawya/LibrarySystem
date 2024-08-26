@@ -58,59 +58,133 @@
 </template>
 
 <script>
+import { Members } from "@/services/MemberService";
 export default {
   name: 'MemberView',
   data() {
     return {
-      members: [
-        { MemberID: 1, MemberName: 'Chrishni', Email: 'chrishni123@gmail.com', PhoneNumber: '1234567890' },
-        { MemberID: 2, MemberName: 'Kawya', Email: 'kawya123@gmail.com', PhoneNumber: '0987654321' },
-      ],
+      Members: [],
+      Member:{
+        MemberID : null,
+        MemberName :"",
+        MemberEmail :"",
+        MemberPhoneNumber :""
+       },
+        ErrorList: [],
+      ErrorText: "",
+      IsSuccess: false,
       showPopup: false,
       showEditPopup: false,
       selectedMember: null,
-      currentMember: { MemberID: null, MemberName: '', Email: '', PhoneNumber: '' },
+      //currentMember: { MemberID: null, MemberName: '', Email: '', PhoneNumber: '' },
       isEditing: false
     };
   },
+  created: async function () {
+    await this.getAuthors();
+  },
   methods: {
+      //Get Members
+    async getMembers() {
+      try {
+        let response = await Members.GetAllMembers();
+        this.Members = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Open Popup
     openPopup(member) {
       this.selectedMember = member;
       this.showPopup = true;
     },
+    //Close Popup
     closePopup() {
       this.showPopup = false;
       this.selectedMember = null;
     },
+    //Open Add Popup
     openAddPopup() {
-      this.currentMember = { MemberID: null, MemberName: '', Email: '', PhoneNumber: '' };
+      this.currentMember = { MemberID: null,
+       MemberName: '', 
+       Email: '', 
+       PhoneNumber: ''
+        };
       this.isEditing = false;
       this.showEditPopup = true;
     },
+     //Open Edit Popup
     openEditPopup(member) {
       this.currentMember = { ...member };
       this.isEditing = true;
       this.showEditPopup = true;
     },
+    //Close Edit Popup
     closeEditPopup() {
       this.showEditPopup = false;
       this.currentMember = { MemberID: null, MemberName: '', Email: '', PhoneNumber: '' };
     },
-    saveMember() {
-      if (this.isEditing) {
-        const index = this.members.findIndex(member => member.MemberID === this.currentMember.MemberID);
-        if (index !== -1) {
-          this.$set(this.members, index, this.currentMember);
+    //Add Members
+    async addMember() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Members.CreateMember(memberId);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
         }
-      } else {
-        const newMember = { ...this.currentMember, MemberID: this.members.length + 1 };
-        this.members.push(newMember);
+      } catch (error) {
+        console.log(error);
       }
       this.closeEditPopup();
     },
-    removeMember(memberID) {
-      this.members = this.members.filter(member => member.MemberID !== memberID);
-    }
+    //Edit Members
+    async editMember() {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Members.UpdateMember(memberId);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    },
+    //Remove Meembers
+    async removeMember(authorId) {
+      this.ErrorText = null;
+      this.ErrorList = [];
+      try {
+        let response = await Members.DeleteMember(memberId);
+        if (response.data.IsSuccess) {
+          this.IsSuccess = true;
+        } else {
+          if (response.data.message != "") {
+            this.ErrorText = response.data.message;
+          } else {
+            this.ErrorList = response.data.error;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeEditPopup();
+    },
+   
   }
 };
 </script>

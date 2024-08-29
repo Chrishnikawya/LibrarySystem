@@ -3,6 +3,7 @@ using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibrarySystem.Controllers
 {
@@ -18,11 +19,13 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<AuthorViewModel>), StatusCodes.Status200OK)]
         public async Task<List<AuthorViewModel>> GetAuthors()
         {
             try
             {
+
                 var authors = await _authorService.GetAuthorAsync();
                 return authors.ToList();
             }

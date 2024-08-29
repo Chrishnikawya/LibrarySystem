@@ -8,9 +8,11 @@
       <thead>
         <tr>
           <th>Reservation ID</th>
-          <th>Member ID</th>
+          <th>member ID</th>
           <th>Book ID</th>
           <th>Reservation Date</th>
+          <th>Staff ID</th>
+          <th>Status</th>
           <th>Add or Edit</th>
         </tr>
       </thead>
@@ -19,10 +21,12 @@
           v-for="reservation in reservations"
           :key="reservation.ReservationID"
         >
-          <td>{{ reservation.ReservationID }}</td>
-          <td>{{ reservation.MemberID }}</td>
-          <td>{{ reservation.BookID }}</td>
-          <td>{{ reservation.ReservationDate }}</td>
+          <td>{{ reservation.reservationID }}</td>
+          <td>{{ reservation.memberID }}</td>
+          <td>{{ reservation.bookID }}</td>
+          <td>{{ reservation.reservationDate }}</td>
+          <td>{{ reservation.staffID }}</td>
+          <td>{{ reservation.status}}</td>
 
           <td>
             <button @click="openEditPopup(reservation)">Edit</button>
@@ -39,27 +43,18 @@
         <span class="close" @click="closeEditPopup">&times;</span>
         <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
         <form @submit.prevent="saveReservation">
+          <label for="ReservationID">ReservationID:</label>
+          <input v-model="currentReservation.ReservationID" type="number" id="ReservationID" required/>
           <label for="MemberID">Member ID:</label>
-          <input
-            v-model="currentReservation.MemberID"
-            type="number"
-            id="MemberID"
-            required
-          />
+          <input  v-model="currentReservation.MemberID" type="number" id="MemberID" required/>
           <label for="BookID">Book ID:</label>
-          <input
-            v-model="currentReservation.BookID"
-            type="number"
-            id="BookID"
-            required
-          />
+          <input v-model="currentReservation.BookID" type="number" id="BookID" required />
           <label for="ReservationDate">Reservation Date:</label>
-          <input
-            v-model="currentReservation.ReservationDate"
-            type="date"
-            id="ReservationDate"
-            required
-          />
+          <input v-model="currentReservation.ReservationDate" type="date" id="ReservationDate" required/>
+          <label for="StaffID">Staff ID:</label>
+          <input v-model="currentReservation.StaffID" type="number" id="StaffID" required/>
+          <label for="Status">Status:</label>
+          <input  v-model="currentReservation.Status" type="number" id="Status"  required />
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Reservation" }}
           </button>
@@ -75,14 +70,14 @@ export default {
   name: "ReservationView",
   data() {
     return {
-      Reservations: [],
-      Reservation: {
-        ReservationID: null,
-        ReservationDate: "",
-        Status: "",
-        MemberID: "",
-        StaffID: "",
-        BookID: "",
+      reservations: [],
+      reservation: {
+        reservationID: null,
+        reservationDate: "",
+        status: "",
+        memberID: "",
+        staffID: "",
+        bookID: "",
       },
       ErrorList: [],
       ErrorText: "",
@@ -99,8 +94,8 @@ export default {
     //Get Reservations
     async getReservations() {
       try {
-        let response = await Resevations.GetAllReservations();
-        this.Resevations = response.data;
+        let response = await Resevations.GetAllResevations();
+        this.resevations = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -137,9 +132,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await this.Reservations.CreateReservation(
-          this.Resevation
-        );
+        let response = await this.Reservations.CreateReservation(this.resevation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -160,7 +153,7 @@ export default {
       this.ErrorList = [];
       try {
         let response = await this.Reservations.UpdateReservation(
-          this.Resevation
+          this.resevation
         );
         if (response.data.IsSuccess) {
           this.IsSuccess = true;

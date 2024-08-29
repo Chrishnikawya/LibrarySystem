@@ -3,6 +3,7 @@ using LibrarySystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibrarySystem.Controllers
 {
@@ -18,6 +19,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<StaffViewModel>), StatusCodes.Status200OK)]
         public async Task<List<StaffViewModel>> GetStaffs()
         {

@@ -6,7 +6,7 @@ axios.defaults.headers.common["Authorization"] = "Bearer " + "";
 export class Staffs {
   static url = MainURL.mainUrl + "Staff/";
 
-  static GetAllStaffss() {
+  static GetAllStaffs() {
     let dataUrl = this.url;
     return axios.get(dataUrl, {
       withCredentials: true,

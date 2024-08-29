@@ -17,11 +17,11 @@
       </thead>
       <tbody>
         <tr v-for="book in books" :key="book.BookID">
-          <td>{{ book.BookID }}</td>
-          <td>{{ book.BookName }}</td>
-          <td>{{ book.Category }}</td>
-          <td>{{ book.AuthorID }}</td>
-          <td>{{ book.PublisherID }}</td>
+          <td>{{ book.bookID }}</td>
+          <td>{{ book.bookName }}</td>
+          <td>{{ book.category }}</td>
+          <td>{{ book.authorID }}</td>
+          <td>{{ book.publisherID }}</td>
           <td>
             <button @click="openEditPopup(book)">Edit</button>
             <button @click="removeBook(book.BookID)">Remove</button>
@@ -54,12 +54,9 @@
           <label for="AuthorID">Author ID:</label>
           <input v-model="book.AuthorID" type="number" id="AuthorID" required />
           <label for="PublisherID">Publisher ID:</label>
-          <input
-            v-model="book.PublisherID"
-            type="number"
-            id="PublisherID"
-            required
-          />
+          <input v-model="book.PublisherID" type="number" id="PublisherID" required/>
+          <label for="PublisherID">Book ID:</label>
+          <input v-model="book.BookID" type="number" id="BookID" required/>
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Book" }}
           </button>
@@ -76,12 +73,12 @@ export default {
   data() {
     return {
       books: [],
-      Book: {
-        BookID: null,
-        BookName: "",
-        Category: "",
-        AuthorID: "",
-        PublisherID: "",
+      book: {
+        bookID: null,
+        bookName: "",
+        category: "",
+        authorID: "",
+        publisherID: "",
       },
       ErrorList: [],
       ErrorText: "",
@@ -101,7 +98,7 @@ export default {
     async getBooks() {
       try {
         let response = await Books.GetAllBooks();
-        this.Books = response.data;
+        this.books = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -150,7 +147,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Books.UpdateBook(this.Book);
+        let response = await Books.UpdateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -170,7 +167,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Books.CreateBook(this.Book);
+        let response = await Books.CreateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

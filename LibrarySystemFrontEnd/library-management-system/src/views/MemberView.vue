@@ -16,10 +16,10 @@
       </thead>
       <tbody>
         <tr v-for="member in members" :key="member.MemberID">
-          <td>{{ member.MemberID }}</td>
-          <td>{{ member.MemberName }}</td>
-          <td>{{ member.Email }}</td>
-          <td>{{ member.PhoneNumber }}</td>
+          <td>{{ member.memberID }}</td>
+          <td>{{ member.memberName }}</td>
+          <td>{{ member.memberEmail }}</td>
+          <td>{{ member.memberPhoneNumber }}</td>
           <td>
             <button @click="openEditPopup(member)">Edit</button>
             <button @click="removeMember(member.MemberID)">Remove</button>
@@ -80,12 +80,12 @@ export default {
   name: "MemberView",
   data() {
     return {
-      Members: [],
-      Member: {
-        MemberID: null,
-        MemberName: "",
-        MemberEmail: "",
-        MemberPhoneNumber: "",
+      members: [],
+      member: {
+        memberID: null,
+        memberName: "",
+        memberEmail: "",
+        memberPhoneNumber: "",
       },
       ErrorList: [],
       ErrorText: "",
@@ -105,7 +105,7 @@ export default {
     async getMembers() {
       try {
         let response = await Members.GetAllMembers();
-        this.Members = response.data;
+        this.members = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -152,7 +152,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Members.CreateMember(this.Member);
+        let response = await Members.CreateMember(this.member);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -172,7 +172,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Members.UpdateMember(this.Member);
+        let response = await Members.UpdateMember(this.member);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

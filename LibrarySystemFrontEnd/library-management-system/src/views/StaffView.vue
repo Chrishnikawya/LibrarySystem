@@ -10,16 +10,16 @@
           <th>Staff ID</th>
           <th>Staff Name</th>
           <th>Staff Email</th>
-          <th>Staff Phone Number</th>
+          <th>Enrollment Date</th>
           <th>Add or Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="staff in staffMembers" :key="staff.StaffID">
-          <td>{{ staff.StaffID }}</td>
-          <td>{{ staff.StaffName }}</td>
-          <td>{{ staff.StaffEmail }}</td>
-          <td>{{ staff.StaffPhoneNumber }}</td>
+        <tr v-for="staff in staffs" :key="staff.StaffID">
+          <td>{{ staff.staffID }}</td>
+          <td>{{ staff.staffName }}</td>
+          <td>{{ staff.staffEmail }}</td>
+          <td>{{ staff.enrollmentDate }}</td>
           <td>
             <button @click="openEditPopup(staff)">Edit</button>
             <button @click="removeStaff(staff.StaffID)">Remove</button>
@@ -37,8 +37,8 @@
           <input v-model="currentStaff.StaffName" type="text" id="StaffName" required />
           <label for="StaffEmail">Staff Email:</label>
           <input v-model="currentStaff.StaffEmail" type="email" id="StaffEmail" required />
-          <label for="StaffPhoneNumber">Staff Phone Number:</label>
-          <input v-model="currentStaff.StaffPhoneNumber" type="text" id="StaffPhoneNumber" required />
+          <label for="EnrollmentDate">Enrollment Date:</label>
+          <input v-model="currentStaff.EnrollmentDate" type="enrollemntdate" id="EnrolmentDate" required />
           <button type="submit">{{ isEditing ? 'Save Changes' : 'Add Staff Member' }}</button>
         </form>
       </div>
@@ -52,12 +52,12 @@ export default {
   name: 'StaffView',
   data() {
     return {
-      StaffMembers: [],
-      Staff : { 
-        StaffID : null,
-        StaffName: "",
-        StaffEmail :"",
-        EnrollmentDate :"",
+      staffs: [],
+      staff : { 
+        staffID : null,
+        staffName: "",
+        staffEmail :"",
+        enrollmentDate :"",
       },
       ErrorList: [],
       ErrorText: "",
@@ -75,7 +75,7 @@ export default {
     async getStaffs() {
       try {
         let response = await Staffs.GetAllStaffs();
-        this.Staffs = response.data;
+        this.staffs = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -102,7 +102,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Staffs.CreateStaff(this.Staff);
+        let response = await Staffs.CreateStaff(this.staff);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -122,7 +122,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Staffs.UpdateStaff(this.Staff);
+        let response = await Staffs.UpdateStaff(this.staff);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

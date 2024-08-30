@@ -11,17 +11,15 @@
           <th>Publisher Name</th>
           <th>Publisher Address</th>
           <th>Publisher Email</th>
-          <th>Publisher Phone Number</th>
           <th>Add or Edit</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="publisher in publishers" :key="publisher.PublisherID">
-          <td>{{ publisher.PublisherID }}</td>
-          <td>{{ publisher.PublisherName }}</td>
-          <td>{{ publisher.PublisherAddress }}</td>
-          <td>{{ publisher.PublisherEmail }}</td>
-          <td>{{ publisher.PublisherPhoneNumber }}</td>
+          <td>{{ publisher.publisherID }}</td>
+          <td>{{ publisher.publisherName }}</td>
+          <td>{{ publisher.publisherAddress }}</td>
+          <td>{{ publisher.publisherEmail }}</td>
           <td>
             <button @click="openEditPopup(publisher)">Edit</button>
             <button @click="removePublisher(publisher.PublisherID)">
@@ -49,10 +47,6 @@
         <p>
           <strong>Publisher Email:</strong>
           {{ selectedPublisher.PublisherEmail }}
-        </p>
-        <p>
-          <strong>Publisher Phone Number:</strong>
-          {{ selectedPublisher.PublisherPhoneNumber }}
         </p>
       </div>
     </div>
@@ -83,13 +77,7 @@
             id="PublisherEmail"
             required
           />
-          <label for="PublisherPhoneNumber">Publisher Phone Number:</label>
-          <input
-            v-model="currentPublisher.PublisherPhoneNumber"
-            type="text"
-            id="PublisherPhoneNumber"
-            required
-          />
+          
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Publisher" }}
           </button>
@@ -105,13 +93,12 @@ export default {
   name: "PublisherView",
   data() {
     return {
-      Publishers: [],
-      Publisher: {
-        PublisherID: null,
-        PublisherName: "",
-        PublisherAddress: "",
-        PublisherEmail: "",
-        PublisherPhoneNumber,
+      publishers: [],
+      publisher: {
+        publisherID: null,
+        publisherName: "",
+        publisherAddress: "",
+        publisherEmail: "",
       },
       ErrorList: [],
       ErrorText: "",
@@ -131,7 +118,7 @@ export default {
     async getPublishers() {
       try {
         let response = await Publishers.GetAllPublishers();
-        this.Publishers = response.data;
+        this.publishers = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -180,7 +167,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Publishers.CreatePublisher(this.Publisher);
+        let response = await Publishers.CreatePublisher(this.publisher);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -200,7 +187,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Publishers.UpdatePublisher(this.Publisher);
+        let response = await Publishers.UpdatePublisher(this.publisher);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

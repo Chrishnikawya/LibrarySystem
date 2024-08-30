@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using LibrarySystem.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibrarySystem.Controllers
 {
@@ -19,6 +20,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<MemberViewModel>), StatusCodes.Status200OK)]
         public async Task<List<MemberViewModel>> GetMembers()
         {

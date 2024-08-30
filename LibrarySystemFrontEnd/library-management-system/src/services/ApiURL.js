@@ -1,4 +1,4 @@
 export class MainURL {
-    static mainUrl = "https://localhost:44349/api/";
+    static mainUrl = "https://localhost:7180/api/";
   }
   

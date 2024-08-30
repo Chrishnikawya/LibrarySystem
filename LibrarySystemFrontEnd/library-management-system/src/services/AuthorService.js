@@ -14,14 +14,6 @@ export class Authors {
     });
   }
 
-  static GetAuthor(id) {
-    let dataUrl = this.url + id;
-    return axios.get(dataUrl, {
-      withCredentials: true,
-      credentials: "include",
-    });
-  }
-
   static CreateAuthor(obj) {
     let dataUrl = this.url;
     return axios.post(dataUrl, obj, {

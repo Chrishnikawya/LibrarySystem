@@ -16,10 +16,10 @@
       </thead>
       <tbody>
         <tr v-for="author in authors" :key="author.AuthorID">
-          <td>{{ author.AuthorID }}</td>
-          <td>{{ author.AuthorName }}</td>
-          <td>{{ author.AuthorAddress }}</td>
-          <td>{{ author.AuthorEmail }}</td>
+          <td>{{ author.authorID }}</td>
+          <td>{{ author.authorName }}</td>
+          <td>{{ author.authorAddress }}</td>
+          <td>{{ author.authorEmail }}</td>
           <td>
             <button @click="openEditPopup(author)">Edit</button>
             <button @click="removeAuthor(author.AuthorID)">Remove</button>
@@ -37,7 +37,7 @@
         <p>
           <strong>Author Address:</strong> {{ selectedAuthor.AuthorAddress }}
         </p>
-        <p><strong>Author Email:</strong> {{ selectedAuthor.AuthorEmail }}</p>
+        <p><strong>Author Email:</strong> {{selectedAuthor.AuthorEmail }}</p>
       </div>
     </div>
 
@@ -82,20 +82,20 @@ export default {
   name: "AuthorView",
   data() {
     return {
-      Authors: [],
-      Author: {
-        AuthorID: null,
-        AuthorName: "",
-        AuthorAddress: "",
-        AuthorEmail: "",
-        AuthorPhoneNumber: "",
+      authors: [],
+      author: {
+        authorID: null,
+        authorName: "",
+        authorAddress: "",
+        authorEmail: "",
+        authorPhoneNumber: "",
       },
       ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
       showEditPopup: false,
-      selectedAuthor: null,
+     
       isEditing: false,
     };
   },
@@ -108,13 +108,13 @@ export default {
     async getAuthors() {
       try {
         let response = await Authors.GetAllAuthors();
-        this.Authors = response.data;
+        this.authors = response.data;
       } catch (error) {
         console.log(error);
       }
     },
     //Open Popup
-    openPopup(author) {
+    openAddPopup(author) {
       this.selectedAuthor = author;
       this.showPopup = true;
     },
@@ -155,7 +155,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Authors.CreateAuthor(this.Author);
+        let response = await Authors.CreateAuthor(this.author);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -175,7 +175,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Authors.UpdateAuthor(this.Author);
+        let response = await Authors.UpdateAuthor(this.author);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

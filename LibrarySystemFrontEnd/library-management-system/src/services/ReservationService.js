@@ -4,7 +4,7 @@ import { MainURL } from "@/services/ApiURL";
 axios.defaults.headers.common["Authorization"] = "Bearer " + "";
 
 export class Resevations {
-  static url = MainURL.mainUrl + "Resevationr/";
+  static url = MainURL.mainUrl + "Resevation/";
 
   static GetAllResevations() {
     let dataUrl = this.url;
@@ -13,13 +13,7 @@ export class Resevations {
       credentials: "include",
     });
   }
-  static GetResevation(id) {
-    let dataUrl = this.url + id;
-    return axios.get(dataUrl, {
-      withCredentials: true,
-      credentials: "include",
-    });
-  }
+
   static CreateResevation(obj) {
     let dataUrl = this.url;
     return axios.post(dataUrl, obj, {

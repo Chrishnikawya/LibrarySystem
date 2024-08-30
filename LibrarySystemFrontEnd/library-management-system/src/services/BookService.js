@@ -6,7 +6,7 @@ axios.defaults.headers.common["Authorization"] = "Bearer " + "";
 export class Books {
   static url = MainURL.mainUrl + "Book/";
 
-  static GetAllBookss() {
+  static GetAllBooks() {
     let dataUrl = this.url;
     return axios.get(dataUrl, {
       withCredentials: true,

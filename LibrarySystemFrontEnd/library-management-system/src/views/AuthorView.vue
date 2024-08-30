@@ -2,8 +2,8 @@
   <div class="author">
     <h1>Authors</h1>
 
-    <button @click="openAddPopup">Add New Author</button>
-
+   <button @click="openAddPopup">Add New Author</button> 
+      
     <table>
       <thead>
         <tr>
@@ -32,12 +32,12 @@
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>Author Details</h3>
-        <p><strong>Author ID:</strong> {{ selectedAuthor.AuthorID }}</p>
-        <p><strong>Author Name:</strong> {{ selectedAuthor.AuthorName }}</p>
+        <p><strong>Author ID:</strong> {{ selectedAuthor.authorID }}</p>
+        <p><strong>Author Name:</strong> {{ selectedAuthor.authorName }}</p>
         <p>
-          <strong>Author Address:</strong> {{ selectedAuthor.AuthorAddress }}
+          <strong>Author Address:</strong> {{ selectedAuthor.authorAddress }}
         </p>
-        <p><strong>Author Email:</strong> {{selectedAuthor.AuthorEmail }}</p>
+        <p><strong>Author Email:</strong> {{selectedAuthor.authorEmail }}</p>
       </div>
     </div>
 
@@ -48,23 +48,30 @@
         <form @submit.prevent="addAuthor">
           <label for="AuthorName">Author Name:</label>
           <input
-            v-model="author.AuthorName"
+            v-model="author.authorName"
             type="text"
-            id="AuthorName"
+            id="authorName"
             required
           />
           <label for="AuthorAddress">Author Address:</label>
           <input
-            v-model="author.AuthorAddress"
+            v-model="author.authorAddress"
             type="text"
-            id="AuthorAddress"
+            id="authorAddress"
             required
           />
           <label for="AuthorEmail">Author Email:</label>
           <input
-            v-model="author.AuthorEmail"
+            v-model="author.authorEmail"
             type="email"
-            id="AuthorEmail"
+            id="authorEmail"
+            required
+          />
+          <label for="AuthorPhoneNumber">Author PhoneNumber:</label>
+          <input
+            v-model="author.authorPhoneNumber"
+            type="text"
+            id="authorPhoneNumber"
             required
           />
           <button type="submit">
@@ -114,10 +121,10 @@ export default {
       }
     },
     //Open Popup
-    openAddPopup(author) {
-      this.selectedAuthor = author;
-      this.showPopup = true;
-    },
+    // openAddPopup(author) {
+    //   this.selectedAuthor = author;
+    //   this.showPopup = true;
+    // },
     //Close Popup
     closePopup() {
       this.showPopup = false;
@@ -125,12 +132,13 @@ export default {
     },
     //Open Add Popup
     openAddPopup() {
-      this.author = {
-        AuthorID: null,
-        AuthorName: "",
-        AuthorAddress: "",
-        AuthorEmail: "",
-      };
+      // this.author = {
+      //   AuthorID: null,
+      //   AuthorName: "",
+      //   AuthorAddress: "",
+      //   AuthorEmail: "",
+      // };
+      this.showPopup = true;
       this.isEditing = false;
       this.showEditPopup = true;
     },
@@ -155,6 +163,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        this.author.authorID = 0;
         let response = await Authors.CreateAuthor(this.author);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;

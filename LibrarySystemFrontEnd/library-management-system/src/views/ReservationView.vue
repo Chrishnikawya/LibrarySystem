@@ -26,7 +26,7 @@
           <td>{{ reservation.bookID }}</td>
           <td>{{ reservation.reservationDate }}</td>
           <td>{{ reservation.staffID }}</td>
-          <td>{{ reservation.status}}</td>
+          <td>{{ reservation.status }}</td>
 
           <td>
             <button @click="openEditPopup(reservation)">Edit</button>
@@ -44,17 +44,47 @@
         <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
         <form @submit.prevent="saveReservation">
           <label for="ReservationID">ReservationID:</label>
-          <input v-model="currentReservation.ReservationID" type="number" id="ReservationID" required/>
+          <input
+            v-model="currentReservation.ReservationID"
+            type="number"
+            id="ReservationID"
+            required
+          />
           <label for="MemberID">Member ID:</label>
-          <input  v-model="currentReservation.MemberID" type="number" id="MemberID" required/>
+          <input
+            v-model="currentReservation.MemberID"
+            type="number"
+            id="MemberID"
+            required
+          />
           <label for="BookID">Book ID:</label>
-          <input v-model="currentReservation.BookID" type="number" id="BookID" required />
+          <input
+            v-model="currentReservation.BookID"
+            type="number"
+            id="BookID"
+            required
+          />
           <label for="ReservationDate">Reservation Date:</label>
-          <input v-model="currentReservation.ReservationDate" type="date" id="ReservationDate" required/>
+          <input
+            v-model="currentReservation.ReservationDate"
+            type="date"
+            id="ReservationDate"
+            required
+          />
           <label for="StaffID">Staff ID:</label>
-          <input v-model="currentReservation.StaffID" type="number" id="StaffID" required/>
+          <input
+            v-model="currentReservation.StaffID"
+            type="number"
+            id="StaffID"
+            required
+          />
           <label for="Status">Status:</label>
-          <input  v-model="currentReservation.Status" type="number" id="Status"  required />
+          <input
+            v-model="currentReservation.Status"
+            type="number"
+            id="Status"
+            required
+          />
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Reservation" }}
           </button>
@@ -132,7 +162,9 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await this.Reservations.CreateReservation(this.resevation);
+        let response = await this.Reservations.CreateReservation(
+          this.resevation
+        );
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

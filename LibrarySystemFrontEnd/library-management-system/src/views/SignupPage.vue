@@ -4,15 +4,15 @@
     <form @submit.prevent="signup">
       <div>
         <label for="name">Name:</label>
-        <input type="text" v-model="name" required>
+        <input type="text" v-model="name" required />
       </div>
       <div>
         <label for="email">Email:</label>
-        <input type="email" v-model="email" required>
+        <input type="email" v-model="email" required />
       </div>
       <div>
         <label for="password">Password:</label>
-        <input type="password" v-model="password" required>
+        <input type="password" v-model="password" required />
       </div>
       <button type="submit">Sign Up</button>
     </form>
@@ -23,22 +23,29 @@
 export default {
   data() {
     return {
-      name: '',
-      email: '',
-      password: ''
-    }
+      name: "",
+      email: "",
+      password: "",
+    };
   },
   methods: {
     signup() {
-      console.log('Name:', this.name, 'Email:', this.email, 'Password:', this.password);
-    }
-  }
-}
+      console.log(
+        "Name:",
+        this.name,
+        "Email:",
+        this.email,
+        "Password:",
+        this.password
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
 nav {
-  background-color: #333; 
+  background-color: #333;
   padding: 10px;
 }
 
@@ -51,12 +58,12 @@ ul {
 }
 
 li {
-  margin-right: 200px; 
+  margin-right: 200px;
 }
 
 a {
   text-decoration: none;
-  color: white; 
+  color: white;
 }
 
 a.router-link-active {

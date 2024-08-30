@@ -19,7 +19,7 @@
       <tbody>
         <tr
           v-for="reservation in reservations"
-          :key="reservation.ReservationID"
+          :key="reservation.reservationID"
         >
           <td>{{ reservation.reservationID }}</td>
           <td>{{ reservation.memberID }}</td>
@@ -30,7 +30,7 @@
 
           <td>
             <button @click="openEditPopup(reservation)">Edit</button>
-            <button @click="removeReservation(reservation.ReservationID)">
+            <button @click="removeReservation(reservation.reservationID)">
               Remove
             </button>
           </td>
@@ -95,7 +95,7 @@ export default {
     async getReservations() {
       try {
         let response = await Resevations.GetAllResevations();
-        this.resevations = response.data;
+        this.reservations = response.data;
       } catch (error) {
         console.log(error);
       }

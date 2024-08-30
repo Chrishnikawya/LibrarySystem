@@ -154,12 +154,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -168,7 +164,7 @@
               "RelativeDocumentMoniker": "LibrarySystem\\Controllers\\MemberController.cs",
               "ToolTip": "C:\\Ateam\\LibrarySystem\\LibrarySystemBackend\\LibrarySystem\\LibrarySystem\\Controllers\\MemberController.cs",
               "RelativeToolTip": "LibrarySystem\\Controllers\\MemberController.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAwB0AAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAwBsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-24T08:03:09.424Z",
               "EditorCaption": ""
@@ -183,8 +179,7 @@
               "RelativeToolTip": "LibrarySystem\\Controllers\\BookController.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAAAB0AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-24T08:00:58.025Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-24T08:00:58.025Z"
             },
             {
               "$type": "Document",
@@ -196,8 +191,7 @@
               "RelativeToolTip": "LibrarySystem\\Controllers\\ResevationController.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAjwBwAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-24T08:05:29.925Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-24T08:05:29.925Z"
             },
             {
               "$type": "Document",
@@ -209,8 +203,7 @@
               "RelativeToolTip": "LibrarySystem\\Services\\ResevationService.cs",
               "ViewState": "AgIAACUAAAAAAAAAAAAnwDIAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-23T05:39:40.077Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-23T05:39:40.077Z"
             },
             {
               "$type": "Document",
@@ -222,8 +215,7 @@
               "RelativeToolTip": "LibrarySystem\\Controllers\\StaffController.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAAwBwAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-24T08:06:20.298Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-24T08:06:20.298Z"
             },
             {
               "$type": "Document",
@@ -235,8 +227,7 @@
               "RelativeToolTip": "LibrarySystem\\Services\\StaffService.cs",
               "ViewState": "AgIAACQAAAAAAAAAAAAnwDEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-23T05:52:35.013Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-23T05:52:35.013Z"
             },
             {
               "$type": "Document",
@@ -248,8 +239,7 @@
               "RelativeToolTip": "LibrarySystem\\Services\\MemberService.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAYwC8AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-23T05:14:43.329Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-23T05:14:43.329Z"
             },
             {
               "$type": "Document",
@@ -261,8 +251,7 @@
               "RelativeToolTip": "LibrarySystem\\Services\\BookService.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAYwDEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-23T02:51:43.224Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-23T02:51:43.224Z"
             },
             {
               "$type": "Document",
@@ -274,8 +263,7 @@
               "RelativeToolTip": "LibrarySystem\\Controllers\\PublisherController.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAQwB0AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-24T08:04:33.563Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-24T08:04:33.563Z"
             },
             {
               "$type": "Document",
@@ -287,8 +275,7 @@
               "RelativeToolTip": "LibrarySystem\\Services\\PublisherService.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAYwC8AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-23T05:37:49.327Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-23T05:37:49.327Z"
             },
             {
               "$type": "Document",
@@ -300,8 +287,7 @@
               "RelativeToolTip": "LibrarySystem\\Controllers\\AuthorController.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAQwB0AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-22T08:56:33.696Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-22T08:56:33.696Z"
             },
             {
               "$type": "Document",
@@ -313,8 +299,7 @@
               "RelativeToolTip": "LibrarySystem\\Services\\AuthorService.cs",
               "ViewState": "AgIAAC0AAAAAAAAAAAAYwDEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-25T06:53:47.009Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-25T06:53:47.009Z"
             },
             {
               "$type": "Document",
@@ -326,8 +311,7 @@
               "RelativeToolTip": "LibrarySystem\\Models\\Staff.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-24T00:24:11.741Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-24T00:24:11.741Z"
             },
             {
               "$type": "Document",
@@ -604,6 +588,10 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2024-07-23T09:40:19.678Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }

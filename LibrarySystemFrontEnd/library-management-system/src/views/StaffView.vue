@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="staff in staffMembers" :key="staff.StaffID">
+        <tr v-for="staff in staffs" :key="staff.StaffID">
           <td>{{ staff.staffID }}</td>
           <td>{{ staff.staffName }}</td>
           <td>{{ staff.staffEmail }}</td>

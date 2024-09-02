@@ -11,24 +11,26 @@
           <th>Author Name</th>
           <th>Author Address</th>
           <th>Author Email</th>
+          <th>Author PhoneNumber</th>
           <th>Add or Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="author in authors" :key="author.AuthorID">
+        <tr v-for="author in authors" :key="author.authorID">
           <td>{{ author.authorID }}</td>
           <td>{{ author.authorName }}</td>
           <td>{{ author.authorAddress }}</td>
           <td>{{ author.authorEmail }}</td>
+          <td>{{ author.authorPhoneNumber }}</td>
           <td>
-            <button @click="openEditPopup(author)">Edit</button>
-            <button @click="removeAuthor(author.AuthorID)">Remove</button>
+            <button @click="openPopup(author)">Edit</button>
+            <button @click="removeAuthor(author.authorID)">Remove</button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div v-if="showPopup" class="modal">
+    <!-- <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>Author Details</h3>
@@ -39,11 +41,11 @@
         </p>
         <p><strong>Author Email:</strong> {{selectedAuthor.authorEmail }}</p>
       </div>
-    </div>
+    </div> -->
 
-    <div v-if="showEditPopup" class="modal">
+    <div v-if="showPopup" class="modal">
       <div class="modal-content">
-        <span class="close" @click="closeEditPopup">&times;</span>
+        <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Author" : "Add New Author" }}</h3>
         <form @submit.prevent="addAuthor">
           <label for="AuthorName">Author Name:</label>
@@ -101,9 +103,10 @@ export default {
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      showEditPopup: false,
+      showPopup: false,
      
       isEditing: false,
+      selectedAuthor: null
     };
   },
   created: async function () {
@@ -121,42 +124,46 @@ export default {
       }
     },
     //Open Popup
-    // openAddPopup(author) {
-    //   this.selectedAuthor = author;
+     openAddPopup() {
+      this.selectedAuthor = this.author;
+      // this.showPopup = true;
+      this.isEditing = false;
+      this.showPopup = true;
+     },
+    //Close Popup
+    // closePopup() {
+    //   this.showPopup = false;
+    //   this.selectedAuthor = null;
+    //   this.GetAuthors 
+    // },
+    //Open Add Popup
+    // openAddPopup() {
+    //   // this.author = {
+    //   //   AuthorID: null,
+    //   //   AuthorName: "",
+    //   //   AuthorAddress: "",
+    //   //   AuthorEmail: "",
+    //   // };
+    //   this.showPopup = true;
+    //   this.isEditing = false;
     //   this.showPopup = true;
     // },
-    //Close Popup
-    closePopup() {
-      this.showPopup = false;
-      this.selectedAuthor = null;
-    },
-    //Open Add Popup
-    openAddPopup() {
-      // this.author = {
-      //   AuthorID: null,
-      //   AuthorName: "",
-      //   AuthorAddress: "",
-      //   AuthorEmail: "",
-      // };
-      this.showPopup = true;
-      this.isEditing = false;
-      this.showEditPopup = true;
-    },
     //Open Edit Popup
-    openEditPopup(author) {
+    openPopup(author) {
       this.author = { ...author };
       this.isEditing = true;
-      this.showEditPopup = true;
+      this.showPopup = true;
     },
     //close edit popup
-    closeEditPopup() {
-      this.showEditPopup = false;
+    closePopup() {
+      this.showPopup = false;
       this.author = {
-        AuthorID: null,
-        AuthorName: "",
-        AuthorAddress: "",
-        AuthorEmail: "",
+        authorID: null,
+        authorName: "",
+        authorAddress: "",
+        authorEmail: "",
       };
+      this.getAuthors();
     },
     // Add Authors
     async addAuthor() {
@@ -177,7 +184,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     // Edit Authors
     async editAuthor() {
@@ -197,7 +204,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     //Remove Authors
     async removeAuthor(authorId) {
@@ -217,7 +224,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
   },
 };

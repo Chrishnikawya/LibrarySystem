@@ -2,7 +2,7 @@
   <div class="staff">
     <h1>Staff Members</h1>
 
-    <button @click="openAddPopup">Add Staff</button>
+    <button @click="openAddPopup">Add New Staff</button>
 
     <table>
       <thead>
@@ -15,30 +15,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="staff in staffs" :key="staff.StaffID">
+        <tr v-for="staff in staffs" :key="staff.staffID">
           <td>{{ staff.staffID }}</td>
           <td>{{ staff.staffName }}</td>
           <td>{{ staff.staffEmail }}</td>
           <td>{{ staff.enrollmentDate }}</td>
           <td>
-            <button @click="openEditPopup(staff)">Edit</button>
-            <button @click="removeStaff(staff.StaffID)">Remove</button>
+            <button @click="openPopup(staff)">Edit</button>
+            <button @click="removeStaff(staff.staffID)">Remove</button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div v-if="showEditPopup" class="modal">
+    <div v-if="showPopup" class="modal">
       <div class="modal-content">
-        <span class="close" @click="closeEditPopup">&times;</span>
+        <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? 'Edit Staff Member' : 'Add New Staff Member' }}</h3>
-        <form @submit.prevent="saveStaff">
+        <form @submit.prevent="addStaff">
           <label for="StaffName">Staff Name:</label>
-          <input v-model="currentStaff.StaffName" type="text" id="StaffName" required />
+          <input v-model="staff.staffName" type="text" id="staffName" required />
           <label for="StaffEmail">Staff Email:</label>
-          <input v-model="currentStaff.StaffEmail" type="email" id="StaffEmail" required />
+          <input v-model="staff.staffEmail" type="email" id="staffEmail" required />
           <label for="EnrollmentDate">Enrollment Date:</label>
-          <input v-model="currentStaff.EnrollmentDate" type="enrollemntdate" id="EnrolmentDate" required />
+          <input v-model="staff.enrollmentDate" type="date" id="enrollmentDate" required />
           <button type="submit">{{ isEditing ? 'Save Changes' : 'Add Staff Member' }}</button>
         </form>
       </div>
@@ -62,8 +62,8 @@ export default {
       ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
-      showEditPopup: false,
-      //currentStaff: { StaffID: null, StaffName: '', StaffEmail: '', StaffPhoneNumber: '' },
+      showPopup: false,
+      //staff: { StaffID: null, StaffName: '', StaffEmail: '', StaffPhoneNumber: '' },
       isEditing: false
     };
   },
@@ -82,26 +82,34 @@ export default {
     },
     //Open Add Popup
     openAddPopup() {
-      this.currentStaff = { StaffID: null, StaffName: '',StaffEmail: '', StaffPhoneNumber: '' };
+      //this.staff = { StaffID: null, StaffName: '',StaffEmail: '', StaffPhoneNumber: '' };
+      this.showPopup = true;
       this.isEditing = false;
-      this.showEditPopup = true;
+      
     },
     //Open Edit Popup
-    openEditPopup(staff) {
-      this.currentStaff = { ...staff };
+    openPopup(staff) {
+      this.staff = { ...staff };
       this.isEditing = true;
-      this.showEditPopup = true;
+      this.showPopup = true;
     },
     //Close Edit Popup
-    closeEditPopup() {
-      this.showEditPopup = false;
-      this.currentStaff = { StaffID: null, StaffName: '', StaffPosition: '', StaffEmail: '', StaffPhoneNumber: '' };
+    closePopup() {
+      this.showPopup = false;
+      this.staff = { 
+        staffID: null, 
+        staffName: '',
+        staffEmail: '',
+        enrollmentDate:''
+         };
+      this.getStaffs();   
     },
    //Add Staff
     async addStaff() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+         this.staff.staffID = 0;
         let response = await Staffs.CreateStaff(this.staff);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -115,7 +123,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     }, 
     //Edit Staff
     async editStaff() {
@@ -135,7 +143,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     }, 
     //remove Staff
     async removeStaff(staffId) {
@@ -155,7 +163,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     }, 
   }
 };

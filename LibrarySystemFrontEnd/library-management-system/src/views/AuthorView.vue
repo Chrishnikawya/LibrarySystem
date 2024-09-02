@@ -30,19 +30,6 @@
       </tbody>
     </table>
 
-    <!-- <div v-if="showPopup" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closePopup">&times;</span>
-        <h3>Author Details</h3>
-        <p><strong>Author ID:</strong> {{ selectedAuthor.authorID }}</p>
-        <p><strong>Author Name:</strong> {{ selectedAuthor.authorName }}</p>
-        <p>
-          <strong>Author Address:</strong> {{ selectedAuthor.authorAddress }}
-        </p>
-        <p><strong>Author Email:</strong> {{selectedAuthor.authorEmail }}</p>
-      </div>
-    </div> -->
-
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
@@ -103,10 +90,7 @@ export default {
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      showPopup: false,
-     
       isEditing: false,
-      selectedAuthor: null
     };
   },
   created: async function () {
@@ -125,29 +109,10 @@ export default {
     },
     //Open Popup
      openAddPopup() {
-      this.selectedAuthor = this.author;
-      // this.showPopup = true;
       this.isEditing = false;
       this.showPopup = true;
      },
-    //Close Popup
-    // closePopup() {
-    //   this.showPopup = false;
-    //   this.selectedAuthor = null;
-    //   this.GetAuthors 
-    // },
-    //Open Add Popup
-    // openAddPopup() {
-    //   // this.author = {
-    //   //   AuthorID: null,
-    //   //   AuthorName: "",
-    //   //   AuthorAddress: "",
-    //   //   AuthorEmail: "",
-    //   // };
-    //   this.showPopup = true;
-    //   this.isEditing = false;
-    //   this.showPopup = true;
-    // },
+   
     //Open Edit Popup
     openPopup(author) {
       this.author = { ...author };

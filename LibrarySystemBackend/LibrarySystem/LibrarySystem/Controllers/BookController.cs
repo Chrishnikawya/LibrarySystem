@@ -57,8 +57,9 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-        public async Task<CommonResponse> AddBook([FromBody] BookViewModel bookViewModel)
+        public async Task<CommonResponse> AddBook( BookViewModel bookViewModel)
         {
             try
             {

@@ -38,7 +38,7 @@ namespace LibrarySystem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-        public async Task<CommonResponse> AddPublisher([FromBody] PublisherViewModel publisherViewModel)
+        public async Task<CommonResponse> AddPublisher( PublisherViewModel publisherViewModel)
         {
             try
             {

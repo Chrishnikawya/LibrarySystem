@@ -2,8 +2,8 @@
   <div class="author">
     <h1>Authors</h1>
 
-   <button @click="openAddPopup">Add New Author</button> 
-      
+    <button @click="openAddPopup">Add New Author</button>
+
     <table>
       <thead>
         <tr>
@@ -108,11 +108,11 @@ export default {
       }
     },
     //Open Popup
-     openAddPopup() {
+    openAddPopup() {
       this.isEditing = false;
       this.showPopup = true;
-     },
-   
+    },
+
     //Open Popup
     openPopup(author) {
       this.author = { ...author };

@@ -2,7 +2,7 @@
   <div class="book">
     <h1>Books</h1>
 
-    <button @click="openAddPopup">Add New Book</button>
+    <button @click="openAddPopup">Add Book</button>
 
     <table>
       <thead>
@@ -38,16 +38,53 @@
           <label for="BookName">Book Name:</label>
           <input v-model="book.bookName" type="text" id="bookName" required />
           <label for="Category">Category:</label>
-          <input v-model="book.category" type="text" id="category" required />
+          <select v-model="book.category" id="category" required>
+            <option value="novels">Novels</option>
+            <option value="fiction">Fiction</option>
+            <option value="non-fiction">Non-Fiction</option>
+            <option value="science-fiction">Science Fiction</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="historical-fiction">Historical Fiction</option>
+            <option value="biography">Biography</option>
+            <option value="autobiography">Autobiography</option>
+            <option value="mystery">Mystery</option>
+            <option value="thriller">Thriller</option>
+            <option value="romance">Romance</option>
+            <option value="horror">Horror</option>
+            <option value="self-help">Self-Help</option>
+            <option value="philosophy">Philosophy</option>
+            <option value="science">Science</option>
+            <option value="technology">Technology</option>
+            <option value="poetry">Poetry</option>
+            <option value="drama">Drama</option>
+            <option value="childrens-literature">Children's Literature</option>
+            <option value="young-adult">Young Adult</option>
+            <option value="travel">Travel</option>
+            <option value="cooking">Cooking</option>
+            <option value="art">Art</option>
+            <option value="graphic-novels">Graphic Novels</option>
+            <option value="religious-spiritual">Religious/Spiritual</option>
+          </select>
           <label for="AuthorID">Author ID:</label>
-          <input v-model="book.authorID" type="number" id="authorID" required />
+          <select v-model="author.authorID" id="authorID" required>
+            <option
+              v-for="author in authors"
+              :key="author.authorID"
+              :value="author.authorID"
+            >
+              {{ author.authorID }}
+            </option>
+          </select>
           <label for="PublisherID">Publisher ID:</label>
-          <input
-            v-model="book.publisherID"
-            type="number"
-            id="publisherID"
-            required
-          />
+          <select v-model="publisher.publisherID" id="publisherID" required>
+            <option
+              v-for="publisher in publishers"
+              :key="publisher.publisherID"
+              :value="publisher.publisherID"
+            >
+              {{ publisher.publisherID }}
+            </option>
+          </select>
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Book" }}
           </button>
@@ -59,6 +96,8 @@
 
 <script>
 import { Books } from "@/services/BookService";
+import { Authors } from "@/services/AuthorService";
+import { Publishers } from "@/services/PublisherService";
 export default {
   name: "BookView",
   data() {
@@ -71,6 +110,16 @@ export default {
         authorID: "",
         publisherID: "",
       },
+      authors: [],
+      author: {
+        authorID: null,
+        authorName: "",
+      },
+      publishers: [],
+      publisher: {
+        publisherID: null,
+        publisherName: "",
+      },
       ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
@@ -80,6 +129,8 @@ export default {
   },
   created: async function () {
     await this.getBooks();
+    await this.getAuthors();
+    await this.getPublishers();
   },
   methods: {
     //Get Books
@@ -91,13 +142,37 @@ export default {
         console.log(error);
       }
     },
+    //Get Authors
+    async getAuthors() {
+      try {
+        let response = await Authors.GetAllAuthors();
+        this.authors = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Get Publishers
+    async getPublishers() {
+      try {
+        let response = await Publishers.GetAllPublishers();
+        this.publishers = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     //Open Popup
+    openAddPopup() {
+      this.isEditing = false;
+      this.showPopup = true;
+    },
+
+    //Open popup
     openPopup(book) {
       this.book = { ...book };
       this.isEditing = true;
       this.showPopup = true;
     },
-    //Close Popup
+    //Close  Popup
     closePopup() {
       this.showPopup = false;
       this.book = {
@@ -109,12 +184,6 @@ export default {
       };
       this.getBooks();
     },
-    //Open Add Popup
-    openAddPopup() {
-      this.isEditing = false;
-      this.showPopup = true;
-    },
-
     // Edit Books
     async editBook() {
       this.ErrorText = null;
@@ -141,6 +210,8 @@ export default {
       this.ErrorList = [];
       try {
         this.book.bookID = 0;
+        this.book.authorID = this.author.authorID;
+        this.book.publisherID = this.publisher.publisherID;
         let response = await Books.CreateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;

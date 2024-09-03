@@ -43,27 +43,26 @@
         <span class="close" @click="ClosePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
         <form @submit.prevent="addReservation">
-          <!-- <label for="ReservationID">ReservationID:</label>
-          <input
-            v-model="reservation.ReservationID"
-            type="number"
-            id="ReservationID"
-            required
-          /> -->
           <label for="MemberID">Member ID:</label>
-          <input
-            v-model="reservation.memberID"
-            type="number"
-            id="memberID"
-            required
-          />
+          <select v-model="member.memberID" id="memberID" required>
+            <option
+              v-for="member in members"
+              :key="member.memberID"
+              :value="member.memberID"
+            >
+              {{ member.memberID }}
+            </option>
+          </select>
           <label for="BookID">Book ID:</label>
-          <input
-            v-model="reservation.bookID"
-            type="number"
-            id="bookID"
-            required
-          />
+          <select v-model="book.bookID" id="bookID" required>
+            <option
+              v-for="book in books"
+              :key="book.bookID"
+              :value="book.bookID"
+            >
+              {{ book.bookID }}
+            </option>
+          </select>
           <label for="ReservationDate">Reservation Date:</label>
           <input
             v-model="reservation.reservationDate"
@@ -72,19 +71,21 @@
             required
           />
           <label for="StaffID">Staff ID:</label>
-          <input
-            v-model="reservation.staffID"
-            type="number"
-            id="staffID"
-            required
-          />
+          <select v-model="staff.staffID" id="staffID" required>
+            <option
+              v-for="staff in staffs"
+              :key="staff.staffID"
+              :value="staff.staffID"
+            >
+              {{ staff.staffID }}
+            </option>
+          </select>
+
           <label for="Status">Status:</label>
-          <input
-            v-model="reservation.status"
-            type="text"
-            id="status"
-            required
-          />
+          <select v-model="reservation.status" id="status" required>
+            <option value="Reserved">Reserved</option>
+            <option value="Not Reserved">Not Reserved</option>
+          </select>
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Reservation" }}
           </button>
@@ -96,6 +97,10 @@
 
 <script>
 import { Resevations } from "@/services/ReservationService";
+import { Books } from "@/services/BookService";
+import { Members } from "@/services/MemberService";
+import { Staffs } from "@/services/StaffService";
+
 export default {
   name: "ReservationView",
   data() {
@@ -109,6 +114,21 @@ export default {
         staffID: "",
         bookID: "",
       },
+      books: [],
+      book: {
+        bookID: null,
+        bookName: "",
+      },
+      staffs: [],
+      staff: {
+        staffID: null,
+        staffName: "",
+      },
+      members: [],
+      member: {
+        memberID: null,
+        memberName: "",
+      },
       ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
@@ -118,6 +138,9 @@ export default {
   },
   created: async function () {
     await this.getReservations();
+    await this.getBooks();
+    await this.getMembers();
+    await this.getStaffs();
   },
   methods: {
     //Get Reservations
@@ -125,6 +148,33 @@ export default {
       try {
         let response = await Resevations.GetAllResevations();
         this.reservations = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Get Books
+    async getBooks() {
+      try {
+        let response = await Books.GetAllBooks();
+        this.books = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Get Members
+    async getMembers() {
+      try {
+        let response = await Members.GetAllMembers();
+        this.members = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Get Staff
+    async getStaffs() {
+      try {
+        let response = await Staffs.GetAllStaffs();
+        this.staffs = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -157,6 +207,9 @@ export default {
       this.ErrorList = [];
       try {
         this.reservation.reservationID = 0;
+        this.reservation.bookID = this.book.bookID;
+        this.reservation.staffID = this.staff.staffID;
+        this.reservation.memberID = this.member.memberID;
         let response = await Resevations.CreateReservation(this.reservation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;

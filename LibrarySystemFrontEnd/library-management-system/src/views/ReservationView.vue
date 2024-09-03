@@ -152,6 +152,7 @@ export default {
         console.log(error);
       }
     },
+    //Get Books
     async getBooks() {
       try {
         let response = await Books.GetAllBooks();
@@ -160,6 +161,7 @@ export default {
         console.log(error);
       }
     },
+    //Get Members
     async getMembers() {
       try {
         let response = await Members.GetAllMembers();
@@ -168,6 +170,7 @@ export default {
         console.log(error);
       }
     },
+    //Get Staff
     async getStaffs() {
       try {
         let response = await Staffs.GetAllStaffs();
@@ -204,9 +207,9 @@ export default {
       this.ErrorList = [];
       try {
         this.reservation.reservationID = 0;
-         this.reservation.bookID = this.book.bookID;
-         this.reservation.staffID = this.staff.staffID;
-         this.reservation.memberID = this.member.memberID;
+        this.reservation.bookID = this.book.bookID;
+        this.reservation.staffID = this.staff.staffID;
+        this.reservation.memberID = this.member.memberID;
         let response = await Resevations.CreateReservation(this.reservation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;

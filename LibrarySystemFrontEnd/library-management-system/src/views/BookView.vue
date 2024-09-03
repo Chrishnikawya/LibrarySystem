@@ -110,12 +110,12 @@ export default {
         authorID: "",
         publisherID: "",
       },
-      authors: [], // New array to store authors
+      authors: [],
       author: {
         authorID: null,
         authorName: "",
       },
-      publishers: [], // New array to store publishers
+      publishers: [],
       publisher: {
         publisherID: null,
         publisherName: "",
@@ -142,6 +142,7 @@ export default {
         console.log(error);
       }
     },
+    //Get Authors
     async getAuthors() {
       try {
         let response = await Authors.GetAllAuthors();
@@ -150,7 +151,7 @@ export default {
         console.log(error);
       }
     },
-
+    //Get Publishers
     async getPublishers() {
       try {
         let response = await Publishers.GetAllPublishers();

@@ -113,13 +113,13 @@ export default {
       this.showPopup = true;
      },
    
-    //Open Edit Popup
+    //Open Popup
     openPopup(author) {
       this.author = { ...author };
       this.isEditing = true;
       this.showPopup = true;
     },
-    //close edit popup
+    //close popup
     closePopup() {
       this.showPopup = false;
       this.author = {

@@ -32,27 +32,6 @@
       </tbody>
     </table>
 
-    <!-- <div v-if="showPopup" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closePopup">&times;</span>
-        <h3>Publisher Details</h3>
-        <p>
-          <strong>Publisher ID:</strong> {{ selectedPublisher.publisherID }}
-        </p>
-        <p>
-          <strong>Publisher Name:</strong> {{ selectedPublisher.publisherName }}
-        </p>
-        <p>
-          <strong>Publisher Address:</strong>
-          {{ selectedPublisher.publisherAddress }}
-        </p>
-        <p>
-          <strong>Publisher Email:</strong>
-          {{ selectedPublisher.publisherEmail }}
-        </p>
-      </div>
-    </div> -->
-
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
@@ -86,7 +65,7 @@
             id="publisherPhoneNumber"
             required
           />
-          
+
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Publisher" }}
           </button>
@@ -108,14 +87,13 @@ export default {
         publisherName: "",
         publisherAddress: "",
         publisherEmail: "",
-        PublisherPhoneNumber:""
+        PublisherPhoneNumber: "",
       },
       ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
       showPopup: false,
-      // publisher: { PublisherID: null, PublisherName: '', PublisherAddress: '', PublisherEmail: '', PublisherPhoneNumber: '' },
       isEditing: false,
     };
   },
@@ -132,21 +110,19 @@ export default {
         console.log(error);
       }
     },
-    
-  
+
     //Open Add Popup
     openAddPopup() {
       this.showPopup = true;
       this.isEditing = false;
-     
     },
-    //Open Edit Popup
+    //Open Popup
     openPopup(publisher) {
       this.publisher = { ...publisher };
       this.isEditing = true;
       this.showPopup = true;
     },
-    //Close Edit Popup
+    //Close Popup
     closePopup() {
       this.showPopup = false;
       this.publisher = {
@@ -155,7 +131,7 @@ export default {
         PublisherAddress: "",
         PublisherEmail: "",
         PublisherPhoneNumber: "",
-        };
+      };
       this.getPublishers();
     },
     //Add Publishers
@@ -163,7 +139,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-         this.publisher.publisherID = 0;
+        this.publisher.publisherID = 0;
         let response = await Publishers.CreatePublisher(this.publisher);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;

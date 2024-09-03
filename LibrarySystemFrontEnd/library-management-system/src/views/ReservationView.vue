@@ -113,7 +113,6 @@ export default {
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      //reservation: { ReservationID: null, MemberID: '', BookID: '', ReservationDate: '' },
       isEditing: false,
     };
   },
@@ -132,17 +131,16 @@ export default {
     },
     //Open Add Popup
     openAddPopup() {
-     
       this.isEditing = false;
       this.showPopup = true;
     },
-    //Open Edit Popup
+    //Open Popup
     openPopup(reservation) {
       this.reservation = { ...reservation };
       this.isEditing = true;
       this.showPopup = true;
     },
-    //Close Edit Popup
+    //Close Popup
     ClosePopup() {
       this.showPopup = false;
       this.reservation = {
@@ -158,10 +156,8 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-         this.reservation.reservationID = 0;
-        let response = await Resevations.CreateReservation(
-          this.reservation
-        );
+        this.reservation.reservationID = 0;
+        let response = await Resevations.CreateReservation(this.reservation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

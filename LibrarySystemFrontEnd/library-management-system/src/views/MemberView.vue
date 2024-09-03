@@ -28,8 +28,6 @@
       </tbody>
     </table>
 
- 
-
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
@@ -82,7 +80,6 @@ export default {
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      //member: { MemberID: null, MemberName: '', Email: '', PhoneNumber: '' },
       isEditing: false,
     };
   },
@@ -104,14 +101,14 @@ export default {
     openAddPopup() {
       this.isEditing = false;
       this.showPopup = true;
-     },
-    // Open Edit Popup
+    },
+    // Open Popup
     openPopup(member) {
       this.member = { ...member };
       this.isEditing = true;
       this.showPopup = true;
     },
-    //Close Edit Popup
+    //Close Popup
     closePopup() {
       this.showPopup = false;
       this.member = {
@@ -127,7 +124,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-         this.member.memberID = 0;
+        this.member.memberID = 0;
         let response = await Members.CreateMember(this.member);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -183,7 +180,7 @@ export default {
       }
       this.closePopup();
     },
-   }
+  },
 };
 </script>
 

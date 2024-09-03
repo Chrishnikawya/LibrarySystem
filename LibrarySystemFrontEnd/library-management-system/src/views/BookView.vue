@@ -30,8 +30,6 @@
       </tbody>
     </table>
 
-
-
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
@@ -44,7 +42,12 @@
           <label for="AuthorID">Author ID:</label>
           <input v-model="book.authorID" type="number" id="authorID" required />
           <label for="PublisherID">Publisher ID:</label>
-          <input v-model="book.publisherID" type="number" id="publisherID" required/>
+          <input
+            v-model="book.publisherID"
+            type="number"
+            id="publisherID"
+            required
+          />
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Book" }}
           </button>
@@ -72,7 +75,6 @@ export default {
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      //currentBook: { BookID: null, BookName: '', Category: '', AuthorID: null, PublisherID: null },
       isEditing: false,
     };
   },
@@ -98,20 +100,21 @@ export default {
     //Close Popup
     closePopup() {
       this.showPopup = false;
-      this.book = {bookID :null,
-      bookName:'',
-      category:'',
-      authorID: null,
-      publisherID: null,
-    };
-    this.getBooks();
+      this.book = {
+        bookID: null,
+        bookName: "",
+        category: "",
+        authorID: null,
+        publisherID: null,
+      };
+      this.getBooks();
     },
     //Open Add Popup
     openAddPopup() {
       this.isEditing = false;
       this.showPopup = true;
     },
-    
+
     // Edit Books
     async editBook() {
       this.ErrorText = null;
@@ -137,7 +140,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-         this.book.bookID = 0;
+        this.book.bookID = 0;
         let response = await Books.CreateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;

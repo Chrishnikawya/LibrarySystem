@@ -54,6 +54,7 @@ namespace LibrarySystem.Services
 
                 return resevations.Select(r => new ResevationViewModel
                 {
+                    ReservationID = r.ReservationID,
                     ReservationDate = r.ReservationDate,
                     Status = r.Status,
                     MemberID = r.MemberID,

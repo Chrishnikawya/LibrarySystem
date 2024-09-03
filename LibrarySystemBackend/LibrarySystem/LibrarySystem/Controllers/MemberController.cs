@@ -35,8 +35,9 @@ namespace LibrarySystem.Controllers
             }
         }
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-        public async Task<CommonResponse> AddMember([FromBody] MemberViewModel memberViewModel)
+        public async Task<CommonResponse> AddMember( MemberViewModel memberViewModel)
         {
             try
             {

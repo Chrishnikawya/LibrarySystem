@@ -2,7 +2,7 @@
   <div class="staff">
     <h1>Staff Members</h1>
 
-    <button @click="openAddPopup">Add Staff</button>
+    <button @click="openAddPopup">Add New Staff</button>
 
     <table>
       <thead>
@@ -15,31 +15,48 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="staff in staffs" :key="staff.StaffID">
+        <tr v-for="staff in staffs" :key="staff.staffID">
           <td>{{ staff.staffID }}</td>
           <td>{{ staff.staffName }}</td>
           <td>{{ staff.staffEmail }}</td>
           <td>{{ staff.enrollmentDate }}</td>
           <td>
-            <button @click="openEditPopup(staff)">Edit</button>
-            <button @click="removeStaff(staff.StaffID)">Remove</button>
+            <button @click="openPopup(staff)">Edit</button>
+            <button @click="removeStaff(staff.staffID)">Remove</button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div v-if="showEditPopup" class="modal">
+    <div v-if="showPopup" class="modal">
       <div class="modal-content">
-        <span class="close" @click="closeEditPopup">&times;</span>
-        <h3>{{ isEditing ? 'Edit Staff Member' : 'Add New Staff Member' }}</h3>
-        <form @submit.prevent="saveStaff">
+        <span class="close" @click="closePopup">&times;</span>
+        <h3>{{ isEditing ? "Edit Staff Member" : "Add New Staff Member" }}</h3>
+        <form @submit.prevent="addStaff">
           <label for="StaffName">Staff Name:</label>
-          <input v-model="currentStaff.StaffName" type="text" id="StaffName" required />
+          <input
+            v-model="staff.staffName"
+            type="text"
+            id="staffName"
+            required
+          />
           <label for="StaffEmail">Staff Email:</label>
-          <input v-model="currentStaff.StaffEmail" type="email" id="StaffEmail" required />
+          <input
+            v-model="staff.staffEmail"
+            type="email"
+            id="staffEmail"
+            required
+          />
           <label for="EnrollmentDate">Enrollment Date:</label>
-          <input v-model="currentStaff.EnrollmentDate" type="enrollemntdate" id="EnrolmentDate" required />
-          <button type="submit">{{ isEditing ? 'Save Changes' : 'Add Staff Member' }}</button>
+          <input
+            v-model="staff.enrollmentDate"
+            type="date"
+            id="enrollmentDate"
+            required
+          />
+          <button type="submit">
+            {{ isEditing ? "Save Changes" : "Add Staff Member" }}
+          </button>
         </form>
       </div>
     </div>
@@ -47,29 +64,29 @@
 </template>
 
 <script>
-import {Staffs} from "@/services/StaffService";
+import { Staffs } from "@/services/StaffService";
 export default {
-  name: 'StaffView',
+  name: "StaffView",
   data() {
     return {
       staffs: [],
-      staff : { 
-        staffID : null,
+      staff: {
+        staffID: null,
         staffName: "",
-        staffEmail :"",
-        enrollmentDate :"",
+        staffEmail: "",
+        enrollmentDate: "",
       },
       ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
-      showEditPopup: false,
-      //currentStaff: { StaffID: null, StaffName: '', StaffEmail: '', StaffPhoneNumber: '' },
-      isEditing: false
+      showPopup: false,
+      //staff: { StaffID: null, StaffName: '', StaffEmail: '', StaffPhoneNumber: '' },
+      isEditing: false,
     };
   },
   created: async function () {
     await this.getStaffs();
-   }, 
+  },
   methods: {
     //Get Staffs
     async getStaffs() {
@@ -82,26 +99,32 @@ export default {
     },
     //Open Add Popup
     openAddPopup() {
-      this.currentStaff = { StaffID: null, StaffName: '',StaffEmail: '', StaffPhoneNumber: '' };
+      this.showPopup = true;
       this.isEditing = false;
-      this.showEditPopup = true;
     },
-    //Open Edit Popup
-    openEditPopup(staff) {
-      this.currentStaff = { ...staff };
+    //Open Popup
+    openPopup(staff) {
+      this.staff = { ...staff };
       this.isEditing = true;
-      this.showEditPopup = true;
+      this.showPopup = true;
     },
-    //Close Edit Popup
-    closeEditPopup() {
-      this.showEditPopup = false;
-      this.currentStaff = { StaffID: null, StaffName: '', StaffPosition: '', StaffEmail: '', StaffPhoneNumber: '' };
+    //Close Popup
+    closePopup() {
+      this.showPopup = false;
+      this.staff = {
+        staffID: null,
+        staffName: "",
+        staffEmail: "",
+        enrollmentDate: "",
+      };
+      this.getStaffs();
     },
-   //Add Staff
+    //Add Staff
     async addStaff() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        this.staff.staffID = 0;
         let response = await Staffs.CreateStaff(this.staff);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -115,8 +138,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
-    }, 
+      this.closePopup();
+    },
     //Edit Staff
     async editStaff() {
       this.ErrorText = null;
@@ -135,8 +158,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
-    }, 
+      this.closePopup();
+    },
     //remove Staff
     async removeStaff(staffId) {
       this.ErrorText = null;
@@ -155,9 +178,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
-    }, 
-  }
+      this.closePopup();
+    },
+  },
 };
 </script>
 
@@ -172,7 +195,8 @@ table {
   margin-top: 20px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -225,7 +249,7 @@ button:hover {
   position: relative;
 }
 
-  .close {
+.close {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -256,6 +280,5 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #218838;
 }
-
 </style>
 

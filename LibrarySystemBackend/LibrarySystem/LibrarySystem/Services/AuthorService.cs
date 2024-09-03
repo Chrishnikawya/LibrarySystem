@@ -26,7 +26,6 @@ namespace LibrarySystem.Services
                     AuthorAddress = authorViewModel.AuthorAddress,
                     AuthorName = authorViewModel.AuthorName,
                     AuthorEmail = authorViewModel.AuthorEmail,
-                    AuthorID = authorViewModel.AuthorID,
                     AuthorPhoneNumber = authorViewModel.AuthorPhoneNumber
                 };
                 var inserted = await _unitOfWork.Repository<Author>().AddAsync(authors) != null;

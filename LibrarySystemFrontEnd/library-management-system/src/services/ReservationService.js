@@ -14,7 +14,7 @@ export class Resevations {
     });
   }
 
-  static CreateResevation(obj) {
+  static CreateReservation(obj) {
     let dataUrl = this.url;
     return axios.post(dataUrl, obj, {
       withCredentials: true,

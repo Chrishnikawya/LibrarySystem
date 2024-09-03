@@ -2,7 +2,7 @@
   <div class="book">
     <h1>Books</h1>
 
-    <button @click="openAddPopup">Add Book</button>
+    <button @click="openAddPopup">Add New Book</button>
 
     <table>
       <thead>
@@ -16,15 +16,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="book in books" :key="book.BookID">
+        <tr v-for="book in books" :key="book.bookID">
           <td>{{ book.bookID }}</td>
           <td>{{ book.bookName }}</td>
           <td>{{ book.category }}</td>
           <td>{{ book.authorID }}</td>
           <td>{{ book.publisherID }}</td>
           <td>
-            <button @click="openEditPopup(book)">Edit</button>
-            <button @click="removeBook(book.BookID)">Remove</button>
+            <button @click="openPopup(book)">Edit</button>
+            <button @click="removeBook(book.bookID)">Remove</button>
           </td>
         </tr>
       </tbody>
@@ -33,30 +33,21 @@
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
-        <h3>Book Details</h3>
-        <p><strong>Book ID:</strong> {{ selectedBook.BookID }}</p>
-        <p><strong>Book Name:</strong> {{ selectedBook.BookName }}</p>
-        <p><strong>Category:</strong> {{ selectedBook.Category }}</p>
-        <p><strong>Author ID:</strong> {{ selectedBook.AuthorID }}</p>
-        <p><strong>Publisher ID:</strong> {{ selectedBook.PublisherID }}</p>
-      </div>
-    </div>
-
-    <div v-if="showEditPopup" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closeEditPopup">&times;</span>
         <h3>{{ isEditing ? "Edit Book" : "Add New Book" }}</h3>
-        <form @submit.prevent="saveBook">
+        <form @submit.prevent="addBook">
           <label for="BookName">Book Name:</label>
-          <input v-model="book.BookName" type="text" id="BookName" required />
+          <input v-model="book.bookName" type="text" id="bookName" required />
           <label for="Category">Category:</label>
-          <input v-model="book.Category" type="text" id="Category" required />
+          <input v-model="book.category" type="text" id="category" required />
           <label for="AuthorID">Author ID:</label>
-          <input v-model="book.AuthorID" type="number" id="AuthorID" required />
+          <input v-model="book.authorID" type="number" id="authorID" required />
           <label for="PublisherID">Publisher ID:</label>
-          <input v-model="book.PublisherID" type="number" id="PublisherID" required/>
-          <label for="PublisherID">Book ID:</label>
-          <input v-model="book.BookID" type="number" id="BookID" required/>
+          <input
+            v-model="book.publisherID"
+            type="number"
+            id="publisherID"
+            required
+          />
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Book" }}
           </button>
@@ -84,9 +75,6 @@ export default {
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      showEditPopup: false,
-      selectedBook: null,
-      //currentBook: { BookID: null, BookName: '', Category: '', AuthorID: null, PublisherID: null },
       isEditing: false,
     };
   },
@@ -105,43 +93,28 @@ export default {
     },
     //Open Popup
     openPopup(book) {
-      this.selectedBook = book;
+      this.book = { ...book };
+      this.isEditing = true;
       this.showPopup = true;
     },
     //Close Popup
     closePopup() {
       this.showPopup = false;
-      this.selectedBook = null;
+      this.book = {
+        bookID: null,
+        bookName: "",
+        category: "",
+        authorID: null,
+        publisherID: null,
+      };
+      this.getBooks();
     },
     //Open Add Popup
     openAddPopup() {
-      this.book = {
-        BookID: null,
-        BookName: "",
-        Category: "",
-        AuthorID: null,
-        PublisherID: null,
-      };
       this.isEditing = false;
-      this.showEditPopup = true;
+      this.showPopup = true;
     },
-    //Open Edit popup
-    openEditPopup(book) {
-      this.book = { ...book };
-      this.isEditing = true;
-      this.showEditPopup = true;
-    },
-    //Close Edit Popup
-    closeEditPopup() {
-      this.showEditPopup = false;
-      this.book = {
-        BookID: null,
-        BookName: "",
-        Category: "",
-        AuthorID: null,
-        PublisherID: null,
-      };
-    },
+
     // Edit Books
     async editBook() {
       this.ErrorText = null;
@@ -160,13 +133,14 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     // Add Books
     async addBook() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        this.book.bookID = 0;
         let response = await Books.CreateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -180,7 +154,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     // Remove Books
     async removeBook(bookId) {
@@ -200,7 +174,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
   },
 };

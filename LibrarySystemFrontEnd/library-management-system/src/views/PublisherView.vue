@@ -11,18 +11,20 @@
           <th>Publisher Name</th>
           <th>Publisher Address</th>
           <th>Publisher Email</th>
+          <th>Publisher PhoneNumber</th>
           <th>Add or Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="publisher in publishers" :key="publisher.PublisherID">
+        <tr v-for="publisher in publishers" :key="publisher.publisherID">
           <td>{{ publisher.publisherID }}</td>
           <td>{{ publisher.publisherName }}</td>
           <td>{{ publisher.publisherAddress }}</td>
           <td>{{ publisher.publisherEmail }}</td>
+          <td>{{ publisher.publisherPhoneNumber }}</td>
           <td>
-            <button @click="openEditPopup(publisher)">Edit</button>
-            <button @click="removePublisher(publisher.PublisherID)">
+            <button @click="openPopup(publisher)">Edit</button>
+            <button @click="removePublisher(publisher.publisherID)">
               Remove
             </button>
           </td>
@@ -33,51 +35,37 @@
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
-        <h3>Publisher Details</h3>
-        <p>
-          <strong>Publisher ID:</strong> {{ selectedPublisher.PublisherID }}
-        </p>
-        <p>
-          <strong>Publisher Name:</strong> {{ selectedPublisher.PublisherName }}
-        </p>
-        <p>
-          <strong>Publisher Address:</strong>
-          {{ selectedPublisher.PublisherAddress }}
-        </p>
-        <p>
-          <strong>Publisher Email:</strong>
-          {{ selectedPublisher.PublisherEmail }}
-        </p>
-      </div>
-    </div>
-
-    <div v-if="showEditPopup" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closeEditPopup">&times;</span>
         <h3>{{ isEditing ? "Edit Publisher" : "Add New Publisher" }}</h3>
-        <form @submit.prevent="savePublisher">
+        <form @submit.prevent="addPublisher">
           <label for="PublisherName">Publisher Name:</label>
           <input
-            v-model="currentPublisher.PublisherName"
+            v-model="publisher.publisherName"
             type="text"
-            id="PublisherName"
+            id="publisherName"
             required
           />
           <label for="PublisherAddress">Publisher Address:</label>
           <input
-            v-model="currentPublisher.PublisherAddress"
+            v-model="publisher.publisherAddress"
             type="text"
-            id="PublisherAddress"
+            id="publisherAddress"
             required
           />
           <label for="PublisherEmail">Publisher Email:</label>
           <input
-            v-model="currentPublisher.PublisherEmail"
+            v-model="publisher.publisherEmail"
             type="email"
-            id="PublisherEmail"
+            id="publisherEmail"
             required
           />
-          
+          <label for="PublisherPhoneNumber">Publisher PhoneNumber:</label>
+          <input
+            v-model="publisher.publisherPhoneNumber"
+            type="text"
+            id="publisherPhoneNumber"
+            required
+          />
+
           <button type="submit">
             {{ isEditing ? "Save Changes" : "Add Publisher" }}
           </button>
@@ -99,14 +87,13 @@ export default {
         publisherName: "",
         publisherAddress: "",
         publisherEmail: "",
+        PublisherPhoneNumber: "",
       },
       ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      showEditPopup: false,
-      selectedPublisher: null,
-      // currentPublisher: { PublisherID: null, PublisherName: '', PublisherAddress: '', PublisherEmail: '', PublisherPhoneNumber: '' },
+      showPopup: false,
       isEditing: false,
     };
   },
@@ -123,50 +110,36 @@ export default {
         console.log(error);
       }
     },
-    //Open Popup
-    openPopup(publisher) {
-      this.selectedPublisher = publisher;
-      this.showPopup = true;
-    },
-    // Close Popup
-    closePopup() {
-      this.showPopup = false;
-      this.selectedPublisher = null;
-    },
+
     //Open Add Popup
     openAddPopup() {
-      this.currentPublisher = {
-        PublisherID: null,
-        PublisherName: "",
-        PublisherAddress: "",
-        PublisherEmail: "",
-        PublisherPhoneNumber: "",
-      };
+      this.showPopup = true;
       this.isEditing = false;
-      this.showEditPopup = true;
     },
-    //Open Edit Popup
-    openEditPopup(publisher) {
-      this.currentPublisher = { ...publisher };
+    //Open Popup
+    openPopup(publisher) {
+      this.publisher = { ...publisher };
       this.isEditing = true;
-      this.showEditPopup = true;
+      this.showPopup = true;
     },
-    //Close Edit Popup
-    closeEditPopup() {
-      this.showEditPopup = false;
-      this.currentPublisher = {
+    //Close Popup
+    closePopup() {
+      this.showPopup = false;
+      this.publisher = {
         PublisherID: null,
         PublisherName: "",
         PublisherAddress: "",
         PublisherEmail: "",
         PublisherPhoneNumber: "",
       };
+      this.getPublishers();
     },
     //Add Publishers
     async addPublisher() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        this.publisher.publisherID = 0;
         let response = await Publishers.CreatePublisher(this.publisher);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -180,7 +153,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     //Edit Publishers
     async editPublisher() {
@@ -200,7 +173,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     //Remove Publishers
     async removePublisher(publisherId) {
@@ -220,7 +193,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
   },
 };

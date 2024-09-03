@@ -2,7 +2,7 @@
   <div class="member">
     <h1>Members</h1>
 
-    <button @click="openAddPopup">Add Member</button>
+    <button @click="openAddPopup">Add New Member</button>
 
     <table>
       <thead>
@@ -15,14 +15,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="member in members" :key="member.MemberID">
+        <tr v-for="member in members" :key="member.memberID">
           <td>{{ member.memberID }}</td>
           <td>{{ member.memberName }}</td>
           <td>{{ member.memberEmail }}</td>
           <td>{{ member.memberPhoneNumber }}</td>
           <td>
-            <button @click="openEditPopup(member)">Edit</button>
-            <button @click="removeMember(member.MemberID)">Remove</button>
+            <button @click="openPopup(member)">Edit</button>
+            <button @click="removeMember(member.memberID)">Remove</button>
           </td>
         </tr>
       </tbody>
@@ -31,38 +31,27 @@
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
-        <h3>Member Details</h3>
-        <p><strong>Member ID:</strong> {{ selectedMember.MemberID }}</p>
-        <p><strong>Member Name:</strong> {{ selectedMember.MemberName }}</p>
-        <p><strong>Email:</strong> {{ selectedMember.Email }}</p>
-        <p><strong>Phone Number:</strong> {{ selectedMember.PhoneNumber }}</p>
-      </div>
-    </div>
-
-    <div v-if="showEditPopup" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closeEditPopup">&times;</span>
         <h3>{{ isEditing ? "Edit Member" : "Add New Member" }}</h3>
-        <form @submit.prevent="saveMember">
+        <form @submit.prevent="addMember">
           <label for="MemberName">Member Name:</label>
           <input
-            v-model="currentMember.MemberName"
+            v-model="member.memberName"
             type="text"
-            id="MemberName"
+            id="memberName"
             required
           />
           <label for="Email">Email:</label>
           <input
-            v-model="currentMember.Email"
+            v-model="member.memberEmail"
             type="email"
-            id="Email"
+            id="memberEmail"
             required
           />
           <label for="PhoneNumber">Phone Number:</label>
           <input
-            v-model="currentMember.PhoneNumber"
+            v-model="member.memberPhoneNumber"
             type="text"
-            id="PhoneNumber"
+            id="memberPhoneNumber"
             required
           />
           <button type="submit">
@@ -91,9 +80,6 @@ export default {
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      showEditPopup: false,
-      selectedMember: null,
-      //currentMember: { MemberID: null, MemberName: '', Email: '', PhoneNumber: '' },
       isEditing: false,
     };
   },
@@ -110,48 +96,35 @@ export default {
         console.log(error);
       }
     },
-    //Open Popup
+
+    //Open Add Popup
+    openAddPopup() {
+      this.isEditing = false;
+      this.showPopup = true;
+    },
+    // Open Popup
     openPopup(member) {
-      this.selectedMember = member;
+      this.member = { ...member };
+      this.isEditing = true;
       this.showPopup = true;
     },
     //Close Popup
     closePopup() {
       this.showPopup = false;
-      this.selectedMember = null;
-    },
-    //Open Add Popup
-    openAddPopup() {
-      this.currentMember = {
-        MemberID: null,
-        MemberName: "",
-        Email: "",
-        PhoneNumber: "",
+      this.member = {
+        memberID: null,
+        memberName: "",
+        memberEmail: "",
+        memberPhoneNumber: "",
       };
-      this.isEditing = false;
-      this.showEditPopup = true;
-    },
-    //Open Edit Popup
-    openEditPopup(member) {
-      this.currentMember = { ...member };
-      this.isEditing = true;
-      this.showEditPopup = true;
-    },
-    //Close Edit Popup
-    closeEditPopup() {
-      this.showEditPopup = false;
-      this.currentMember = {
-        MemberID: null,
-        MemberName: "",
-        Email: "",
-        PhoneNumber: "",
-      };
+      this.getMembers();
     },
     //Add Members
     async addMember() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        this.member.memberID = 0;
         let response = await Members.CreateMember(this.member);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -165,7 +138,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     //Edit Members
     async editMember() {
@@ -185,7 +158,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     //Remove Meembers
     async removeMember(memberId) {
@@ -205,7 +178,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
   },
 };

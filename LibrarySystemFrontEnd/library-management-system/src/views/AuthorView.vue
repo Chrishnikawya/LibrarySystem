@@ -2,8 +2,8 @@
   <div class="author">
     <h1>Authors</h1>
 
-    <button @click="openAddPopup">Add New Author</button>
-
+   <button @click="openAddPopup">Add New Author</button> 
+      
     <table>
       <thead>
         <tr>
@@ -11,18 +11,20 @@
           <th>Author Name</th>
           <th>Author Address</th>
           <th>Author Email</th>
+          <th>Author PhoneNumber</th>
           <th>Add or Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="author in authors" :key="author.AuthorID">
+        <tr v-for="author in authors" :key="author.authorID">
           <td>{{ author.authorID }}</td>
           <td>{{ author.authorName }}</td>
           <td>{{ author.authorAddress }}</td>
           <td>{{ author.authorEmail }}</td>
+          <td>{{ author.authorPhoneNumber }}</td>
           <td>
-            <button @click="openEditPopup(author)">Edit</button>
-            <button @click="removeAuthor(author.AuthorID)">Remove</button>
+            <button @click="openPopup(author)">Edit</button>
+            <button @click="removeAuthor(author.authorID)">Remove</button>
           </td>
         </tr>
       </tbody>
@@ -31,40 +33,34 @@
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
-        <h3>Author Details</h3>
-        <p><strong>Author ID:</strong> {{ selectedAuthor.AuthorID }}</p>
-        <p><strong>Author Name:</strong> {{ selectedAuthor.AuthorName }}</p>
-        <p>
-          <strong>Author Address:</strong> {{ selectedAuthor.AuthorAddress }}
-        </p>
-        <p><strong>Author Email:</strong> {{selectedAuthor.AuthorEmail }}</p>
-      </div>
-    </div>
-
-    <div v-if="showEditPopup" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closeEditPopup">&times;</span>
         <h3>{{ isEditing ? "Edit Author" : "Add New Author" }}</h3>
         <form @submit.prevent="addAuthor">
           <label for="AuthorName">Author Name:</label>
           <input
-            v-model="author.AuthorName"
+            v-model="author.authorName"
             type="text"
-            id="AuthorName"
+            id="authorName"
             required
           />
           <label for="AuthorAddress">Author Address:</label>
           <input
-            v-model="author.AuthorAddress"
+            v-model="author.authorAddress"
             type="text"
-            id="AuthorAddress"
+            id="authorAddress"
             required
           />
           <label for="AuthorEmail">Author Email:</label>
           <input
-            v-model="author.AuthorEmail"
+            v-model="author.authorEmail"
             type="email"
-            id="AuthorEmail"
+            id="authorEmail"
+            required
+          />
+          <label for="AuthorPhoneNumber">Author PhoneNumber:</label>
+          <input
+            v-model="author.authorPhoneNumber"
+            type="text"
+            id="authorPhoneNumber"
             required
           />
           <button type="submit">
@@ -94,8 +90,6 @@ export default {
       ErrorText: "",
       IsSuccess: false,
       showPopup: false,
-      showEditPopup: false,
-     
       isEditing: false,
     };
   },
@@ -114,47 +108,34 @@ export default {
       }
     },
     //Open Popup
-    openAddPopup(author) {
-      this.selectedAuthor = author;
-      this.showPopup = true;
-    },
-    //Close Popup
-    closePopup() {
-      this.showPopup = false;
-      this.selectedAuthor = null;
-    },
-    //Open Add Popup
-    openAddPopup() {
-      this.author = {
-        AuthorID: null,
-        AuthorName: "",
-        AuthorAddress: "",
-        AuthorEmail: "",
-      };
+     openAddPopup() {
       this.isEditing = false;
-      this.showEditPopup = true;
-    },
-    //Open Edit Popup
-    openEditPopup(author) {
+      this.showPopup = true;
+     },
+   
+    //Open Popup
+    openPopup(author) {
       this.author = { ...author };
       this.isEditing = true;
-      this.showEditPopup = true;
+      this.showPopup = true;
     },
-    //close edit popup
-    closeEditPopup() {
-      this.showEditPopup = false;
+    //close popup
+    closePopup() {
+      this.showPopup = false;
       this.author = {
-        AuthorID: null,
-        AuthorName: "",
-        AuthorAddress: "",
-        AuthorEmail: "",
+        authorID: null,
+        authorName: "",
+        authorAddress: "",
+        authorEmail: "",
       };
+      this.getAuthors();
     },
     // Add Authors
     async addAuthor() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        this.author.authorID = 0;
         let response = await Authors.CreateAuthor(this.author);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -168,7 +149,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     // Edit Authors
     async editAuthor() {
@@ -188,7 +169,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
     //Remove Authors
     async removeAuthor(authorId) {
@@ -208,7 +189,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.closeEditPopup();
+      this.closePopup();
     },
   },
 };

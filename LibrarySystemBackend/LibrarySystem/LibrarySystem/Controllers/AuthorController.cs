@@ -35,8 +35,9 @@ namespace LibrarySystem.Controllers
             } 
         }
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-        public async Task<CommonResponse> AddAuthor([FromBody] AuthorViewModel authorViewModel)
+        public async Task<CommonResponse> AddAuthor( AuthorViewModel authorViewModel)
         {
             try
             {

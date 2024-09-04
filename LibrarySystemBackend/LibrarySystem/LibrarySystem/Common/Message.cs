@@ -55,6 +55,15 @@
 
         public const string STAFF_EDIT_SUCCESSFUL = "Staff successfully edited.";
         public const string STAFF_EDIT_UNSUCCESSFUL = "Staff wasn't edited.";
+
+        public const string CATEGORY_ADD_SUCCESSFUL = "Category successfully added.";
+        public const string CATEGORY_ADD_UNSUCCESSFUL = "Category wasn't added.";
+
+        public const string CATEGORY_DELETE_SUCCESSFUL = "Category successfully deleted.";
+        public const string CATEGORY_DELETE_UNSUCCESSFUL = "Category wasn't deleted.";
+
+        public const string CATEGORY_EDIT_SUCCESSFUL = "Category successfully edited.";
+        public const string CATEGORY_EDIT_UNSUCCESSFUL = "Category wasn't edited.";
     }
 
 

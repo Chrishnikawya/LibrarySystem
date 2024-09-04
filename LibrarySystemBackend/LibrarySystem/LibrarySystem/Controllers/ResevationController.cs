@@ -57,8 +57,9 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-        public async Task<CommonResponse> EditResevation([FromBody] ResevationViewModel resevationViewModel)
+        public async Task<CommonResponse> EditResevation(ResevationViewModel resevationViewModel)
         {
             try
             {

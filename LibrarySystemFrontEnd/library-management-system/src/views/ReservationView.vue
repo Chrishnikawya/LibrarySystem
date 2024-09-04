@@ -42,7 +42,7 @@
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
-        <form @submit.prevent="addReservation">
+       <form @submit.prevent=" isEditing? editResevation():addReservation()">
           <label for="MemberID">Member ID:</label>
           <select v-model="member.memberID" id="memberID" required>
             <option
@@ -233,8 +233,11 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await this.Reservations.UpdateReservation(
-          this.resrevation
+        this.reservation.bookID = this.book.bookID;
+        this.reservation.staffID = this.staff.staffID;
+        this.reservation.memberID = this.member.memberID;
+        let response = await Resevations.UpdateReservation(
+          this.reservation
         );
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -255,7 +258,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await this.Reservations.CreateReservation(reservationId);
+        let response = await Resevations.CreateReservation(reservationId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

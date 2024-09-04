@@ -30,7 +30,7 @@ export class Staffs {
   }
 
   static UpdateStaff(obj) {
-    let dataUrl = this.url + obj.StaffID;
+    let dataUrl = this.url;
     return axios.put(dataUrl, obj, {
       withCredentials: true,
       credentials: "include",

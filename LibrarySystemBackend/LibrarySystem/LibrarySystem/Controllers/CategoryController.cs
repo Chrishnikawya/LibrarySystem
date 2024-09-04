@@ -60,8 +60,9 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-        public async Task<CommonResponse> EditCategory([FromBody] CategoryViewModel categoryViewModel)
+        public async Task<CommonResponse> EditCategory( CategoryViewModel categoryViewModel)
         {
             try
             {

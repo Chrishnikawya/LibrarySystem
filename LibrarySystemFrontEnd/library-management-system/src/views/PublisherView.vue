@@ -36,7 +36,7 @@
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Publisher" : "Add New Publisher" }}</h3>
-        <form @submit.prevent="addPublisher">
+        <form @submit.prevent=" isEditing? editPublisher():addPublisher()">
           <label for="PublisherName">Publisher Name:</label>
           <input
             v-model="publisher.publisherName"

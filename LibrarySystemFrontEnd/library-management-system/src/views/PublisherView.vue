@@ -66,9 +66,12 @@
             required
           />
 
-          <button type="submit">
-            {{ isEditing ? "Save Changes" : "Add Publisher" }}
-          </button>
+          <div class="form-buttons">
+            <button type="submit">
+              {{ isEditing ? "Save Changes" : "Add Publisher" }}
+            </button>
+            <button type="button" @click="closePopup">Cancel</button>
+          </div>
         </form>
       </div>
     </div>
@@ -295,12 +298,27 @@ input {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-button[type="submit"] {
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
+}
+
+button[type="submit"] {
   background-color: #28a745;
   color: white;
 }
+
 button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+button[type="button"] {
+  background-color: #28a745;
+  color: white;
+}
+
+button[type="button"]:hover {
   background-color: #218838;
 }
 </style>

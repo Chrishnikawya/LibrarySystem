@@ -9,7 +9,7 @@
         <tr>
           <th>Book ID</th>
           <th>Book Name</th>
-          <th>Category</th>
+          <th>Category ID</th>
           <th>Author ID</th>
           <th>Publisher ID</th>
           <th>Add or Edit</th>
@@ -19,7 +19,7 @@
         <tr v-for="book in books" :key="book.bookID">
           <td>{{ book.bookID }}</td>
           <td>{{ book.bookName }}</td>
-          <td>{{ book.category }}</td>
+          <td>{{ book.categoryID }}</td>
           <td>{{ book.authorID }}</td>
           <td>{{ book.publisherID }}</td>
           <td>
@@ -37,33 +37,15 @@
         <form @submit.prevent="addBook">
           <label for="BookName">Book Name:</label>
           <input v-model="book.bookName" type="text" id="bookName" required />
-          <label for="Category">Category:</label>
-          <select v-model="book.category" id="category" required>
-            <option value="novels">Novels</option>
-            <option value="fiction">Fiction</option>
-            <option value="non-fiction">Non-Fiction</option>
-            <option value="science-fiction">Science Fiction</option>
-            <option value="fantasy">Fantasy</option>
-            <option value="historical-fiction">Historical Fiction</option>
-            <option value="biography">Biography</option>
-            <option value="autobiography">Autobiography</option>
-            <option value="mystery">Mystery</option>
-            <option value="thriller">Thriller</option>
-            <option value="romance">Romance</option>
-            <option value="horror">Horror</option>
-            <option value="self-help">Self-Help</option>
-            <option value="philosophy">Philosophy</option>
-            <option value="science">Science</option>
-            <option value="technology">Technology</option>
-            <option value="poetry">Poetry</option>
-            <option value="drama">Drama</option>
-            <option value="childrens-literature">Children's Literature</option>
-            <option value="young-adult">Young Adult</option>
-            <option value="travel">Travel</option>
-            <option value="cooking">Cooking</option>
-            <option value="art">Art</option>
-            <option value="graphic-novels">Graphic Novels</option>
-            <option value="religious-spiritual">Religious/Spiritual</option>
+          <label for="CategoryID">Category ID:</label>
+          <select v-model="category.categoryID" id="categoryID" required>
+            <option
+              v-for="category in categorys"
+              :key="category.categoryID"
+              :value="category.categoryID"
+            >
+              {{ category.categoryID }}
+            </option>
           </select>
           <label for="AuthorID">Author ID:</label>
           <select v-model="author.authorID" id="authorID" required>
@@ -85,9 +67,13 @@
               {{ publisher.publisherID }}
             </option>
           </select>
-          <button type="submit">
-            {{ isEditing ? "Save Changes" : "Add Book" }}
-          </button>
+
+          <div class="form-buttons">
+            <button type="submit">
+              {{ isEditing ? "Save Changes" : "Add Book" }}
+            </button>
+            <button type="button" @click="closePopup">Cancel</button>
+          </div>
         </form>
       </div>
     </div>
@@ -98,6 +84,7 @@
 import { Books } from "@/services/BookService";
 import { Authors } from "@/services/AuthorService";
 import { Publishers } from "@/services/PublisherService";
+import { Categorys } from "@/services/CategoryService";
 export default {
   name: "BookView",
   data() {
@@ -106,7 +93,7 @@ export default {
       book: {
         bookID: null,
         bookName: "",
-        category: "",
+        categoryID: "",
         authorID: "",
         publisherID: "",
       },
@@ -120,6 +107,11 @@ export default {
         publisherID: null,
         publisherName: "",
       },
+       categorys: [],
+      category: {
+        categoryID: null,
+        categoryName: "",
+      },
       ErrorList: [],
       ErrorText: "",
       IsSuccess: false,
@@ -131,6 +123,7 @@ export default {
     await this.getBooks();
     await this.getAuthors();
     await this.getPublishers();
+    await this.getCategorys();
   },
   methods: {
     //Get Books
@@ -156,6 +149,15 @@ export default {
       try {
         let response = await Publishers.GetAllPublishers();
         this.publishers = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+     //Get Categorys
+    async getCategorys() {
+      try {
+        let response = await Categorys.GetAllCategorys();
+        this.categorys = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -212,6 +214,7 @@ export default {
         this.book.bookID = 0;
         this.book.authorID = this.author.authorID;
         this.book.publisherID = this.publisher.publisherID;
+        this.book.categoryID = this.category.categoryID;
         let response = await Books.CreateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -347,16 +350,32 @@ input {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-button[type="submit"] {
+
+.page {
+  margin-bottom: 20px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
+}
+
+button[type="submit"] {
   background-color: #28a745;
   color: white;
 }
+
 button[type="submit"]:hover {
   background-color: #218838;
 }
 
-.page {
-  margin-bottom: 20px;
+button[type="button"] {
+  background-color: #28a745;
+  color: white;
+}
+
+button[type="button"]:hover {
+  background-color: #218838;
 }
 </style>

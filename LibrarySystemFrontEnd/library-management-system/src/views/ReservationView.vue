@@ -40,7 +40,7 @@
 
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
-        <span class="close" @click="ClosePopup">&times;</span>
+        <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
         <form @submit.prevent="addReservation">
           <label for="MemberID">Member ID:</label>
@@ -86,9 +86,12 @@
             <option value="Reserved">Reserved</option>
             <option value="Not Reserved">Not Reserved</option>
           </select>
-          <button type="submit">
-            {{ isEditing ? "Save Changes" : "Add Reservation" }}
-          </button>
+          <div class="form-buttons">
+            <button type="submit">
+              {{ isEditing ? "Save Changes" : "Add Reservation" }}
+            </button>
+            <button type="button" @click="closePopup">Cancel</button>
+          </div>
         </form>
       </div>
     </div>
@@ -191,7 +194,7 @@ export default {
       this.showPopup = true;
     },
     //Close Popup
-    ClosePopup() {
+    closePopup() {
       this.showPopup = false;
       this.reservation = {
         reservationID: null,
@@ -223,7 +226,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.ClosePopup();
+      this.closePopup();
     },
     //Edit Reservations
     async editResevation() {
@@ -245,7 +248,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.ClosePopup();
+      this.closePopup();
     },
     //Remove Reservations
     async removeResevation(reservationId) {
@@ -265,7 +268,7 @@ export default {
       } catch (error) {
         console.log(error);
       }
-      this.ClosePopup();
+      this.closePopup();
     },
   },
 };
@@ -366,12 +369,27 @@ input {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-button[type="submit"] {
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
+}
+
+button[type="submit"] {
   background-color: #28a745;
   color: white;
 }
+
 button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+button[type="button"] {
+  background-color: #28a745;
+  color: white;
+}
+
+button[type="button"]:hover {
   background-color: #218838;
 }
 </style>

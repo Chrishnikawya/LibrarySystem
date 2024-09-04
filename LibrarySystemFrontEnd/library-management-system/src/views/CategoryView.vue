@@ -1,28 +1,24 @@
 <template>
-  <div class="member">
-    <h1>Members</h1>
+  <div class="category">
+    <h1>Categorys</h1>
 
-    <button @click="openAddPopup">Add New Member</button>
+    <button @click="openAddPopup">Add New Category</button>
 
     <table>
       <thead>
         <tr>
-          <th>Member ID</th>
-          <th>Member Name</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-          <th>Add or Edit</th>
+          <th>Category ID</th>
+          <th>Category Name</th>
+
         </tr>
       </thead>
       <tbody>
-        <tr v-for="member in members" :key="member.memberID">
-          <td>{{ member.memberID }}</td>
-          <td>{{ member.memberName }}</td>
-          <td>{{ member.memberEmail }}</td>
-          <td>{{ member.memberPhoneNumber }}</td>
+        <tr v-for="category in categorys" :key="category.categoryID">
+          <td>{{ category.categoryID }}</td>
+          <td>{{ category.categoryName }}</td>
           <td>
-            <button @click="openPopup(member)">Edit</button>
-            <button @click="removeMember(member.memberID)">Remove</button>
+            <button @click="openPopup(category)">Edit</button>
+            <button @click="removeCategory(category.categoryID)">Remove</button>
           </td>
         </tr>
       </tbody>
@@ -31,32 +27,18 @@
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
-        <h3>{{ isEditing ? "Edit Member" : "Add New Member" }}</h3>
-        <form @submit.prevent="addMember">
-          <label for="MemberName">Member Name:</label>
+        <h3>{{ isEditing ? "Edit Category" : "Add New Category" }}</h3>
+        <form @submit.prevent="addCategory">
+          <label for="CategoryName">Category Name:</label>
           <input
-            v-model="member.memberName"
+            v-model="category.categoryName"
             type="text"
-            id="memberName"
-            required
-          />
-          <label for="Email">Email:</label>
-          <input
-            v-model="member.memberEmail"
-            type="email"
-            id="memberEmail"
-            required
-          />
-          <label for="PhoneNumber">Phone Number:</label>
-          <input
-            v-model="member.memberPhoneNumber"
-            type="text"
-            id="memberPhoneNumber"
+            id="categoryName"
             required
           />
           <div class="form-buttons">
             <button type="submit">
-              {{ isEditing ? "Save Changes" : "Add Member" }}
+              {{ isEditing ? "Save Changes" : "Add Category" }}
             </button>
             <button type="button" @click="closePopup">Cancel</button>
           </div>
@@ -67,17 +49,15 @@
 </template>
 
 <script>
-import { Members } from "@/services/MemberService";
+import { Categorys } from "@/services/CategoryService";
 export default {
-  name: "MemberView",
+  name: "CategoryView",
   data() {
     return {
-      members: [],
-      member: {
-        memberID: null,
-        memberName: "",
-        memberEmail: "",
-        memberPhoneNumber: "",
+      categorys: [],
+      category: {
+        categoryID: null,
+        categoryName: "",
       },
       ErrorList: [],
       ErrorText: "",
@@ -87,48 +67,47 @@ export default {
     };
   },
   created: async function () {
-    await this.getMembers();
+    await this.getCategorys();
   },
+
   methods: {
-    //Get Members
-    async getMembers() {
+    //Get Categorys
+    async getCategorys() {
       try {
-        let response = await Members.GetAllMembers();
-        this.members = response.data;
+        let response = await Categorys.GetAllCategorys();
+        this.categorys = response.data;
       } catch (error) {
         console.log(error);
       }
     },
-
-    //Open Add Popup
+    //Open Popup
     openAddPopup() {
       this.isEditing = false;
       this.showPopup = true;
     },
-    // Open Popup
-    openPopup(member) {
-      this.member = { ...member };
+
+    //Open Popup
+    openPopup(category) {
+      this.category = { ...category };
       this.isEditing = true;
       this.showPopup = true;
     },
-    //Close Popup
+    //close popup
     closePopup() {
       this.showPopup = false;
-      this.member = {
-        memberID: null,
-        memberName: "",
-        memberEmail: "",
-        memberPhoneNumber: "",
+      this.category = {
+        categoryID: null,
+        categoryName: "",
       };
-      this.getMembers();
+      this.getCategorys();
     },
-    //Add Members
-    async addMember() {
+    // Add Categorys
+    async addCategory() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        this.member.memberID = 0;
-        let response = await Members.CreateMember(this.member);
+        this.category.categoryID = 0;
+        let response = await Categorys.CreateCategory(this.category);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -143,12 +122,12 @@ export default {
       }
       this.closePopup();
     },
-    //Edit Members
-    async editMember() {
+    // Edit Categorys
+    async editCategory() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Members.UpdateMember(this.member);
+        let response = await Categorys.UpdateCategory(this.category);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -163,12 +142,12 @@ export default {
       }
       this.closePopup();
     },
-    //Remove Meembers
-    async removeMember(memberId) {
+    //Remove Categorys
+    async removeCategory(categoryId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Members.DeleteMember(memberId);
+        let response = await Categorys.DeleteCategory(categoryId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -306,3 +285,4 @@ button[type="button"]:hover {
   background-color: #218838;
 }
 </style>
+

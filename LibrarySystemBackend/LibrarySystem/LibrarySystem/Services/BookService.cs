@@ -26,7 +26,7 @@ namespace LibrarySystem.Services
                     BookID = bookViewModel.BookID,
                     BookName = bookViewModel.BookName,
                     AuthorID = bookViewModel.AuthorID,
-                    Category = bookViewModel.Category,
+                    CategoryID = bookViewModel.CategoryID,
                     PublisherID = bookViewModel.PublisherID
                 };
                 var inserted = await _unitOfWork.Repository<Book>().AddAsync(books) != null;
@@ -56,7 +56,7 @@ namespace LibrarySystem.Services
                    BookID = b.BookID,
                    BookName = b.BookName,
                    AuthorID = b.AuthorID,
-                   Category = b.Category,
+                   CategoryID = b.CategoryID,
                    PublisherID = b.PublisherID
                 }).ToList();
             }
@@ -79,7 +79,7 @@ namespace LibrarySystem.Services
                     BookID = bookViewModel.BookID,
                     BookName = bookViewModel.BookName,
                     AuthorID = bookViewModel.AuthorID,
-                    Category = bookViewModel.Category,
+                    CategoryID = bookViewModel.CategoryID,
                     PublisherID = bookViewModel.PublisherID
                 };
                 var updated = await _unitOfWork.Repository<Book>()

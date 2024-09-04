@@ -34,7 +34,7 @@
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Book" : "Add New Book" }}</h3>
-        <form @submit.prevent="addBook">
+        <form @submit.prevent=" isEditing? editBook():addBook()">
           <label for="BookName">Book Name:</label>
           <input v-model="book.bookName" type="text" id="bookName" required />
           <label for="CategoryID">Category ID:</label>
@@ -191,6 +191,9 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        this.book.authorID = this.author.authorID;
+        this.book.publisherID = this.publisher.publisherID;
+        this.book.categoryID = this.category.categoryID;
         let response = await Books.UpdateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -235,6 +238,9 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        this.book.authorID = this.author.authorID;
+        this.book.publisherID = this.publisher.publisherID;
+        this.book.categoryID = this.category.categoryID;
         let response = await Books.DeleteBook(bookId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;

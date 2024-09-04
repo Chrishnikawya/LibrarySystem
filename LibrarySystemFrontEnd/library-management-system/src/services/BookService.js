@@ -31,7 +31,7 @@ export class Books {
   }
 
   static UpdateBook(obj) {
-    let dataUrl = this.url + obj.BookID;
+    let dataUrl = this.url;
     return axios.put(dataUrl, obj, {
       withCredentials: true,
       credentials: "include",

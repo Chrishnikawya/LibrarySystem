@@ -23,7 +23,7 @@ export class Categorys {
   }
 
   static UpdateCategory(obj) {
-    let dataUrl = this.url + obj.CategoryID;
+    let dataUrl = this.url;
     return axios.put(dataUrl, obj, {
       withCredentials: true,
       credentials: "include",

@@ -22,8 +22,8 @@ export class Resevations {
     });
   }
 
-  static UpdateResevation(obj) {
-    let dataUrl = this.url + obj.ResevationID;
+  static UpdateReservation(obj) {
+    let dataUrl = this.url ;
     return axios.put(dataUrl, obj, {
       withCredentials: true,
       credentials: "include",

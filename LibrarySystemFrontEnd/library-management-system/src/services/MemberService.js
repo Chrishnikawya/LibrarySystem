@@ -30,7 +30,7 @@ export class Members {
     });
   }
   static UpdateMember(obj) {
-    let dataUrl = this.url + obj.MemberID;
+    let dataUrl = this.url;
     return axios.put(dataUrl, obj, {
       withCredentials: true,
       credentials: "include",

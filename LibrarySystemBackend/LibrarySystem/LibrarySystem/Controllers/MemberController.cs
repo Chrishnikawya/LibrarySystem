@@ -57,8 +57,9 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-        public async Task<CommonResponse> EditMember([FromBody] MemberViewModel memberViewModel)
+        public async Task<CommonResponse> EditMember( MemberViewModel memberViewModel)
         {
             try
             {

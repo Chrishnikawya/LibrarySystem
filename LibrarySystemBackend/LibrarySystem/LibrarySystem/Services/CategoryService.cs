@@ -68,7 +68,8 @@ namespace LibrarySystem.Services
             try
             {
                 var categorys = new Category
-                {          
+                {     
+                    CategoryID = categoryViewModel.CategoryID,
                     CategoryName = categoryViewModel.CategoryName,
                 };
                 var updated = await _unitOfWork.Repository<Category>()

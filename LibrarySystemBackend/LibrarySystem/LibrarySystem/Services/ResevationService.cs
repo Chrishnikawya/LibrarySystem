@@ -79,6 +79,7 @@ namespace LibrarySystem.Services
             {
                 var resevations = new Resevation
                 {
+                    ReservationID = resevationViewModel.ReservationID,
                     ReservationDate = resevationViewModel.ReservationDate,
                     Status = resevationViewModel.Status,
                     MemberID = resevationViewModel.MemberID,

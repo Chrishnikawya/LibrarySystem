@@ -31,7 +31,7 @@ export class Publishers {
   }
 
   static UpdatePublisher(obj) {
-    let dataUrl = this.url + obj.PublisherID;
+    let dataUrl = this.url;
     return axios.put(dataUrl, obj, {
       withCredentials: true,
       credentials: "include",

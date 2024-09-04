@@ -28,7 +28,7 @@
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Category" : "Add New Category" }}</h3>
-        <form @submit.prevent="addCategory">
+        <form @submit.prevent=" isEditing? editCategory():addCategory()">
           <label for="CategoryName">Category Name:</label>
           <input
             v-model="category.categoryName"

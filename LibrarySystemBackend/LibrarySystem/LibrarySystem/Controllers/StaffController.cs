@@ -57,8 +57,9 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-        public async Task<CommonResponse> EditStaff([FromBody] StaffViewModel staffViewModel)
+        public async Task<CommonResponse> EditStaff( StaffViewModel staffViewModel)
         {
             try
             {

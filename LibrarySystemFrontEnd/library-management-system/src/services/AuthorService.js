@@ -23,7 +23,7 @@ export class Authors {
   }
 
   static UpdateAuthor(obj) {
-    let dataUrl = this.url + obj.AuthorID;
+    let dataUrl = this.url;
     return axios.put(dataUrl, obj, {
       withCredentials: true,
       credentials: "include",

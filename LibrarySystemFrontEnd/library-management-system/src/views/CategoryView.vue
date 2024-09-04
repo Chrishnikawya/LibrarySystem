@@ -1,30 +1,24 @@
 <template>
-  <div class="author">
-    <h1>Authors</h1>
+  <div class="category">
+    <h1>Categorys</h1>
 
-    <button @click="openAddPopup">Add New Author</button>
+    <button @click="openAddPopup">Add New Category</button>
 
     <table>
       <thead>
         <tr>
-          <th>Author ID</th>
-          <th>Author Name</th>
-          <th>Author Address</th>
-          <th>Author Email</th>
-          <th>Author PhoneNumber</th>
-          <th>Add or Edit</th>
+          <th>Category ID</th>
+          <th>Category Name</th>
+
         </tr>
       </thead>
       <tbody>
-        <tr v-for="author in authors" :key="author.authorID">
-          <td>{{ author.authorID }}</td>
-          <td>{{ author.authorName }}</td>
-          <td>{{ author.authorAddress }}</td>
-          <td>{{ author.authorEmail }}</td>
-          <td>{{ author.authorPhoneNumber }}</td>
+        <tr v-for="category in categorys" :key="category.categoryID">
+          <td>{{ category.categoryID }}</td>
+          <td>{{ category.categoryName }}</td>
           <td>
-            <button @click="openPopup(author)">Edit</button>
-            <button @click="removeAuthor(author.authorID)">Remove</button>
+            <button @click="openPopup(category)">Edit</button>
+            <button @click="removeCategory(category.categoryID)">Remove</button>
           </td>
         </tr>
       </tbody>
@@ -33,39 +27,18 @@
     <div v-if="showPopup" class="modal">
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
-        <h3>{{ isEditing ? "Edit Author" : "Add New Author" }}</h3>
-        <form @submit.prevent="addAuthor">
-          <label for="AuthorName">Author Name:</label>
+        <h3>{{ isEditing ? "Edit Category" : "Add New Category" }}</h3>
+        <form @submit.prevent="addCategory">
+          <label for="CategoryName">Category Name:</label>
           <input
-            v-model="author.authorName"
+            v-model="category.categoryName"
             type="text"
-            id="authorName"
-            required
-          />
-          <label for="AuthorAddress">Author Address:</label>
-          <input
-            v-model="author.authorAddress"
-            type="text"
-            id="authorAddress"
-            required
-          />
-          <label for="AuthorEmail">Author Email:</label>
-          <input
-            v-model="author.authorEmail"
-            type="email"
-            id="authorEmail"
-            required
-          />
-          <label for="AuthorPhoneNumber">Author PhoneNumber:</label>
-          <input
-            v-model="author.authorPhoneNumber"
-            type="text"
-            id="authorPhoneNumber"
+            id="categoryName"
             required
           />
           <div class="form-buttons">
             <button type="submit">
-              {{ isEditing ? "Save Changes" : "Add Author" }}
+              {{ isEditing ? "Save Changes" : "Add Category" }}
             </button>
             <button type="button" @click="closePopup">Cancel</button>
           </div>
@@ -76,18 +49,15 @@
 </template>
 
 <script>
-import { Authors } from "@/services/AuthorService";
+import { Categorys } from "@/services/CategoryService";
 export default {
-  name: "AuthorView",
+  name: "CategoryView",
   data() {
     return {
-      authors: [],
-      author: {
-        authorID: null,
-        authorName: "",
-        authorAddress: "",
-        authorEmail: "",
-        authorPhoneNumber: "",
+      categorys: [],
+      category: {
+        categoryID: null,
+        categoryName: "",
       },
       ErrorList: [],
       ErrorText: "",
@@ -97,15 +67,15 @@ export default {
     };
   },
   created: async function () {
-    await this.getAuthors();
+    await this.getCategorys();
   },
 
   methods: {
-    //Get Authors
-    async getAuthors() {
+    //Get Categorys
+    async getCategorys() {
       try {
-        let response = await Authors.GetAllAuthors();
-        this.authors = response.data;
+        let response = await Categorys.GetAllCategorys();
+        this.categorys = response.data;
       } catch (error) {
         console.log(error);
       }
@@ -117,29 +87,27 @@ export default {
     },
 
     //Open Popup
-    openPopup(author) {
-      this.author = { ...author };
+    openPopup(category) {
+      this.category = { ...category };
       this.isEditing = true;
       this.showPopup = true;
     },
     //close popup
     closePopup() {
       this.showPopup = false;
-      this.author = {
-        authorID: null,
-        authorName: "",
-        authorAddress: "",
-        authorEmail: "",
+      this.category = {
+        categoryID: null,
+        categoryName: "",
       };
-      this.getAuthors();
+      this.getCategorys();
     },
-    // Add Authors
-    async addAuthor() {
+    // Add Categorys
+    async addCategory() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        this.author.authorID = 0;
-        let response = await Authors.CreateAuthor(this.author);
+        this.category.categoryID = 0;
+        let response = await Categorys.CreateCategory(this.category);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -154,12 +122,12 @@ export default {
       }
       this.closePopup();
     },
-    // Edit Authors
-    async editAuthor() {
+    // Edit Categorys
+    async editCategory() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Authors.UpdateAuthor(this.author);
+        let response = await Categorys.UpdateCategory(this.category);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -174,12 +142,12 @@ export default {
       }
       this.closePopup();
     },
-    //Remove Authors
-    async removeAuthor(authorId) {
+    //Remove Categorys
+    async removeCategory(categoryId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Authors.DeleteAuthor(authorId);
+        let response = await Categorys.DeleteCategory(categoryId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

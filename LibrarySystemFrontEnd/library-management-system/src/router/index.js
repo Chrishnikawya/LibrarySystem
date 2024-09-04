@@ -9,7 +9,7 @@ import AuthorView from '../views/AuthorView.vue';
 import StaffView from '../views/StaffView.vue';
 import PublisherView from '../views/PublisherView.vue';
 import ReservationView from '../views/ReservationView.vue';
-
+import CategoryView from '../views/CategoryView.vue';
 Vue.use(Router);
 
 
@@ -29,6 +29,7 @@ const router = new Router({
     { path: '/member', name: 'Member', component: MemberView, meta: { requiresAuth: true } },
     { path: '/staff', name: 'Staff', component: StaffView, meta: { requiresAuth: true } },
     { path: '/reservation', name: 'Reservation', component: ReservationView, meta: { requiresAuth: true } },
+    { path: '/category', name: 'Category', component: CategoryView, meta: { requiresAuth: true } },
   ]
 });
 

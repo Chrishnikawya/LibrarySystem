@@ -10,6 +10,7 @@
       <router-link to="/member">Member</router-link> |
       <router-link to="/staff">Staff</router-link> |
       <router-link to="/reservation">Reservation</router-link> |
+      <router-link to="/category">Category</router-link> |
     </nav>
     <router-view/>
   </div>

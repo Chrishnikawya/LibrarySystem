@@ -12,7 +12,11 @@ namespace LibrarySystem.Services
         {
             _unitOfWork = unitOfWork;
         }
-      
+        /// <summary>
+        /// Add Category
+        /// </summary>
+        /// <param name="categoryViewModel"></param>
+        /// <returns></returns>
         public async Task<bool> AddCategoryAsync(CategoryViewModel categoryViewModel)
         {
             try
@@ -31,7 +35,10 @@ namespace LibrarySystem.Services
             }
         }
 
-   
+        /// <summary>
+        /// Get Category
+        /// </summary>
+        /// <returns></returns>
         public async Task<IList<CategoryViewModel>> GetCategoryAsync()
         {
             try
@@ -42,7 +49,8 @@ namespace LibrarySystem.Services
 
                 return categorys.Select(c => new CategoryViewModel
                 {
-                    CategoryName = c.CategoryName,
+                    CategoryID = c.CategoryID,
+                    CategoryName = c.CategoryName
                 }).ToList();
             }
             catch (Exception ex)
@@ -50,7 +58,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-       
+        /// <summary>
+        /// Edit Category
+        /// </summary>
+        /// <param name="categoryViewModel"></param>
+        /// <returns></returns>
         public async Task<bool> EditCategoryAsync(CategoryViewModel categoryViewModel)
         {
             try
@@ -68,7 +80,11 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-       
+        /// <summary>
+        /// Remove Category
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
         public async Task<bool> RemoveCategoryAsync(int categoryId)
         {
             try

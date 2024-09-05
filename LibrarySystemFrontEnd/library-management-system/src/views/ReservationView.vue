@@ -42,7 +42,7 @@
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
-       <form @submit.prevent=" isEditing? editResevation():addReservation()">
+       <form @submit.prevent=" isEditing? editReservation():addReservation()">
           <label for="MemberID">Member ID:</label>
           <select v-model="member.memberID" id="memberID" required>
             <option
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { Resevations } from "@/services/ReservationService";
+import { Reservations } from "@/services/ReservationService";
 import { Books } from "@/services/BookService";
 import { Members } from "@/services/MemberService";
 import { Staffs } from "@/services/StaffService";
@@ -149,7 +149,7 @@ export default {
     //Get Reservations
     async getReservations() {
       try {
-        let response = await Resevations.GetAllResevations();
+        let response = await Reservations.GetAllReservations();
         this.reservations = response.data;
       } catch (error) {
         console.log(error);
@@ -213,7 +213,7 @@ export default {
         this.reservation.bookID = this.book.bookID;
         this.reservation.staffID = this.staff.staffID;
         this.reservation.memberID = this.member.memberID;
-        let response = await Resevations.CreateReservation(this.reservation);
+        let response = await Reservations.CreateReservation(this.reservation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -229,14 +229,14 @@ export default {
       this.closePopup();
     },
     //Edit Reservations
-    async editResevation() {
+    async editReservation() {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
         this.reservation.bookID = this.book.bookID;
         this.reservation.staffID = this.staff.staffID;
         this.reservation.memberID = this.member.memberID;
-        let response = await Resevations.UpdateReservation(
+        let response = await Reservations.UpdateReservation(
           this.reservation
         );
         if (response.data.IsSuccess) {
@@ -254,11 +254,14 @@ export default {
       this.closePopup();
     },
     //Remove Reservations
-    async removeResevation(reservationId) {
+    async removeReservation(reservationId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-        let response = await Resevations.CreateReservation(reservationId);
+         this.reservation.bookID = this.book.bookID;
+        this.reservation.staffID = this.staff.staffID;
+        this.reservation.memberID = this.member.memberID;
+        let response = await Reservations.DeleteReservation(reservationId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {

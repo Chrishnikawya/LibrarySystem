@@ -163,7 +163,7 @@ export default {
       }
       this.closePopup();
     },
-    //Remove Meembers
+    //Remove Members
     async removeMember(memberId) {
       this.ErrorText = null;
       this.ErrorList = [];

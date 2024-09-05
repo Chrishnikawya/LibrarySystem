@@ -9,11 +9,11 @@ namespace LibrarySystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ResevationController : ControllerBase
+    public class ReservationController : ControllerBase
     {
         private readonly IResevationService _resevationService;
 
-        public ResevationController(IResevationService resevationService)
+        public ReservationController(IResevationService resevationService)
         {
             _resevationService = resevationService;
         }
@@ -78,7 +78,8 @@ namespace LibrarySystem.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{resevationId}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteResevation(int resevationId)
         {

@@ -3,10 +3,10 @@ import { MainURL } from "@/services/ApiURL";
 
 axios.defaults.headers.common["Authorization"] = "Bearer " + "";
 
-export class Resevations {
-  static url = MainURL.mainUrl + "Resevation/";
+export class Reservations {
+  static url = MainURL.mainUrl + "Reservation/";
 
-  static GetAllResevations() {
+  static GetAllReservations() {
     let dataUrl = this.url;
     return axios.get(dataUrl, {
       withCredentials: true,
@@ -29,7 +29,7 @@ export class Resevations {
       credentials: "include",
     });
   }
-  static DeleteResevation(id) {
+  static DeleteReservation(id) {
     let dataUrl = this.url + id;
     return axios.delete(dataUrl, {
       withCredentials: true,

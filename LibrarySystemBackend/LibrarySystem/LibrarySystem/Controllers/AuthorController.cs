@@ -83,7 +83,8 @@ namespace LibrarySystem.Controllers
            
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{authorId}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteAuthor(int authorId)
         {

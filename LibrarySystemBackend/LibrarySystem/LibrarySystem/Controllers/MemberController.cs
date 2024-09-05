@@ -79,7 +79,8 @@ namespace LibrarySystem.Controllers
 
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{memberId}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteMember(int memberId)
         {

@@ -74,7 +74,7 @@
   {
     "ContainingType": "LibrarySystem.Controllers.AuthorController",
     "Method": "DeleteAuthor",
-    "RelativePath": "api/Author/{id}",
+    "RelativePath": "api/Author/{authorId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -82,11 +82,6 @@
       {
         "Name": "authorId",
         "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
         "IsRequired": true
       }
     ],
@@ -176,6 +171,32 @@
   },
   {
     "ContainingType": "LibrarySystem.Controllers.BookController",
+    "Method": "DeleteBook",
+    "RelativePath": "api/Book/{bookId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LibrarySystem.Response.CommonResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LibrarySystem.Controllers.BookController",
     "Method": "Get",
     "RelativePath": "api/Book/{id}",
     "HttpMethod": "GET",
@@ -191,37 +212,6 @@
     "ReturnTypes": [
       {
         "Type": "LibrarySystem.Models.Book",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LibrarySystem.Controllers.BookController",
-    "Method": "DeleteBook",
-    "RelativePath": "api/Book/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "bookId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "LibrarySystem.Response.CommonResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -306,7 +296,7 @@
   {
     "ContainingType": "LibrarySystem.Controllers.CategoryController",
     "Method": "DeleteCategory",
-    "RelativePath": "api/Category/{id}",
+    "RelativePath": "api/Category/{categoryId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -314,11 +304,6 @@
       {
         "Name": "categoryId",
         "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
         "IsRequired": true
       }
     ],
@@ -409,7 +394,7 @@
   {
     "ContainingType": "LibrarySystem.Controllers.MemberController",
     "Method": "DeleteMember",
-    "RelativePath": "api/Member/{id}",
+    "RelativePath": "api/Member/{memberId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -417,11 +402,6 @@
       {
         "Name": "memberId",
         "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
         "IsRequired": true
       }
     ],
@@ -512,7 +492,7 @@
   {
     "ContainingType": "LibrarySystem.Controllers.PublisherController",
     "Method": "DeletePublisher",
-    "RelativePath": "api/Publisher/{id}",
+    "RelativePath": "api/Publisher/{publisherId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -520,11 +500,6 @@
       {
         "Name": "publisherId",
         "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
         "IsRequired": true
       }
     ],
@@ -541,9 +516,9 @@
     ]
   },
   {
-    "ContainingType": "LibrarySystem.Controllers.ResevationController",
+    "ContainingType": "LibrarySystem.Controllers.ReservationController",
     "Method": "GetResevations",
-    "RelativePath": "api/Resevation",
+    "RelativePath": "api/Reservation",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -561,9 +536,9 @@
     ]
   },
   {
-    "ContainingType": "LibrarySystem.Controllers.ResevationController",
+    "ContainingType": "LibrarySystem.Controllers.ReservationController",
     "Method": "AddResevation",
-    "RelativePath": "api/Resevation",
+    "RelativePath": "api/Reservation",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -587,9 +562,9 @@
     ]
   },
   {
-    "ContainingType": "LibrarySystem.Controllers.ResevationController",
+    "ContainingType": "LibrarySystem.Controllers.ReservationController",
     "Method": "EditResevation",
-    "RelativePath": "api/Resevation",
+    "RelativePath": "api/Reservation",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -613,9 +588,9 @@
     ]
   },
   {
-    "ContainingType": "LibrarySystem.Controllers.ResevationController",
+    "ContainingType": "LibrarySystem.Controllers.ReservationController",
     "Method": "DeleteResevation",
-    "RelativePath": "api/Resevation/{id}",
+    "RelativePath": "api/Reservation/{resevationId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -623,11 +598,6 @@
       {
         "Name": "resevationId",
         "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
         "IsRequired": true
       }
     ],
@@ -718,7 +688,7 @@
   {
     "ContainingType": "LibrarySystem.Controllers.StaffController",
     "Method": "DeleteStaff",
-    "RelativePath": "api/Staff/{id}",
+    "RelativePath": "api/Staff/{staffId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -726,11 +696,6 @@
       {
         "Name": "staffId",
         "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
         "IsRequired": true
       }
     ],

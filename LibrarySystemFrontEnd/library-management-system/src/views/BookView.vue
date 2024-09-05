@@ -7,21 +7,22 @@
     <table>
       <thead>
         <tr>
-          <th>Book ID</th>
           <th>Book Name</th>
-          <th>Category ID</th>
-          <th>Author ID</th>
-          <th>Publisher ID</th>
+          <th>Category Name</th>
+          <th>Author Name</th>
+          <th>Publisher Name</th>
           <th>Add or Edit</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="book in books" :key="book.bookID">
-          <td>{{ book.bookID }}</td>
           <td>{{ book.bookName }}</td>
-          <td>{{ book.categoryID }}</td>
-          <td>{{ book.authorID }}</td>
-          <td>{{ book.publisherID }}</td>
+          <td>{{ getCategoryName(book.categoryID) }}</td>
+          <!-- <td>{{ book.categoryID }}</td> -->
+          <td>{{ getAuthorName(book.authorID) }}</td>
+          <!-- <td>{{ book.authorID }}</td> -->
+          <td>{{ getPublisherName(book.publisherID) }}</td>
+          <!-- <td>{{ book.publisherID }}</td> -->
           <td>
             <button @click="openPopup(book)">Edit</button>
             <button @click="removeBook(book.bookID)">Remove</button>
@@ -37,34 +38,34 @@
         <form @submit.prevent=" isEditing? editBook():addBook()">
           <label for="BookName">Book Name:</label>
           <input v-model="book.bookName" type="text" id="bookName" required />
-          <label for="CategoryID">Category ID:</label>
+          <label for="CategoryID">Category Name:</label>
           <select v-model="category.categoryID" id="categoryID" required>
             <option
               v-for="category in categorys"
               :key="category.categoryID"
               :value="category.categoryID"
             >
-              {{ category.categoryID }}
+              {{ category.categoryName }}
             </option>
           </select>
-          <label for="AuthorID">Author ID:</label>
+          <label for="AuthorID">Author Name:</label>
           <select v-model="author.authorID" id="authorID" required>
             <option
               v-for="author in authors"
               :key="author.authorID"
               :value="author.authorID"
             >
-              {{ author.authorID }}
+              {{ author.authorName }}
             </option>
           </select>
-          <label for="PublisherID">Publisher ID:</label>
+          <label for="PublisherID">Publisher Name:</label>
           <select v-model="publisher.publisherID" id="publisherID" required>
             <option
               v-for="publisher in publishers"
               :key="publisher.publisherID"
               :value="publisher.publisherID"
             >
-              {{ publisher.publisherID }}
+              {{ publisher.publisherName }}
             </option>
           </select>
 
@@ -180,11 +181,25 @@ export default {
       this.book = {
         bookID: null,
         bookName: "",
-        category: "",
+        categoryID: "",
         authorID: null,
         publisherID: null,
       };
       this.getBooks();
+    },
+
+     getCategoryName(categoryID) {
+      const category = this.categorys.find((cat) => cat.categoryID === categoryID);
+      return category ? category.categoryName : "Unknown Category";
+    },
+    getAuthorName(authorID) {
+      const author = this.authors.find((auth) => auth.authorID === authorID);
+      return author ? author.authorName : "Unknown Author";
+    },
+    
+    getPublisherName(publisherID) {
+      const publisher = this.publishers.find((pub) => pub.publisherID === publisherID);
+      return publisher ? publisher.publisherName : "Unknown Publisher";
     },
     // Edit Books
     async editBook() {

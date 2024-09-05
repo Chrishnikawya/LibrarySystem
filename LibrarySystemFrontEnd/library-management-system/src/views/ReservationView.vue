@@ -7,11 +7,10 @@
     <table>
       <thead>
         <tr>
-          <th>Reservation ID</th>
-          <th>Member ID</th>
-          <th>Book ID</th>
+          <th>Member Name</th>
+          <th>Book Name</th>
           <th>Reservation Date</th>
-          <th>Staff ID</th>
+          <th>Staff Name</th>
           <th>Status</th>
           <th>Add or Edit</th>
         </tr>
@@ -21,11 +20,10 @@
           v-for="reservation in reservations"
           :key="reservation.reservationID"
         >
-          <td>{{ reservation.reservationID }}</td>
-          <td>{{ reservation.memberID }}</td>
-          <td>{{ reservation.bookID }}</td>
+          <td>{{ getMemberName(reservation.memberID) }}</td>
+          <td>{{ getBookName(reservation.bookID) }}</td>
           <td>{{ reservation.reservationDate }}</td>
-          <td>{{ reservation.staffID }}</td>
+           <td>{{ getStaffName(reservation.staffID) }}</td>
           <td>{{ reservation.status }}</td>
 
           <td>
@@ -43,24 +41,24 @@
         <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
        <form @submit.prevent=" isEditing? editReservation():addReservation()">
-          <label for="MemberID">Member ID:</label>
+          <label for="MemberID">Member Name:</label>
           <select v-model="member.memberID" id="memberID" required>
             <option
               v-for="member in members"
               :key="member.memberID"
               :value="member.memberID"
             >
-              {{ member.memberID }}
+              {{ member.memberName }}
             </option>
           </select>
-          <label for="BookID">Book ID:</label>
+          <label for="BookID">Book Name:</label>
           <select v-model="book.bookID" id="bookID" required>
             <option
               v-for="book in books"
               :key="book.bookID"
               :value="book.bookID"
             >
-              {{ book.bookID }}
+              {{ book.bookName }}
             </option>
           </select>
           <label for="ReservationDate">Reservation Date:</label>
@@ -70,14 +68,14 @@
             id="reservationDate"
             required
           />
-          <label for="StaffID">Staff ID:</label>
+          <label for="StaffID">Staff Name:</label>
           <select v-model="staff.staffID" id="staffID" required>
             <option
               v-for="staff in staffs"
               :key="staff.staffID"
               :value="staff.staffID"
             >
-              {{ staff.staffID }}
+              {{ staff.staffName }}
             </option>
           </select>
 
@@ -203,6 +201,18 @@ export default {
         reservationDate: "",
       };
       this.getReservations();
+    },
+      getMemberName(memberID) {
+      const member = this.members.find((mem) => mem.memberID === memberID);
+      return member ? member.memberName : "Unknown Member";
+    },
+      getBookName(bookID) {
+      const book = this.books.find((bk) => bk.bookID === bookID);
+      return book ? book.bookName : "Unknown Book";
+    },
+      getStaffName(staffID) {
+      const staff = this.staffs.find((sta) => sta.staffID === staffID);
+      return staff ? staff.staffName : "Unknown Staff";
     },
     //Add Reservations
     async addReservation() {

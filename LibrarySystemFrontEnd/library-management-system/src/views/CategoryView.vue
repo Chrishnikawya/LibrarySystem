@@ -7,14 +7,12 @@
     <table>
       <thead>
         <tr>
-          <th>Category ID</th>
           <th>Category Name</th>
 
         </tr>
       </thead>
       <tbody>
         <tr v-for="category in categorys" :key="category.categoryID">
-          <td>{{ category.categoryID }}</td>
           <td>{{ category.categoryName }}</td>
           <td>
             <button @click="openPopup(category)">Edit</button>

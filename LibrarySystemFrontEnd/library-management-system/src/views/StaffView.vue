@@ -7,7 +7,6 @@
     <table>
       <thead>
         <tr>
-          <th>Staff ID</th>
           <th>Staff Name</th>
           <th>Staff Email</th>
           <th>Enrollment Date</th>
@@ -16,7 +15,6 @@
       </thead>
       <tbody>
         <tr v-for="staff in staffs" :key="staff.staffID">
-          <td>{{ staff.staffID }}</td>
           <td>{{ staff.staffName }}</td>
           <td>{{ staff.staffEmail }}</td>
           <td>{{ staff.enrollmentDate }}</td>

@@ -23,10 +23,12 @@ namespace LibrarySystem.Services
             {
                 var member = new Member
                 {
-                    MemberID = memberViewModel.MemberID,
+                    Id = memberViewModel.MemberID,
                     MemberName = memberViewModel.MemberName,
                     MemberEmail = memberViewModel.MemberEmail,
-                    MemberPhoneNumber = memberViewModel.MemberPhoneNumber
+                    MemberPhoneNumber = memberViewModel.MemberPhoneNumber,
+                    DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var inserted = await _unitOfWork.Repository<Member>().AddAsync(member) != null;
                 return inserted;
@@ -51,7 +53,7 @@ namespace LibrarySystem.Services
 
                 return members.Select(m => new MemberViewModel
                 {
-                    MemberID = m.MemberID,
+                    MemberID = m.Id,
                     MemberName = m.MemberName,
                     MemberEmail = m.MemberEmail,
                     MemberPhoneNumber = m.MemberPhoneNumber
@@ -74,10 +76,11 @@ namespace LibrarySystem.Services
             {
                 var member = new Member
                 {
-                    MemberID = memberViewModel.MemberID,
+                    Id = memberViewModel.MemberID,
                     MemberName = memberViewModel.MemberName,
                     MemberEmail = memberViewModel.MemberEmail,
-                    MemberPhoneNumber = memberViewModel.MemberPhoneNumber
+                    MemberPhoneNumber = memberViewModel.MemberPhoneNumber,
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var updated = await _unitOfWork.Repository<Member>()
                .UpdateAsync(member) != null;
@@ -98,7 +101,7 @@ namespace LibrarySystem.Services
             try
             {
                 return await _unitOfWork.Repository<Member>()
-                .DeleteAsync(new Member() { MemberID = memberId }) > 0;
+                .DeleteAsync(new Member() { Id = memberId }) > 0;
             }
             catch (Exception ex)
             {

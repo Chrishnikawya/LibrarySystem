@@ -24,15 +24,17 @@ namespace LibrarySystem.Services
         {
             try
             {
-                var resevations = new Resevation
+                var resevations = new Reservation
                 {
                     ReservationDate =new DateTime( resevationViewModel.ReservationDate.Ticks,DateTimeKind.Utc),
                     Status = resevationViewModel.Status,
                     MemberID = resevationViewModel.MemberID,
                     StaffID = resevationViewModel.StaffID,
-                    BookID = resevationViewModel.BookID
+                    BookID = resevationViewModel.BookID,
+                    DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
-                var inserted = await _unitOfWork.Repository<Resevation>().AddAsync(resevations) != null;
+                var inserted = await _unitOfWork.Repository<Reservation>().AddAsync(resevations) != null;
                 return inserted;
             }
             catch (Exception ex)
@@ -48,13 +50,13 @@ namespace LibrarySystem.Services
         {
             try
             {
-                var resevations = await _unitOfWork.Repository<Resevation>()
+                var resevations = await _unitOfWork.Repository<Reservation>()
                 .Query()
                 .ToListAsync();
 
                 return resevations.Select(r => new ResevationViewModel
                 {
-                    ReservationID = r.ReservationID,
+                    ReservationID = r.Id,
                     ReservationDate = new DateTime(r.ReservationDate.Ticks,DateTimeKind.Utc),
                     Status = r.Status,
                     MemberID = r.MemberID,
@@ -77,16 +79,17 @@ namespace LibrarySystem.Services
         {
             try
             {
-                var resevations = new Resevation
+                var resevations = new Reservation
                 {
-                    ReservationID = resevationViewModel.ReservationID,
+                    Id = resevationViewModel.ReservationID,
                     ReservationDate = new DateTime (resevationViewModel.ReservationDate.Ticks, DateTimeKind.Utc), 
                     Status = resevationViewModel.Status,
                     MemberID = resevationViewModel.MemberID,
                     StaffID = resevationViewModel.StaffID,
-                    BookID = resevationViewModel.BookID
+                    BookID = resevationViewModel.BookID,
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
-                var updated = await _unitOfWork.Repository<Resevation>()
+                var updated = await _unitOfWork.Repository<Reservation>()
                .UpdateAsync(resevations) != null;
                 return updated;
             }
@@ -105,8 +108,8 @@ namespace LibrarySystem.Services
         {
             try
             {
-                return await _unitOfWork.Repository<Resevation>()
-                .DeleteAsync(new Resevation() { ReservationID = resevationId }) > 0;
+                return await _unitOfWork.Repository<Reservation>()
+                .DeleteAsync(new Reservation() { Id = resevationId }) > 0;
             }
             catch (Exception ex)
             {

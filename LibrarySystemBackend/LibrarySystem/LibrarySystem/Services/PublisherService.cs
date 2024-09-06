@@ -26,8 +26,10 @@ namespace LibrarySystem.Services
                     PublisherAddress = publisherViewModel.PublisherAddress,
                     PublisherName = publisherViewModel.PublisherName,
                     PublisherEmail = publisherViewModel.PublisherEmail,
-                    PublisherID = publisherViewModel.PublisherID,
-                    PublisherPhoneNumber = publisherViewModel.PublisherPhoneNumber
+                    Id = publisherViewModel.PublisherID,
+                    PublisherPhoneNumber = publisherViewModel.PublisherPhoneNumber,
+                    DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var inserted = await _unitOfWork.Repository<Publisher>().AddAsync(publisher) != null;
                 return inserted;
@@ -54,7 +56,7 @@ namespace LibrarySystem.Services
                     PublisherAddress = p.PublisherAddress,
                     PublisherName = p.PublisherName,
                     PublisherEmail = p.PublisherEmail,
-                    PublisherID = p.PublisherID,
+                    PublisherID = p.Id,
                     PublisherPhoneNumber = p.PublisherPhoneNumber
                 }).ToList();
             }
@@ -77,8 +79,9 @@ namespace LibrarySystem.Services
                     PublisherAddress = publisherViewModel.PublisherAddress,
                     PublisherName = publisherViewModel.PublisherName,
                     PublisherEmail = publisherViewModel.PublisherEmail,
-                    PublisherID = publisherViewModel.PublisherID,
-                    PublisherPhoneNumber = publisherViewModel.PublisherPhoneNumber
+                    Id = publisherViewModel.PublisherID,
+                    PublisherPhoneNumber = publisherViewModel.PublisherPhoneNumber,
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var updated = await _unitOfWork.Repository<Publisher>()
                .UpdateAsync(publisher) != null;
@@ -99,7 +102,7 @@ namespace LibrarySystem.Services
             try
             {
                 return await _unitOfWork.Repository<Publisher>()
-                .DeleteAsync(new Publisher() { PublisherID = publisherId }) > 0;
+                .DeleteAsync(new Publisher() { Id = publisherId }) > 0;
             }
             catch (Exception ex)
             {

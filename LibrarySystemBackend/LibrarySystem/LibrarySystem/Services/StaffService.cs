@@ -29,7 +29,9 @@ namespace LibrarySystem.Services
                     StaffName = staffViewModel.StaffName,
                     StaffEmail = staffViewModel.StaffEmail,
                     EnrollmentDate = staffViewModel.EnrollmentDate,
-                    StaffID = staffViewModel.StaffID
+                    Id = staffViewModel.StaffID,
+                    DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var inserted = await _unitOfWork.Repository<Staff>().AddAsync(staff) != null;
                 return inserted;
@@ -56,7 +58,7 @@ namespace LibrarySystem.Services
                     StaffName = s.StaffName,
                     StaffEmail = s.StaffEmail,
                     EnrollmentDate = s.EnrollmentDate,
-                    StaffID = s.StaffID
+                    StaffID = s.Id
                 }).ToList();
             }
             catch (Exception ex)
@@ -78,7 +80,8 @@ namespace LibrarySystem.Services
                     StaffName = staffViewModel.StaffName,
                     StaffEmail = staffViewModel.StaffEmail,
                     EnrollmentDate = staffViewModel.EnrollmentDate,
-                    StaffID = staffViewModel.StaffID
+                    Id = staffViewModel.StaffID,
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var updated = await _unitOfWork.Repository<Staff>()
                .UpdateAsync(staff) != null;
@@ -99,7 +102,7 @@ namespace LibrarySystem.Services
             try
             {
                 return await _unitOfWork.Repository<Staff>()
-                .DeleteAsync(new Staff() { StaffID = staffId }) > 0;
+                .DeleteAsync(new Staff() { Id = staffId }) > 0;
             }
             catch (Exception ex)
             {

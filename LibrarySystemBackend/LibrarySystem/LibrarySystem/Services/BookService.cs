@@ -23,7 +23,7 @@ namespace LibrarySystem.Services
             {
                 var books = new Book
                 {
-                    BookID = bookViewModel.BookID,
+                    Id = bookViewModel.BookID,
                     BookName = bookViewModel.BookName,
                     AuthorID = bookViewModel.AuthorID,
                     CategoryID = bookViewModel.CategoryID,
@@ -53,7 +53,7 @@ namespace LibrarySystem.Services
 
                 return books.Select(b => new BookViewModel
                 {
-                   BookID = b.BookID,
+                   BookID = b.Id,
                    BookName = b.BookName,
                    AuthorID = b.AuthorID,
                    CategoryID = b.CategoryID,
@@ -76,11 +76,12 @@ namespace LibrarySystem.Services
             {
                 var books = new Book
                 {
-                    BookID = bookViewModel.BookID,
+                    Id = bookViewModel.BookID,
                     BookName = bookViewModel.BookName,
                     AuthorID = bookViewModel.AuthorID,
                     CategoryID = bookViewModel.CategoryID,
-                    PublisherID = bookViewModel.PublisherID
+                    PublisherID = bookViewModel.PublisherID,
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var updated = await _unitOfWork.Repository<Book>()
                .UpdateAsync(books) != null;
@@ -101,7 +102,7 @@ namespace LibrarySystem.Services
             try
             {
                 return await _unitOfWork.Repository<Book>()
-                .DeleteAsync(new Book() { BookID = bookId }) > 0;
+                .DeleteAsync(new Book() { Id = bookId }) > 0;
             }
             catch (Exception ex)
             {

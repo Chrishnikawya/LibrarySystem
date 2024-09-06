@@ -1,12 +1,12 @@
+using LibrarySystem.Common;
 namespace LibrarySystem.Models
 {
-    public class Category
+    public class Category : DateTrackedEntity
     {
-        public int CategoryID { get; set; }
        
         public string CategoryName { get; set; }
         public ICollection<Book> Books { get; set; }
-
+      
     }
 }
 

@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
+using LibrarySystem.Common;
 
 namespace LibrarySystem.Models
 {
-    public class Resevation
+    public class Reservation : DateTrackedEntity
     {
-        [Key] 
-        public int ReservationID { get; set; }
         public int MemberID { get; set; }
         public Member Member { get; set; }
         public int StaffID { get; set; }

@@ -7,7 +7,7 @@ namespace LibrarySystem.DbContext
     public class LibraryContext : IdentityDbContext
     {
         public DbSet<Member> Members { get; set; }
-        public DbSet<Resevation> Resevations { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Book> Books { get; set; }

@@ -22,7 +22,8 @@
         >
           <td>{{ getMemberName(reservation.memberID) }}</td>
           <td>{{ getBookName(reservation.bookID) }}</td>
-          <td>{{ reservation.reservationDate }}</td>
+          <!-- <td>{{ reservation.reservationDate }}</td> -->
+          <td>{{ convertToLocalTime(reservation.reservationDate) }}</td>
            <td>{{ getStaffName(reservation.staffID) }}</td>
           <td>{{ reservation.status }}</td>
 
@@ -153,6 +154,15 @@ export default {
         console.log(error);
       }
     },
+    methods: {
+
+  // Convert UTC date to local time
+  convertToLocalTime(utcDate) {
+    const localDate = new Date(utcDate);
+    return localDate.toLocaleString(); // Converts to a readable local time format
+  },
+},
+
     //Get Books
     async getBooks() {
       try {

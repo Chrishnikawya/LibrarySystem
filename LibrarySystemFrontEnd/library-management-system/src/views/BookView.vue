@@ -18,11 +18,8 @@
         <tr v-for="book in books" :key="book.bookID">
           <td>{{ book.bookName }}</td>
           <td>{{ getCategoryName(book.categoryID) }}</td>
-          <!-- <td>{{ book.categoryID }}</td> -->
           <td>{{ getAuthorName(book.authorID) }}</td>
-          <!-- <td>{{ book.authorID }}</td> -->
           <td>{{ getPublisherName(book.publisherID) }}</td>
-          <!-- <td>{{ book.publisherID }}</td> -->
           <td>
             <button @click="openPopup(book)">Edit</button>
             <button @click="removeBook(book.bookID)">Remove</button>

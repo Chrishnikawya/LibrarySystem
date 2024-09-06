@@ -22,9 +22,8 @@
         >
           <td>{{ getMemberName(reservation.memberID) }}</td>
           <td>{{ getBookName(reservation.bookID) }}</td>
-          <!-- <td>{{ reservation.reservationDate }}</td> -->
-          <td>{{ convertToLocalTime(reservation.reservationDate) }}</td>
-           <td>{{ getStaffName(reservation.staffID) }}</td>
+          <td>{{ reservation.reservationDate }}</td>
+          <td>{{ getStaffName(reservation.staffID) }}</td>
           <td>{{ reservation.status }}</td>
 
           <td>
@@ -41,7 +40,9 @@
       <div class="modal-content">
         <span class="close" @click="closePopup">&times;</span>
         <h3>{{ isEditing ? "Edit Reservation" : "Add New Reservation" }}</h3>
-       <form @submit.prevent=" isEditing? editReservation():addReservation()">
+        <form
+          @submit.prevent="isEditing ? editReservation() : addReservation()"
+        >
           <label for="MemberID">Member Name:</label>
           <select v-model="member.memberID" id="memberID" required>
             <option
@@ -144,24 +145,37 @@ export default {
     await this.getMembers();
     await this.getStaffs();
   },
+  computed: {
+    
+  },
   methods: {
+    getLocalTime(utcDate) {
+      console.log (utcDate);
+      const localDate = new Date(utcDate);
+      return localDate.toString();
+    },
+    convertToUtc(localDate) {
+    const newLocalDate = new Date(localDate);
+    return newLocalDate.toISOString(); 
+  },
     //Get Reservations
     async getReservations() {
       try {
         let response = await Reservations.GetAllReservations();
-        this.reservations = response.data;
+        console.log (response);
+        this.reservations = response.data.map((reservation) => {
+         const localDateTime = this.getLocalTime(reservation.reservationDate);
+          console.log (reservation.reservationDate);
+          return {
+            ...reservation,
+            reservationDate: localDateTime,
+          };
+        });
+        // this.reservations = response.data;
       } catch (error) {
         console.log(error);
       }
     },
-    methods: {
-
-  // Convert UTC date to local time
-  convertToLocalTime(utcDate) {
-    const localDate = new Date(utcDate);
-    return localDate.toLocaleString(); // Converts to a readable local time format
-  },
-},
 
     //Get Books
     async getBooks() {
@@ -212,15 +226,15 @@ export default {
       };
       this.getReservations();
     },
-      getMemberName(memberID) {
+    getMemberName(memberID) {
       const member = this.members.find((mem) => mem.memberID === memberID);
       return member ? member.memberName : "Unknown Member";
     },
-      getBookName(bookID) {
+    getBookName(bookID) {
       const book = this.books.find((bk) => bk.bookID === bookID);
       return book ? book.bookName : "Unknown Book";
     },
-      getStaffName(staffID) {
+    getStaffName(staffID) {
       const staff = this.staffs.find((sta) => sta.staffID === staffID);
       return staff ? staff.staffName : "Unknown Staff";
     },
@@ -229,10 +243,12 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        const utcDate = this.convertToUtc(this.reservation.reservationDate);
         this.reservation.reservationID = 0;
         this.reservation.bookID = this.book.bookID;
         this.reservation.staffID = this.staff.staffID;
         this.reservation.memberID = this.member.memberID;
+        this.reservation.reservationDate = this.utcDate;
         let response = await Reservations.CreateReservation(this.reservation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
@@ -256,9 +272,7 @@ export default {
         this.reservation.bookID = this.book.bookID;
         this.reservation.staffID = this.staff.staffID;
         this.reservation.memberID = this.member.memberID;
-        let response = await Reservations.UpdateReservation(
-          this.reservation
-        );
+        let response = await Reservations.UpdateReservation(this.reservation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
@@ -278,7 +292,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
-         this.reservation.bookID = this.book.bookID;
+        this.reservation.bookID = this.book.bookID;
         this.reservation.staffID = this.staff.staffID;
         this.reservation.memberID = this.member.memberID;
         let response = await Reservations.DeleteReservation(reservationId);

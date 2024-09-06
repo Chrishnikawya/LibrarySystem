@@ -26,7 +26,7 @@ namespace LibrarySystem.Services
             {
                 var resevations = new Resevation
                 {
-                    ReservationDate = resevationViewModel.ReservationDate,
+                    ReservationDate =new DateTime( resevationViewModel.ReservationDate.Ticks,DateTimeKind.Utc),
                     Status = resevationViewModel.Status,
                     MemberID = resevationViewModel.MemberID,
                     StaffID = resevationViewModel.StaffID,
@@ -55,7 +55,7 @@ namespace LibrarySystem.Services
                 return resevations.Select(r => new ResevationViewModel
                 {
                     ReservationID = r.ReservationID,
-                    ReservationDate = r.ReservationDate,
+                    ReservationDate = new DateTime(r.ReservationDate.Ticks,DateTimeKind.Utc),
                     Status = r.Status,
                     MemberID = r.MemberID,
                     StaffID = r.StaffID,
@@ -80,7 +80,7 @@ namespace LibrarySystem.Services
                 var resevations = new Resevation
                 {
                     ReservationID = resevationViewModel.ReservationID,
-                    ReservationDate = resevationViewModel.ReservationDate,
+                    ReservationDate = new DateTime (resevationViewModel.ReservationDate.Ticks, DateTimeKind.Utc), 
                     Status = resevationViewModel.Status,
                     MemberID = resevationViewModel.MemberID,
                     StaffID = resevationViewModel.StaffID,

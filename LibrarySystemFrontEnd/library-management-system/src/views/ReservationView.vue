@@ -151,7 +151,7 @@ export default {
     getLocalTime(utcDate) {
       console.log(utcDate);
       const localDate = new Date(utcDate);
-      return localDate.toString();
+      return localDate.toLocaleDateString();
     },
     // Convert to UTC
     convertToUtc(localDate) {

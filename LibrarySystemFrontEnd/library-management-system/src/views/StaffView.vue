@@ -89,11 +89,29 @@ export default {
     await this.getStaffs();
   },
   methods: {
+    //Get the local time
+    getLocalTime(utcDate) {
+      console.log(utcDate);
+      const localDate = new Date(utcDate);
+      return localDate.toLocaleDateString();
+     
+    },
+    // Convert to UTC
+    convertToUtc(localDate) {
+      const newLocalDate = new Date(localDate);
+      return newLocalDate.toISOString();
+    },
     //Get Staffs
     async getStaffs() {
       try {
         let response = await Staffs.GetAllStaffs();
-        this.staffs = response.data;
+        this.staffs = response.data.map((staff) => {
+          const localDateTime = this.getLocalTime(staff.enrollmentDate);
+          return {
+            ...staff,
+            enrollmentDate: localDateTime,
+          };
+        });
       } catch (error) {
         console.log(error);
       }
@@ -125,6 +143,7 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        const utcDate = this.convertToUtc(this.staff.enrollmentDate);
         this.staff.staffID = 0;
         let response = await Staffs.CreateStaff(this.staff);
         if (response.data.IsSuccess) {

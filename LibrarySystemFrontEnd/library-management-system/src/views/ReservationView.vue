@@ -145,33 +145,30 @@ export default {
     await this.getMembers();
     await this.getStaffs();
   },
-  computed: {
-    
-  },
+  computed: {},
   methods: {
+    //Get the local time
     getLocalTime(utcDate) {
-      console.log (utcDate);
+      console.log(utcDate);
       const localDate = new Date(utcDate);
       return localDate.toString();
     },
+    // Convert to UTC
     convertToUtc(localDate) {
-    const newLocalDate = new Date(localDate);
-    return newLocalDate.toISOString(); 
-  },
+      const newLocalDate = new Date(localDate);
+      return newLocalDate.toISOString();
+    },
     //Get Reservations
     async getReservations() {
       try {
         let response = await Reservations.GetAllReservations();
-        console.log (response);
         this.reservations = response.data.map((reservation) => {
-         const localDateTime = this.getLocalTime(reservation.reservationDate);
-          console.log (reservation.reservationDate);
+          const localDateTime = this.getLocalTime(reservation.reservationDate);
           return {
             ...reservation,
             reservationDate: localDateTime,
           };
         });
-        // this.reservations = response.data;
       } catch (error) {
         console.log(error);
       }

@@ -23,7 +23,6 @@ namespace LibrarySystem.Services
             {
                 var books = new Book
                 {
-                    Id = bookViewModel.BookID,
                     BookName = bookViewModel.BookName,
                     AuthorID = bookViewModel.AuthorID,
                     CategoryID = bookViewModel.CategoryID,

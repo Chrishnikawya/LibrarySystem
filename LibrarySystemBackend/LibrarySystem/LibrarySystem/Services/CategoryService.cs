@@ -24,6 +24,8 @@ namespace LibrarySystem.Services
                 var categorys = new Category
                 {                   
                     CategoryName = categoryViewModel.CategoryName,
+                    DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var inserted = await _unitOfWork.Repository<Category>().AddAsync(categorys) != null;
                 return inserted;
@@ -49,7 +51,7 @@ namespace LibrarySystem.Services
 
                 return categorys.Select(c => new CategoryViewModel
                 {
-                    CategoryID = c.CategoryID,
+                    CategoryID = c.Id,
                     CategoryName = c.CategoryName
                 }).ToList();
             }
@@ -69,8 +71,9 @@ namespace LibrarySystem.Services
             {
                 var categorys = new Category
                 {     
-                    CategoryID = categoryViewModel.CategoryID,
+                    Id = categoryViewModel.CategoryID,
                     CategoryName = categoryViewModel.CategoryName,
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var updated = await _unitOfWork.Repository<Category>()
                .UpdateAsync(categorys) != null;
@@ -91,7 +94,7 @@ namespace LibrarySystem.Services
             try
             {
                 return await _unitOfWork.Repository<Category>()
-                .DeleteAsync(new Category() { CategoryID = categoryId }) > 0;
+                .DeleteAsync(new Category() { Id = categoryId }) > 0;
             }
             catch (Exception ex)
             {

@@ -26,7 +26,9 @@ namespace LibrarySystem.Services
                     AuthorAddress = authorViewModel.AuthorAddress,
                     AuthorName = authorViewModel.AuthorName,
                     AuthorEmail = authorViewModel.AuthorEmail,
-                    AuthorPhoneNumber = authorViewModel.AuthorPhoneNumber
+                    AuthorPhoneNumber = authorViewModel.AuthorPhoneNumber,
+                    DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var inserted = await _unitOfWork.Repository<Author>().AddAsync(authors) != null;
                 return inserted;
@@ -55,7 +57,7 @@ namespace LibrarySystem.Services
                     AuthorAddress = a.AuthorAddress,
                     AuthorName = a.AuthorName,
                     AuthorEmail = a.AuthorEmail,
-                    AuthorID = a.AuthorID,
+                    AuthorID = a.Id,
                     AuthorPhoneNumber = a.AuthorPhoneNumber
                 }).ToList();
             }
@@ -78,8 +80,9 @@ namespace LibrarySystem.Services
                     AuthorAddress = authorViewModel.AuthorAddress,
                     AuthorName = authorViewModel.AuthorName,
                     AuthorEmail = authorViewModel.AuthorEmail,
-                    AuthorID = authorViewModel.AuthorID,
-                    AuthorPhoneNumber = authorViewModel.AuthorPhoneNumber
+                    Id = authorViewModel.AuthorID,
+                    AuthorPhoneNumber = authorViewModel.AuthorPhoneNumber,
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var updated = await _unitOfWork.Repository<Author>()
                .UpdateAsync(authors) != null;
@@ -100,7 +103,7 @@ namespace LibrarySystem.Services
             try
             {
                 return await _unitOfWork.Repository<Author>()
-                .DeleteAsync(new Author() { AuthorID = authorId }) > 0;
+                .DeleteAsync(new Author() { Id = authorId }) > 0;
             }
             catch (Exception ex)
             {

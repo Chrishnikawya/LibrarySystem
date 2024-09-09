@@ -7,7 +7,6 @@
     <table>
       <thead>
         <tr>
-          <th>Publisher ID</th>
           <th>Publisher Name</th>
           <th>Publisher Address</th>
           <th>Publisher Email</th>
@@ -17,7 +16,6 @@
       </thead>
       <tbody>
         <tr v-for="publisher in publishers" :key="publisher.publisherID">
-          <td>{{ publisher.publisherID }}</td>
           <td>{{ publisher.publisherName }}</td>
           <td>{{ publisher.publisherAddress }}</td>
           <td>{{ publisher.publisherEmail }}</td>

@@ -7,7 +7,6 @@
     <table>
       <thead>
         <tr>
-          <th>Author ID</th>
           <th>Author Name</th>
           <th>Author Address</th>
           <th>Author Email</th>
@@ -17,7 +16,6 @@
       </thead>
       <tbody>
         <tr v-for="author in authors" :key="author.authorID">
-          <td>{{ author.authorID }}</td>
           <td>{{ author.authorName }}</td>
           <td>{{ author.authorAddress }}</td>
           <td>{{ author.authorEmail }}</td>

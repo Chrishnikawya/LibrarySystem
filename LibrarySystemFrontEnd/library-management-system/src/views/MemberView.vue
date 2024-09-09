@@ -7,7 +7,6 @@
     <table>
       <thead>
         <tr>
-          <th>Member ID</th>
           <th>Member Name</th>
           <th>Email</th>
           <th>Phone Number</th>
@@ -16,7 +15,6 @@
       </thead>
       <tbody>
         <tr v-for="member in members" :key="member.memberID">
-          <td>{{ member.memberID }}</td>
           <td>{{ member.memberName }}</td>
           <td>{{ member.memberEmail }}</td>
           <td>{{ member.memberPhoneNumber }}</td>

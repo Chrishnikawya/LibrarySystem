@@ -29,7 +29,6 @@ namespace LibrarySystem.Services
                     StaffName = staffViewModel.StaffName,
                     StaffEmail = staffViewModel.StaffEmail,
                     EnrollmentDate = staffViewModel.EnrollmentDate,
-                    Id = staffViewModel.StaffID,
                     DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                     DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };

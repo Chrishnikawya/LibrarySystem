@@ -26,7 +26,6 @@ namespace LibrarySystem.Services
                     PublisherAddress = publisherViewModel.PublisherAddress,
                     PublisherName = publisherViewModel.PublisherName,
                     PublisherEmail = publisherViewModel.PublisherEmail,
-                    Id = publisherViewModel.PublisherID,
                     PublisherPhoneNumber = publisherViewModel.PublisherPhoneNumber,
                     DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                     DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),

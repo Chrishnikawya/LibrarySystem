@@ -23,7 +23,6 @@ namespace LibrarySystem.Services
             {
                 var member = new Member
                 {
-                    Id = memberViewModel.MemberID,
                     MemberName = memberViewModel.MemberName,
                     MemberEmail = memberViewModel.MemberEmail,
                     MemberPhoneNumber = memberViewModel.MemberPhoneNumber,

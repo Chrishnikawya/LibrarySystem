@@ -27,7 +27,9 @@ namespace LibrarySystem.Services
                     BookName = bookViewModel.BookName,
                     AuthorID = bookViewModel.AuthorID,
                     CategoryID = bookViewModel.CategoryID,
-                    PublisherID = bookViewModel.PublisherID
+                    PublisherID = bookViewModel.PublisherID,
+                    DateCreated = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
+                    DateModified = new DateTime(DateTime.UtcNow.Ticks, DateTimeKind.Utc),
                 };
                 var inserted = await _unitOfWork.Repository<Book>().AddAsync(books) != null;
                 return inserted;

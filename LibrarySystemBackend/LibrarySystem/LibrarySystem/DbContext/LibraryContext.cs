@@ -1,6 +1,7 @@
 ﻿using LibrarySystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using LibrarySystem.Configuration;
 
 namespace LibrarySystem.DbContext
 {
@@ -13,10 +14,18 @@ namespace LibrarySystem.DbContext
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Category> Categorys { get; set; }
-        public LibraryContext(DbContextOptions options)
-: base(options)
+        public LibraryContext(DbContextOptions options): base(options)
         {
-        }   
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(f => f.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+            FluentConfiguration.Configure(modelBuilder);
+        }
     }
 
 }

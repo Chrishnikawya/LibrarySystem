@@ -8,6 +8,8 @@
       <thead>
         <tr>
           <th>Category Name</th>
+          <th>Add or Edit</th>
+
 
         </tr>
       </thead>

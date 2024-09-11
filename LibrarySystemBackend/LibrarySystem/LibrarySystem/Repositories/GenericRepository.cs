@@ -61,6 +61,17 @@ namespace LibrarySystem.Repositories
         {
             return await _dbContext.Set<T>().SingleOrDefaultAsync(predicate);
         }
+
+        public async Task<T> GetByUniqueIdAsync(string id)
+        {
+            return await _dbContext.Set<T>().FindAsync(id);
+        }
+
+        public ICollection<T> GetAll()
+        {
+            return _dbContext.Set<T>().ToList();
+        }
+
     }
 }
 

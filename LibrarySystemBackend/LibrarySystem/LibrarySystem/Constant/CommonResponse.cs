@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.Response
+﻿namespace LibrarySystem.Constant
 {
     public class CommonResponse
     {  

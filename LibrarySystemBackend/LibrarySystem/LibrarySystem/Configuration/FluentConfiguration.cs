@@ -29,6 +29,7 @@ namespace LibrarySystem.Configuration
                       .WithMany(b => b.Reservations)
                       .HasForeignKey(r => r.BookID)
                       .IsRequired();
+                entity.ToTable("Reservations");
             });
 
             #endregion
@@ -53,6 +54,7 @@ namespace LibrarySystem.Configuration
                       .WithMany(p => p.Books)
                       .HasForeignKey(b => b.PublisherID)
                       .IsRequired();
+                entity.ToTable("Books");
             });
             #endregion
 

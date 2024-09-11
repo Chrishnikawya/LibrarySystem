@@ -10,6 +10,9 @@ namespace LibrarySystem.Repositories
             Task<T> AddAsync(T entity);
             Task<int> DeleteAsync(T entity);
             Task<T> UpdateAsync(T entity);
+            Task<T> GetByUniqueIdAsync(string id);
+            Task<ICollection<T>> GetAll();
+
         IQueryable<T> Query();
         Task<T> FindAsync(Expression<Func<T, bool>> predicate);
 

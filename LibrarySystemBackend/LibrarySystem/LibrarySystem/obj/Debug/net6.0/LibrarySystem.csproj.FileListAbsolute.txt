@@ -72,3 +72,5 @@ C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\obj\Debu
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\obj\Debug\net6.0\LibrarySystem.pdb
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\obj\Debug\net6.0\LibrarySystem.genruntimeconfig.cache
 C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\obj\Debug\net6.0\ref\LibrarySystem.dll
+C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Ateam\LibrarySystem\LibrarySystemBackend\LibrarySystem\LibrarySystem\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll

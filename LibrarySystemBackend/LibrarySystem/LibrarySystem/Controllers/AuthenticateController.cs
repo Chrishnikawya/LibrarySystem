@@ -8,6 +8,7 @@ using System.Text;
 using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using LibrarySystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -32,8 +33,9 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+        public async Task<IActionResult> Login( LoginViewModel model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
@@ -63,8 +65,9 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
        
         {
             try

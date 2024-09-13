@@ -62,6 +62,7 @@ export default {
       IsSuccess: false,
     };
   },
+  //handling user registration
   methods: {
     async register() {
       try {

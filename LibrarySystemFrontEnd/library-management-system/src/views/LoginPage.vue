@@ -18,7 +18,7 @@
           required 
         />
       </div>
-      <div class="form-group">
+      <div class="form-group inline-options">
         <label>
           <input 
             type="checkbox" 
@@ -83,18 +83,39 @@ h1 {
 
 .form-group {
   margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
 }
 
-input[type="email"],
+input[type="text"],
 input[type="password"] {
   width: 100%;
   padding: 12px;
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  margin-bottom: 10px;
+}
+
+.inline-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 12px;
+  color: #333;
+  margin-right: auto;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.forgot-password {
+  font-size: 12px;
+  color: #6c63ff;
+  text-decoration: none;
+  margin-left: auto;
 }
 
 .login-btn {
@@ -112,13 +133,6 @@ input[type="password"] {
   background-color: #3c4dce;
 }
 
-.forgot-password {
-  font-size: 12px;
-  color: #6c63ff;
-  text-decoration: none;
-  margin-left: auto;
-}
-
 .signup-link {
   margin-top: 10px;
   font-size: 14px;
@@ -128,14 +142,5 @@ input[type="password"] {
 .signup-link a {
   color: #6c63ff;
   text-decoration: none;
-}
-
-label {
-  font-size: 12px;
-  color: #333;
-}
-
-input[type="checkbox"] {
-  margin-right: 5px;
 }
 </style>

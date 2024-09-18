@@ -10,7 +10,6 @@ import StaffView from '../views/StaffView.vue';
 import PublisherView from '../views/PublisherView.vue';
 import ReservationView from '../views/ReservationView.vue';
 import CategoryView from '../views/CategoryView.vue';
-import NavBar from '../components/NavBar.vue';
 Vue.use(Router);
 
 

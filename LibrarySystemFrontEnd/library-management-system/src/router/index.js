@@ -20,8 +20,8 @@ const isAuthenticated = () => {
 const router = new Router({
   mode: 'history',
   routes: [
-    { path: '/', name: 'Home', component: HomePage },
-    { path: '/login', name: 'Login', component: LoginPage },
+    { path: '/home', name: 'Home', component: HomePage },
+    { path: '/', name: 'Login', component: LoginPage },
     { path: '/signup', name: 'Signup', component: SignupPage },
     { path: '/book', name: 'Book', component: BookView, meta: { requiresAuth: true } },
     { path: '/author', name: 'Author', component: AuthorView, meta: { requiresAuth: true } },
@@ -37,7 +37,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!isAuthenticated()) {
-      next('/login'); 
+      next('/'); 
     } else {
       next();
     }

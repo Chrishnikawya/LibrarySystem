@@ -68,7 +68,7 @@ export default {
       try {
         let response = await Auth.Register(this.user);
         localStorage.setItem("token", response.token);
-        this.$router.push("/login");
+        this.$router.push("/");
       } catch (error) {
         console.log(error);
       }

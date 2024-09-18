@@ -8,7 +8,7 @@ export default {
   computed: {
     showNavBar() {
       const currentPath = this.$route.path;
-      return currentPath !== '/login' && currentPath !== '/signup';
+      return currentPath !== '/' && currentPath !== '/signup';
     }
   }
 }

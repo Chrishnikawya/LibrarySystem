@@ -1,4 +1,6 @@
 <template>
+<div>
+<NavBar/>
   <div class="home-container">
     <h1 class="title">Welcome to the Library Management System!</h1>
     <p class="description">
@@ -7,15 +9,15 @@
     <div class="image-container">
       <img src="@/assets/lib.jpeg" alt="Library Image" class="library-image" />
     </div>
-    <div class="info">
-      <!-- Additional content can go here -->
-    </div>
   </div>
+</div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 export default {
   name: "HomePage",
+  components : {NavBar},
 };
 </script>
 

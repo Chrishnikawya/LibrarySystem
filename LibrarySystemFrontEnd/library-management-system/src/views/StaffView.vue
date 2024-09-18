@@ -1,4 +1,6 @@
 <template>
+<div>
+<NavBar/>
   <div class="staff">
     <h1>Staff Members</h1>
 
@@ -62,12 +64,15 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import { Staffs } from "@/services/StaffService";
 export default {
   name: "StaffView",
+   components : {NavBar},
   data() {
     return {
       staffs: [],

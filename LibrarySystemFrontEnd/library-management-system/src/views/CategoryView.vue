@@ -1,4 +1,6 @@
 <template>
+<div>
+<NavBar/>
   <div class="category">
     <h1>Categorys</h1>
 
@@ -46,12 +48,15 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import { Categorys } from "@/services/CategoryService";
 export default {
   name: "CategoryView",
+   components : {NavBar},
   data() {
     return {
       categorys: [],

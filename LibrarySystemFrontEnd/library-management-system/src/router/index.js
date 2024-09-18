@@ -10,11 +10,12 @@ import StaffView from '../views/StaffView.vue';
 import PublisherView from '../views/PublisherView.vue';
 import ReservationView from '../views/ReservationView.vue';
 import CategoryView from '../views/CategoryView.vue';
+import NavBar from '../components/NavBar.vue';
 Vue.use(Router);
 
 
 const isAuthenticated = () => {
-  return !!localStorage.getItem('authToken'); 
+  return !!localStorage.getItem('token'); 
 };
 
 const router = new Router({
@@ -30,8 +31,20 @@ const router = new Router({
     { path: '/staff', name: 'Staff', component: StaffView, meta: { requiresAuth: true } },
     { path: '/reservation', name: 'Reservation', component: ReservationView, meta: { requiresAuth: true } },
     { path: '/category', name: 'Category', component: CategoryView, meta: { requiresAuth: true } },
+
   ]
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated()) {
+      next('/login'); 
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

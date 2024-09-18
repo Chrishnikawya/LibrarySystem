@@ -1,4 +1,6 @@
 <template>
+<div>
+<NavBar/>
   <div class="member">
     <h1>Members</h1>
 
@@ -62,12 +64,15 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import { Members } from "@/services/MemberService";
 export default {
   name: "MemberView",
+   components : {NavBar},
   data() {
     return {
       members: [],

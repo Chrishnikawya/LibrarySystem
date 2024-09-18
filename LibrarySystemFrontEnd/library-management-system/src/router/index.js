@@ -14,14 +14,14 @@ Vue.use(Router);
 
 
 const isAuthenticated = () => {
-  return !!localStorage.getItem('authToken'); 
+  return !!localStorage.getItem('token'); 
 };
 
 const router = new Router({
   mode: 'history',
   routes: [
-    { path: '/', name: 'Home', component: HomePage },
-    { path: '/login', name: 'Login', component: LoginPage },
+    { path: '/home', name: 'Home', component: HomePage },
+    { path: '/', name: 'Login', component: LoginPage },
     { path: '/signup', name: 'Signup', component: SignupPage },
     { path: '/book', name: 'Book', component: BookView, meta: { requiresAuth: true } },
     { path: '/author', name: 'Author', component: AuthorView, meta: { requiresAuth: true } },
@@ -30,8 +30,20 @@ const router = new Router({
     { path: '/staff', name: 'Staff', component: StaffView, meta: { requiresAuth: true } },
     { path: '/reservation', name: 'Reservation', component: ReservationView, meta: { requiresAuth: true } },
     { path: '/category', name: 'Category', component: CategoryView, meta: { requiresAuth: true } },
+
   ]
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated()) {
+      next('/'); 
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

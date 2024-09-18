@@ -1,24 +1,16 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/signup">Signup</router-link> |
-      <router-link to="/book">Book</router-link> |
-      <router-link to="/author">Author</router-link> |
-      <router-link to="/publisher">Publisher</router-link> |
-      <router-link to="/member">Member</router-link> |
-      <router-link to="/staff">Staff</router-link> |
-      <router-link to="/reservation">Reservation</router-link> |
-      <router-link to="/category">Category</router-link> |
-    </nav>
-    <router-view/>
-  </div>
+    <router-view />
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    showNavBar() {
+      const currentPath = this.$route.path;
+      return currentPath !== '/' && currentPath !== '/signup';
+    }
+  }
 }
 </script>
 
@@ -49,11 +41,9 @@ a.router-link-active {
 
 .page {
   margin-bottom: 20px;
-  }
-
-  .spacer {
-  flex-grow: 11; 
 }
 
+.spacer {
+  flex-grow: 11; 
+}
 </style>
-

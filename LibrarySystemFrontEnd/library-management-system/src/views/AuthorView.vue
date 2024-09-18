@@ -1,4 +1,6 @@
 <template>
+<div>
+<NavBar/>
   <div class="author">
     <h1>Authors</h1>
 
@@ -71,12 +73,15 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import { Authors } from "@/services/AuthorService";
 export default {
   name: "AuthorView",
+   components : {NavBar},
   data() {
     return {
       authors: [],

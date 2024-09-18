@@ -1,4 +1,6 @@
 <template>
+<div>
+<NavBar/>
   <div class="publisher">
     <h1>Publishers</h1>
 
@@ -74,12 +76,15 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import { Publishers } from "@/services/PublisherService";
 export default {
   name: "PublisherView",
+   components : {NavBar},
   data() {
     return {
       publishers: [],

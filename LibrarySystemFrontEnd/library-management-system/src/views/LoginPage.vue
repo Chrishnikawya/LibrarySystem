@@ -55,14 +55,14 @@ export default {
       try {
         const response = await Auth.Login(this.user);
         localStorage.setItem('token', response.token);
-        this.$router.push('/');
+        this.$router.push('/home');
       } catch (error) {
         console.error(error);
       }
     },
   },
 };
-</script>
+0</script>
 
 <style scoped>
 .login-container {

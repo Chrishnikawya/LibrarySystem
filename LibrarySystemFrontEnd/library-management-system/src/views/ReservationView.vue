@@ -1,4 +1,6 @@
 <template>
+<div>
+<NavBar/>
   <div class="reservation">
     <h1>Reservations</h1>
 
@@ -96,9 +98,11 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import { Reservations } from "@/services/ReservationService";
 import { Books } from "@/services/BookService";
 import { Members } from "@/services/MemberService";
@@ -106,6 +110,7 @@ import { Staffs } from "@/services/StaffService";
 
 export default {
   name: "ReservationView",
+   components : {NavBar},
   data() {
     return {
       reservations: [],

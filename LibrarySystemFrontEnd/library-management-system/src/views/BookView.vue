@@ -1,4 +1,6 @@
 <template>
+<div>
+<NavBar/>
   <div class="book">
     <h1>Books</h1>
 
@@ -76,15 +78,18 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
 import { Books } from "@/services/BookService";
 import { Authors } from "@/services/AuthorService";
 import { Publishers } from "@/services/PublisherService";
 import { Categorys } from "@/services/CategoryService";
 export default {
   name: "BookView",
+   components : {NavBar},
   data() {
     return {
       books: [],

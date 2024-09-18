@@ -20,17 +20,24 @@
 
 <script>
 export default {
+  data() {
+    return {
+      username: ''
+    };
+  },
+  mounted() {
+    this.username = localStorage.getItem('username'); 
+  },
   methods: {
     logout() {
       localStorage.removeItem('token');
+      localStorage.removeItem('username'); 
       this.$router.push('/');
     }
-  },
-   mounted() {
-    this.username = localStorage.getItem('username') || 'Guest';
   }
 }
 </script>
+
 
 <style scoped>
 nav {
@@ -73,11 +80,11 @@ button {
   color: white;
   border: none;
   padding: 5px 15px;
-  border-radius: 3px; 
+  border-radius: 3px;
   font-size: 16px; 
 }
 
 button:hover {
-  background-color: rgb(0, 200, 150);
+  background-color: rgb(0, 200, 150); 
 }
 </style>

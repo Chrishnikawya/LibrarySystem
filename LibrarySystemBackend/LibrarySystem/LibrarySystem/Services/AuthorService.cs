@@ -50,6 +50,7 @@ namespace LibrarySystem.Services
             {
                 var authors = await _unitOfWork.Repository<Author>()
                 .Query()
+                .OrderBy(a => a.AuthorName)
                  .ToListAsync();
 
                 return authors.Select(a => new AuthorViewModel

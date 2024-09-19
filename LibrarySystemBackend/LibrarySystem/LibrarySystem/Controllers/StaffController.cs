@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LibrarySystem.Controllers
 {
@@ -19,7 +20,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(List<StaffViewModel>), StatusCodes.Status200OK)]
         public async Task<List<StaffViewModel>> GetStaffs()
         {
@@ -35,7 +36,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddStaff( StaffViewModel staffViewModel)
         {
@@ -57,7 +58,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> EditStaff( StaffViewModel staffViewModel)
         {
@@ -79,7 +80,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpDelete("{staffId}")]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteStaff(int staffId)
         {

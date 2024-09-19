@@ -64,6 +64,15 @@
 
         public const string CATEGORY_EDIT_SUCCESSFUL = "Category successfully edited.";
         public const string CATEGORY_EDIT_UNSUCCESSFUL = "Category wasn't edited.";
+
+        public const string AUTHENTICATE_ADD_SUCCESSFUL = "Authenticate successfully added.";
+        public const string AUTHENTICATE_ADD_UNSUCCESSFUL = "Authenticate wasn't added.";
+
+        public const string AUTHENTICATE_DELETE_SUCCESSFUL = "Authenticate successfully deleted.";
+        public const string AUTHENTICATE_DELETE_UNSUCCESSFUL = "Authenticate wasn't deleted.";
+
+        public const string AUTHENTICATE_EDIT_SUCCESSFUL = "Authenticate successfully edited.";
+        public const string AUTHENTICATE_EDIT_UNSUCCESSFUL = "Authenticate wasn't edited.";
     }
 
 

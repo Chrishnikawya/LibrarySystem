@@ -5,6 +5,7 @@ using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using LibrarySystem.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LibrarySystem.Controllers
 {
@@ -20,7 +21,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(List<PublisherViewModel>), StatusCodes.Status200OK)]
         public async Task<List<PublisherViewModel>> GetPublisher()
         {
@@ -36,7 +37,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddPublisher( PublisherViewModel publisherViewModel)
         {
@@ -58,7 +59,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> EditPublisher( PublisherViewModel publisherViewModel)
         {
@@ -80,7 +81,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpDelete("{publisherId}")]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeletePublisher(int publisherId)
         {

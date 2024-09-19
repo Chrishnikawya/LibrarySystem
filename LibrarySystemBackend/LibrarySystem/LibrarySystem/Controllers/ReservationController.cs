@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LibrarySystem.Controllers
 {
@@ -19,7 +20,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(List<ResevationViewModel>), StatusCodes.Status200OK)]
         public async Task<List<ResevationViewModel>> GetResevations()
         {
@@ -35,7 +36,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddResevation( ResevationViewModel resevationViewModel)
         {
@@ -57,7 +58,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> EditResevation(ResevationViewModel resevationViewModel)
         {
@@ -79,7 +80,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpDelete("{resevationId}")]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteResevation(int resevationId)
         {

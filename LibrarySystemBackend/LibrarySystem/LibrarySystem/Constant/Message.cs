@@ -65,14 +65,14 @@
         public const string CATEGORY_EDIT_SUCCESSFUL = "Category successfully edited.";
         public const string CATEGORY_EDIT_UNSUCCESSFUL = "Category wasn't edited.";
 
-        public const string AUTHENTICATE_ADD_SUCCESSFUL = "Authenticate successfully added.";
-        public const string AUTHENTICATE_ADD_UNSUCCESSFUL = "Authenticate wasn't added.";
+        public const string LOGIN_SUCCESSFUL = " Login successful.";
+        public const string LOGIN_UNSUCCESSFUL = "Login Unsuccessful.";
 
-        public const string AUTHENTICATE_DELETE_SUCCESSFUL = "Authenticate successfully deleted.";
-        public const string AUTHENTICATE_DELETE_UNSUCCESSFUL = "Authenticate wasn't deleted.";
+        public const string REGISTER_SUCCESSFUL = "Register successfull.";
+        public const string REGISTER_UNSUCCESSFUL = "Register Unsuccessful.";
 
-        public const string AUTHENTICATE_EDIT_SUCCESSFUL = "Authenticate successfully edited.";
-        public const string AUTHENTICATE_EDIT_UNSUCCESSFUL = "Authenticate wasn't edited.";
+        public const string REGISTER_ADMIN_SUCCESSFUL = "Admin Register successfull.";
+        public const string REGISTER_ADMIN_UNSUCCESSFUL = "Admin Register Unsuccessfull.";
     }
 
 

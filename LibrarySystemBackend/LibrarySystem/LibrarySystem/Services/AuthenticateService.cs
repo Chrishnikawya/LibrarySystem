@@ -1,4 +1,7 @@
-﻿using LibrarySystem.Models;
+﻿using LibrarySystem.Constant;
+using LibrarySystem.Interfaces;
+using LibrarySystem.Models;
+using LibrarySystem.Repositories;
 using LibrarySystem.Response;
 using LibrarySystem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -11,17 +14,13 @@ using System.Text;
 
 namespace LibrarySystem.Services
 {
-    public class AuthenticateService
+    public class AuthenticateService:IAuthenticateService
     {
-        [Route("api/[controller]")]
-        [ApiController]
-        public class AuthenticateController : ControllerBase
-        {
-            private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
             private readonly RoleManager<IdentityRole> _roleManager;
             private readonly IConfiguration _configuration;
 
-            public AuthenticateController(
+            public AuthenticateService(
                 UserManager<IdentityUser> userManager,
                 RoleManager<IdentityRole> roleManager,
                 IConfiguration configuration)
@@ -31,49 +30,63 @@ namespace LibrarySystem.Services
                 _configuration = configuration;
             }
 
-            [HttpPost]
-            [AllowAnonymous]
-            [Route("login")]
-            public async Task<IActionResult> Login(LoginViewModel model)
+            public async Task<LoginResponse> LoginAsync(LoginViewModel model)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
-                if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+                try
                 {
-                    var userRoles = await _userManager.GetRolesAsync(user);
+                    var user = await _userManager.FindByNameAsync(model.Username);
+                    if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+                    {
+                        var userRoles = await _userManager.GetRolesAsync(user);
 
-                    var authClaims = new List<Claim>
+                        var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
-                    foreach (var userRole in userRoles)
-                    {
-                        authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                        foreach (var userRole in userRoles)
+                        {
+                            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                        }
+
+                        var token = GetToken(authClaims);
+
+                        return new LoginResponse
+                        {
+                            Token = new JwtSecurityTokenHandler().WriteToken(token),
+                            Expiration = token.ValidTo,
+                            IsSuccess = true,
+                            Message = Message.LOGIN_SUCCESSFUL
+                        };
                     }
-
-                    var token = GetToken(authClaims);
-
-                    return Ok(new
-                    {
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo
-                    });
+                else
+                {
+                    return new LoginResponse
+                {
+                    IsSuccess = false,
+                    Message = Message.LOGIN_UNSUCCESSFUL
+                };
                 }
-                return Unauthorized();
+            }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+                
+               // return Unauthorized();
             }
 
-            [HttpPost]
-            [AllowAnonymous]
-            [Route("register")]
-            public async Task<IActionResult> Register(RegisterViewModel model)
+
+            public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
 
             {
                 try
                 {
                     var userExists = await _userManager.FindByNameAsync(model.Username);
-                    if (userExists != null)
-                        return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { Status = "Error", Message = "User already exists!" });
+                   // if (userExists != null)
+                        //return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { IsSuccess = , Message = "User already exists!" });
 
                     IdentityUser user = new()
                     {
@@ -82,10 +95,11 @@ namespace LibrarySystem.Services
                         UserName = model.Username
                     };
                     var result = await _userManager.CreateAsync(user, model.Password);
-                    if (!result.Succeeded)
-                        return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                // if (!result.Succeeded)
+                // return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { IsSuccess = "Error", Message = "User creation failed! Please check user details and try again." });
 
-                    return Ok(new CommonResponse { Status = "Success", Message = "User created successfully!" });
+                //return Ok(new CommonResponse { IsSuccess = true, Message = "User created successfully!" });
+                return result;
                 }
                 catch (Exception ex)
                 {
@@ -95,13 +109,13 @@ namespace LibrarySystem.Services
 
             }
 
-            [HttpPost]
-            [Route("register-admin")]
-            public async Task<IActionResult> RegisterAdmin([FromBody] RegisterViewModel model)
+            public async Task<IdentityResult> RegisterAdminAsync(RegisterViewModel model)
+            {
+            try
             {
                 var userExists = await _userManager.FindByNameAsync(model.Username);
-                if (userExists != null)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { Status = "Error", Message = "User already exists!" });
+                //if (userExists != null)
+                  //  return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { IsSuccess = true, Message = "User already exists!" });
 
                 IdentityUser user = new()
                 {
@@ -110,8 +124,8 @@ namespace LibrarySystem.Services
                     UserName = model.Username
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (!result.Succeeded)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+               // if (!result.Succeeded)
+                  //  return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { IsSuccess = true, Message = "User creation failed! Please check user details and try again." });
 
                 if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                     await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
@@ -126,11 +140,18 @@ namespace LibrarySystem.Services
                 {
                     await _userManager.AddToRoleAsync(user, UserRoles.User);
                 }
-                return Ok(new CommonResponse { Status = "Success", Message = "User created successfully!" });
+                //return Ok(new CommonResponse { IsSuccess = true, Message = "User created successfully!" });
+                return result;
             }
-
-            private JwtSecurityToken GetToken(List<Claim> authClaims)
+            catch (Exception ex)
             {
+
+                throw ex;
+            }
+        }
+
+        private JwtSecurityToken GetToken(List<Claim> authClaims)
+             {
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
                 var token = new JwtSecurityToken(
@@ -142,7 +163,8 @@ namespace LibrarySystem.Services
                     );
 
                 return token;
-            }
-        }
+             }
+           
     }
 }
+

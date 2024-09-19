@@ -20,9 +20,14 @@
           <td>{{ member.memberName }}</td>
           <td>{{ member.memberEmail }}</td>
           <td>{{ member.memberPhoneNumber }}</td>
-          <td>
-            <button @click="openPopup(member)">Edit</button>
-            <button @click="removeMember(member.memberID)">Remove</button>
+            <td>
+              <button @click="openPopup(member)" title="Edit">
+                <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
+              </button>
+              
+              <button @click="removeMember(member.memberID)" title="Remove">
+                <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
+              </button>
           </td>
         </tr>
       </tbody>

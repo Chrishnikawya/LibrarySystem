@@ -59,7 +59,9 @@ namespace LibrarySystem.Services
                    AuthorID = b.AuthorID,
                    CategoryID = b.CategoryID,
                    PublisherID = b.PublisherID
-                }).ToList();
+                })
+                    .OrderBy(b => b.BookName)
+                    .ToList();
             }
             catch (Exception ex)
             {

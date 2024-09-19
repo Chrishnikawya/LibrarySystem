@@ -20,9 +20,14 @@
           <td>{{ staff.staffName }}</td>
           <td>{{ staff.staffEmail }}</td>
           <td>{{ staff.enrollmentDate }}</td>
-          <td>
-            <button @click="openPopup(staff)">Edit</button>
-            <button @click="removeStaff(staff.staffID)">Remove</button>
+           <td>
+              <button @click="openPopup(staff)" title="Edit">
+                <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
+              </button>
+              
+              <button @click="removeStaff(staff.staffID)" title="Remove">
+                <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
+              </button>
           </td>
         </tr>
       </tbody>

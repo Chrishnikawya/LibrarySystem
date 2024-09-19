@@ -22,9 +22,14 @@
           <td>{{ getCategoryName(book.categoryID) }}</td>
           <td>{{ getAuthorName(book.authorID) }}</td>
           <td>{{ getPublisherName(book.publisherID) }}</td>
-          <td>
-            <button @click="openPopup(book)">Edit</button>
-            <button @click="removeBook(book.bookID)">Remove</button>
+            <td>
+              <button @click="openPopup(book)" title="Edit">
+                <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
+              </button>
+              
+              <button @click="removeBook(book.bookID)" title="Remove">
+                <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
+              </button>
           </td>
         </tr>
       </tbody>

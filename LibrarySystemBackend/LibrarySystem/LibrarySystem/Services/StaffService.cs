@@ -58,7 +58,10 @@ namespace LibrarySystem.Services
                     StaffEmail = s.StaffEmail,
                     EnrollmentDate = s.EnrollmentDate,
                     StaffID = s.Id
-                }).ToList();
+                })
+                    .OrderBy(s => s.EnrollmentDate)
+                   .ThenBy(s => s.StaffName)
+                    .ToList();
             }
             catch (Exception ex)
             {

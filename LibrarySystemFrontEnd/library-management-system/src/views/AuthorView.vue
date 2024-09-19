@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar/>
+    <NavBar />
     <div class="author">
       <h1>Authors</h1>
 
@@ -9,7 +9,7 @@
       <table>
         <thead>
           <tr>
-            <th @click="sortBy('authorName')">Author Name</th>
+            <th>Author Name</th>
             <th>Author Address</th>
             <th>Author Email</th>
             <th>Author PhoneNumber</th>
@@ -17,35 +17,61 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="author in sortedAuthors" :key="author.authorID">
+          <tr v-for="author in authors" :key="author.authorID">
             <td>{{ author.authorName }}</td>
             <td>{{ author.authorAddress }}</td>
             <td>{{ author.authorEmail }}</td>
             <td>{{ author.authorPhoneNumber }}</td>
             <td>
-              <button @click="openPopup(author)">Edit</button>
-              <button @click="removeAuthor(author.authorID)">Remove</button>
+              <button @click="openPopup(author)" title="Edit">
+                <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
+              </button>
+              
+              <button @click="removeAuthor(author.authorID)" title="Remove">
+                <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <!-- Popup for Add/Edit -->
       <div v-if="showPopup" class="modal">
         <div class="modal-content">
           <span class="close" @click="closePopup">&times;</span>
           <h3>{{ isEditing ? "Edit Author" : "Add New Author" }}</h3>
           <form @submit.prevent="isEditing ? editAuthor() : addAuthor()">
             <label for="AuthorName">Author Name:</label>
-            <input v-model="author.authorName" type="text" id="authorName" required />
+            <input
+              v-model="author.authorName"
+              type="text"
+              id="authorName"
+              required
+            />
             <label for="AuthorAddress">Author Address:</label>
-            <input v-model="author.authorAddress" type="text" id="authorAddress" required />
+            <input
+              v-model="author.authorAddress"
+              type="text"
+              id="authorAddress"
+              required
+            />
             <label for="AuthorEmail">Author Email:</label>
-            <input v-model="author.authorEmail" type="email" id="authorEmail" required />
+            <input
+              v-model="author.authorEmail"
+              type="email"
+              id="authorEmail"
+              required
+            />
             <label for="AuthorPhoneNumber">Author PhoneNumber:</label>
-            <input v-model="author.authorPhoneNumber" type="text" id="authorPhoneNumber" required />
+            <input
+              v-model="author.authorPhoneNumber"
+              type="text"
+              id="authorPhoneNumber"
+              required
+            />
             <div class="form-buttons">
-              <button type="submit">{{ isEditing ? "Save Changes" : "Add Author" }}</button>
+              <button type="submit">
+                {{ isEditing ? "Save Changes" : "Add Author" }}
+              </button>
               <button type="button" @click="closePopup">Cancel</button>
             </div>
           </form>
@@ -58,7 +84,6 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import { Authors } from "@/services/AuthorService";
-
 export default {
   name: "AuthorView",
   components: { NavBar },
@@ -77,30 +102,12 @@ export default {
       IsSuccess: false,
       showPopup: false,
       isEditing: false,
-      sortColumn: 'authorName', 
-      sortOrder: 'asc', 
     };
   },
   created: async function () {
     await this.getAuthors();
   },
-  computed: {
-    // Computed property to sort authors
-    sortedAuthors() {
-      return this.authors.sort((a, b) => {
-        const compareA = a[this.sortColumn].toLowerCase();
-        const compareB = b[this.sortColumn].toLowerCase();
-
-        if (this.sortOrder === 'asc') {
-          return compareA > compareB ? 1 : compareA < compareB ? -1 : 0;
-        } else {
-          return compareA < compareB ? 1 : compareA > compareB ? -1 : 0;
-        }
-      });
-    },
-  },
   methods: {
-    // Get Authors
     async getAuthors() {
       try {
         let response = await Authors.GetAllAuthors();
@@ -109,29 +116,15 @@ export default {
         console.log(error);
       }
     },
-    // Sorting method for column
-    sortBy(column) {
-      if (this.sortColumn === column) {
-        // Toggle the sorting order if the same column is clicked
-        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
-      } else {
-        // Set the new column for sorting and reset the order to ascending
-        this.sortColumn = column;
-        this.sortOrder = 'asc';
-      }
-    },
-    // Open Add Author Popup
     openAddPopup() {
       this.isEditing = false;
       this.showPopup = true;
     },
-    // Open Edit Author Popup
     openPopup(author) {
       this.author = { ...author };
       this.isEditing = true;
       this.showPopup = true;
     },
-    // Close Popup
     closePopup() {
       this.showPopup = false;
       this.author = {
@@ -139,11 +132,9 @@ export default {
         authorName: "",
         authorAddress: "",
         authorEmail: "",
-        authorPhoneNumber: "",
       };
       this.getAuthors();
     },
-    // Add Author
     async addAuthor() {
       this.ErrorText = null;
       this.ErrorList = [];
@@ -153,18 +144,14 @@ export default {
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
-          if (response.data.message != "") {
-            this.ErrorText = response.data.message;
-          } else {
-            this.ErrorList = response.data.error;
-          }
+          this.ErrorText = response.data.message || "";
+          this.ErrorList = response.data.error || [];
         }
       } catch (error) {
         console.log(error);
       }
       this.closePopup();
     },
-    // Edit Author
     async editAuthor() {
       this.ErrorText = null;
       this.ErrorList = [];
@@ -173,18 +160,14 @@ export default {
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
-          if (response.data.message != "") {
-            this.ErrorText = response.data.message;
-          } else {
-            this.ErrorList = response.data.error;
-          }
+          this.ErrorText = response.data.message || "";
+          this.ErrorList = response.data.error || [];
         }
       } catch (error) {
         console.log(error);
       }
       this.closePopup();
     },
-    // Remove Author
     async removeAuthor(authorId) {
       this.ErrorText = null;
       this.ErrorList = [];
@@ -193,11 +176,8 @@ export default {
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
         } else {
-          if (response.data.message != "") {
-            this.ErrorText = response.data.message;
-          } else {
-            this.ErrorList = response.data.error;
-          }
+          this.ErrorText = response.data.message || "";
+          this.ErrorList = response.data.error || [];
         }
       } catch (error) {
         console.log(error);
@@ -207,6 +187,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 div {
   padding: 10px;
@@ -325,5 +306,6 @@ button[type="button"] {
 button[type="button"]:hover {
   background-color: #218838;
 }
+
 </style>
 

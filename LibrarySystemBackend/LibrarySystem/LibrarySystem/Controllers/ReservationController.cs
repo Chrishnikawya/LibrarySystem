@@ -20,7 +20,8 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(List<ResevationViewModel>), StatusCodes.Status200OK)]
         public async Task<List<ResevationViewModel>> GetResevations()
         {
@@ -36,7 +37,8 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
+       // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddResevation( ResevationViewModel resevationViewModel)
         {
@@ -58,7 +60,8 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> EditResevation(ResevationViewModel resevationViewModel)
         {
@@ -80,7 +83,8 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpDelete("{resevationId}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
+       // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteResevation(int resevationId)
         {

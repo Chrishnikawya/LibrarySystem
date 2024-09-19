@@ -20,7 +20,7 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<AuthorViewModel>), StatusCodes.Status200OK)]
         public async Task<List<AuthorViewModel>> GetAuthors()
         {
@@ -36,7 +36,8 @@ namespace LibrarySystem.Controllers
             } 
         }
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
+       // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddAuthor( AuthorViewModel authorViewModel)
         {
@@ -61,7 +62,9 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpPut]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> EditAuthor( AuthorViewModel authorViewModel)
         {
@@ -85,7 +88,8 @@ namespace LibrarySystem.Controllers
         }
 
         [HttpDelete("{authorId}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteAuthor(int authorId)
         {

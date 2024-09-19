@@ -18,9 +18,14 @@
       <tbody>
         <tr v-for="category in categorys" :key="category.categoryID">
           <td>{{ category.categoryName }}</td>
-          <td>
-            <button @click="openPopup(category)">Edit</button>
-            <button @click="removeCategory(category.categoryID)">Remove</button>
+            <td>
+              <button @click="openPopup(category)" title="Edit">
+                <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
+              </button>
+              
+              <button @click="removeCategory(category.categoryID)" title="Remove">
+                <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
+              </button>
           </td>
         </tr>
       </tbody>

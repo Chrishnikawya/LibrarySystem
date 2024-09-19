@@ -50,7 +50,7 @@ namespace LibrarySystem.Services
             {
                 var authors = await _unitOfWork.Repository<Author>()
                 .Query()
-                .OrderBy(a => a.AuthorName)
+                
                  .ToListAsync();
 
                 return authors.Select(a => new AuthorViewModel
@@ -60,7 +60,9 @@ namespace LibrarySystem.Services
                     AuthorEmail = a.AuthorEmail,
                     AuthorID = a.Id,
                     AuthorPhoneNumber = a.AuthorPhoneNumber
-                }).ToList();
+                })
+                    .OrderBy(a => a.AuthorName)
+                    .ToList();
             }
             catch (Exception ex)
             {

@@ -62,7 +62,9 @@ namespace LibrarySystem.Services
                     MemberID = r.MemberID,
                     StaffID = r.StaffID,
                     BookID = r.BookID
-                }).ToList();
+                })
+                    .OrderBy(r => r.ReservationDate)
+                    .ToList();
             }
             catch (Exception ex)
             {

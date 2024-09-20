@@ -52,7 +52,6 @@ namespace LibrarySystem.Services
                 .Query()
                 
                  .ToListAsync();
-
                 return authors.Select(a => new AuthorViewModel
                 {
                     AuthorAddress = a.AuthorAddress,

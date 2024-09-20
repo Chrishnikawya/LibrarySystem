@@ -108,6 +108,7 @@ export default {
     await this.getAuthors();
   },
   methods: {
+  //get method
     async getAuthors() {
       try {
         let response = await Authors.GetAllAuthors();
@@ -135,6 +136,7 @@ export default {
       };
       this.getAuthors();
     },
+    //Add Method
     async addAuthor() {
       this.ErrorText = null;
       this.ErrorList = [];
@@ -152,6 +154,7 @@ export default {
       }
       this.closePopup();
     },
+    //Edit Method
     async editAuthor() {
       this.ErrorText = null;
       this.ErrorList = [];
@@ -168,6 +171,7 @@ export default {
       }
       this.closePopup();
     },
+    //Remove Method
     async removeAuthor(authorId) {
       this.ErrorText = null;
       this.ErrorList = [];

@@ -29,7 +29,11 @@ namespace LibrarySystem.Services
                 _roleManager = roleManager;
                 _configuration = configuration;
             }
-
+        /// <summary>
+        /// Authenticate service
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
             public async Task<LoginResponse> LoginAsync(LoginViewModel model)
             {
                 try
@@ -73,21 +77,20 @@ namespace LibrarySystem.Services
                 {
 
                     throw ex;
-                }
-                
-               // return Unauthorized();
+                }  
+             
             }
-
-
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
             public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
 
             {
                 try
                 {
                     var userExists = await _userManager.FindByNameAsync(model.Username);
-                   // if (userExists != null)
-                        //return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { IsSuccess = , Message = "User already exists!" });
-
                     IdentityUser user = new()
                     {
                         Email = model.Email,
@@ -95,10 +98,6 @@ namespace LibrarySystem.Services
                         UserName = model.Username
                     };
                     var result = await _userManager.CreateAsync(user, model.Password);
-                // if (!result.Succeeded)
-                // return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { IsSuccess = "Error", Message = "User creation failed! Please check user details and try again." });
-
-                //return Ok(new CommonResponse { IsSuccess = true, Message = "User created successfully!" });
                 return result;
                 }
                 catch (Exception ex)
@@ -108,15 +107,16 @@ namespace LibrarySystem.Services
                 }
 
             }
-
+        /// <summary>
+        /// Register Method
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
             public async Task<IdentityResult> RegisterAdminAsync(RegisterViewModel model)
             {
             try
             {
                 var userExists = await _userManager.FindByNameAsync(model.Username);
-                //if (userExists != null)
-                  //  return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { IsSuccess = true, Message = "User already exists!" });
-
                 IdentityUser user = new()
                 {
                     Email = model.Email,
@@ -124,9 +124,6 @@ namespace LibrarySystem.Services
                     UserName = model.Username
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
-               // if (!result.Succeeded)
-                  //  return StatusCode(StatusCodes.Status500InternalServerError, new CommonResponse { IsSuccess = true, Message = "User creation failed! Please check user details and try again." });
-
                 if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                     await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
                 if (!await _roleManager.RoleExistsAsync(UserRoles.User))
@@ -140,7 +137,7 @@ namespace LibrarySystem.Services
                 {
                     await _userManager.AddToRoleAsync(user, UserRoles.User);
                 }
-                //return Ok(new CommonResponse { IsSuccess = true, Message = "User created successfully!" });
+                
                 return result;
             }
             catch (Exception ex)
@@ -149,9 +146,14 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Register Admin Method
+        /// </summary>
+        /// <param name="authClaims"></param>
+        /// <returns></returns>
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
-             {
+        {
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
                 var token = new JwtSecurityToken(
@@ -163,7 +165,8 @@ namespace LibrarySystem.Services
                     );
 
                 return token;
-             }
+        }
+       
            
     }
 }

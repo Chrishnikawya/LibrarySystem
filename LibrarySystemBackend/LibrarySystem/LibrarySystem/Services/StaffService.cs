@@ -59,8 +59,8 @@ namespace LibrarySystem.Services
                     EnrollmentDate = s.EnrollmentDate,
                     StaffID = s.Id
                 })
-                    .OrderBy(s => s.EnrollmentDate)
-                   .ThenBy(s => s.StaffName)
+                    .OrderBy(s => s.StaffName)
+                   .ThenBy(s => s.EnrollmentDate)
                     .ToList();
             }
             catch (Exception ex)

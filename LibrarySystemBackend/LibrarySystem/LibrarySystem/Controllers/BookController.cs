@@ -5,6 +5,7 @@ using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using LibrarySystem.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LibrarySystem.Controllers
 {
@@ -21,6 +22,7 @@ namespace LibrarySystem.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(List<AuthorViewModel>), StatusCodes.Status200OK)]
         public async Task<List<BookViewModel>> GetBooks()
         {
@@ -58,6 +60,7 @@ namespace LibrarySystem.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddBook( BookViewModel bookViewModel)
         {
@@ -83,6 +86,7 @@ namespace LibrarySystem.Controllers
 
         [HttpPut]
         [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> EditBook( BookViewModel bookViewModel)
         {
@@ -107,6 +111,7 @@ namespace LibrarySystem.Controllers
 
         [HttpDelete("{bookId}")]
         [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteBook(int bookId)
         {

@@ -28,11 +28,14 @@
           <td>{{ getStaffName(reservation.staffID) }}</td>
           <td>{{ reservation.status }}</td>
 
-          <td>
-            <button @click="openPopup(reservation)">Edit</button>
-            <button @click="removeReservation(reservation.reservationID)">
-              Remove
-            </button>
+           <td>
+              <button @click="openPopup(reservation)" title="Edit">
+                <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
+              </button>
+              
+              <button @click="removeReservation(reservation.reservationID)" title="Remove">
+                <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
+              </button>
           </td>
         </tr>
       </tbody>

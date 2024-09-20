@@ -5,6 +5,7 @@ using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using LibrarySystem.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LibrarySystem.Controllers
 {
@@ -21,6 +22,7 @@ namespace LibrarySystem.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(List<MemberViewModel>), StatusCodes.Status200OK)]
         public async Task<List<MemberViewModel>> GetMembers()
         {
@@ -36,6 +38,7 @@ namespace LibrarySystem.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddMember( MemberViewModel memberViewModel)
         {
@@ -58,6 +61,7 @@ namespace LibrarySystem.Controllers
 
         [HttpPut]
         [AllowAnonymous]
+       // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> EditMember( MemberViewModel memberViewModel)
         {
@@ -81,6 +85,7 @@ namespace LibrarySystem.Controllers
 
         [HttpDelete("{memberId}")]
         [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteMember(int memberId)
         {

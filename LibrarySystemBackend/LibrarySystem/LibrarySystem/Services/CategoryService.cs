@@ -53,7 +53,9 @@ namespace LibrarySystem.Services
                 {
                     CategoryID = c.Id,
                     CategoryName = c.CategoryName
-                }).ToList();
+                })
+                    .OrderBy(c => c.CategoryName)
+                    .ToList();
             }
             catch (Exception ex)
             {

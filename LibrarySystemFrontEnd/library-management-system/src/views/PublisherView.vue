@@ -22,11 +22,14 @@
           <td>{{ publisher.publisherAddress }}</td>
           <td>{{ publisher.publisherEmail }}</td>
           <td>{{ publisher.publisherPhoneNumber }}</td>
-          <td>
-            <button @click="openPopup(publisher)">Edit</button>
-            <button @click="removePublisher(publisher.publisherID)">
-              Remove
-            </button>
+            <td>
+              <button @click="openPopup(publisher)" title="Edit">
+                <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
+              </button>
+              
+              <button @click="removePublisher(publisher.publisherID)" title="Remove">
+                <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
+              </button>
           </td>
         </tr>
       </tbody>

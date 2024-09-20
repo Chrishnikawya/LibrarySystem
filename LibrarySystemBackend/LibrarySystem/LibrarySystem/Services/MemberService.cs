@@ -56,7 +56,9 @@ namespace LibrarySystem.Services
                     MemberName = m.MemberName,
                     MemberEmail = m.MemberEmail,
                     MemberPhoneNumber = m.MemberPhoneNumber
-                }).ToList();
+                })
+                    .OrderBy(m => m.MemberName)
+                    .ToList();
             }
            
             catch (Exception ex)

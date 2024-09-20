@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LibrarySystem.Controllers
 {
@@ -36,6 +37,7 @@ namespace LibrarySystem.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
+       // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> AddAuthor( AuthorViewModel authorViewModel)
         {
@@ -61,6 +63,8 @@ namespace LibrarySystem.Controllers
 
         [HttpPut]
         [AllowAnonymous]
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> EditAuthor( AuthorViewModel authorViewModel)
         {
@@ -85,6 +89,7 @@ namespace LibrarySystem.Controllers
 
         [HttpDelete("{authorId}")]
         [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
         public async Task<CommonResponse> DeleteAuthor(int authorId)
         {

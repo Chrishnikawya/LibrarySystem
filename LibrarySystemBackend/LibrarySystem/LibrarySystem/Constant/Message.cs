@@ -64,6 +64,15 @@
 
         public const string CATEGORY_EDIT_SUCCESSFUL = "Category successfully edited.";
         public const string CATEGORY_EDIT_UNSUCCESSFUL = "Category wasn't edited.";
+
+        public const string LOGIN_SUCCESSFUL = " Login successful.";
+        public const string LOGIN_UNSUCCESSFUL = "Login Unsuccessful.";
+
+        public const string REGISTER_SUCCESSFUL = "Register successfull.";
+        public const string REGISTER_UNSUCCESSFUL = "Register Unsuccessful.";
+
+        public const string REGISTER_ADMIN_SUCCESSFUL = "Admin Register successfull.";
+        public const string REGISTER_ADMIN_UNSUCCESSFUL = "Admin Register Unsuccessfull.";
     }
 
 

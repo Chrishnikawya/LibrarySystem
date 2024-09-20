@@ -57,7 +57,9 @@ namespace LibrarySystem.Services
                     PublisherEmail = p.PublisherEmail,
                     PublisherID = p.Id,
                     PublisherPhoneNumber = p.PublisherPhoneNumber
-                }).ToList();
+                })
+                    .OrderBy(p => p.PublisherName)
+                    .ToList();
             }
             catch (Exception ex)
             {

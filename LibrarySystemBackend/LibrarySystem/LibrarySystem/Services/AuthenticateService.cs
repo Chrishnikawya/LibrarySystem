@@ -19,16 +19,21 @@ namespace LibrarySystem.Services
         private readonly UserManager<IdentityUser> _userManager;
             private readonly RoleManager<IdentityRole> _roleManager;
             private readonly IConfiguration _configuration;
+        private readonly IUnitOfWorkRepository _unitOfWork;
 
-            public AuthenticateService(
+
+        public AuthenticateService(
                 UserManager<IdentityUser> userManager,
                 RoleManager<IdentityRole> roleManager,
-                IConfiguration configuration)
+                IConfiguration configuration,
+                IUnitOfWorkRepository unitOfWork)
             {
                 _userManager = userManager;
                 _roleManager = roleManager;
                 _configuration = configuration;
-            }
+                 _unitOfWork = unitOfWork;
+            
+        }
         /// <summary>
         /// Authenticate service
         /// </summary>
@@ -167,7 +172,7 @@ namespace LibrarySystem.Services
                 return token;
         }
        
-           
+
     }
 }
 

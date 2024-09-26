@@ -22,11 +22,18 @@
 export default {
   data() {
     return {
-      username: ''
+     user: { 
+       username:'',
+      password: ''
+     } 
     };
   },
   mounted() {
-    this.username = localStorage.getItem('username'); 
+    const userString = sessionStorage.getItem('user'); 
+    if (user)  { 
+     this.user = JSON.parse(userString)
+     } 
+
   },
   methods: {
     logout() {

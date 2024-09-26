@@ -38,7 +38,7 @@
 
 <script>
 import { Auth } from "@/services/AuthService";
-
+import { Users } from "@/services/UserService";
 export default {
   name: "LoginPage",
   data() {
@@ -50,19 +50,25 @@ export default {
       showPassword: false,
     };
   },
-  methods: {
+   methods: {
     async login() {
-      try {
+       try {
         const response = await Auth.Login(this.user);
-        localStorage.setItem('token', response.token);
+      
+      const data  =await Users. GetUser();
+        localStorage.setItem('user', JSON.stringify(data.data));
+        sessionStorage.setItem('sessionUserData',JSON.stringify(data.data));
+        const storedData = localStorage.getItem('userData');
         this.$router.push('/home');
-      } catch (error) {
+      } 
+      catch (error) {
         console.error(error);
       }
     },
+    
   },
 };
-0</script>
+</script>
 
 <style scoped>
 .login-container {

@@ -133,6 +133,12 @@ namespace LibrarySystem.Controllers
             }
 
         }
+        [HttpGet("details")]
+        public async Task<IActionResult> GetBookDetails()
+        {
+            var details = await _bookService.GetBookDetailsAsync();
+            return Ok(details);
+        }
     }
 }
 

@@ -9,5 +9,6 @@ namespace LibrarySystem.Interfaces
         Task<IList<ResevationViewModel>> GetResevationAsync();
         Task<bool> EditResevationAsync(ResevationViewModel resevationViewModel);
         Task<bool> RemoveResevationAsync(int resevationId);
+        Task<List<ReservationDetails>> GetReservationDetailsAsync();
     }
 }

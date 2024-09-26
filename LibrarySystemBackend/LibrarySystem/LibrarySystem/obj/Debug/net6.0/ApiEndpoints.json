@@ -290,6 +290,16 @@
     ]
   },
   {
+    "ContainingType": "LibrarySystem.Controllers.BookController",
+    "Method": "GetBookDetails",
+    "RelativePath": "api/Book/details",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LibrarySystem.Controllers.CategoryController",
     "Method": "GetCategorys",
     "RelativePath": "api/Category",
@@ -680,6 +690,16 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "LibrarySystem.Controllers.ReservationController",
+    "Method": "GetReservationDetails",
+    "RelativePath": "api/Reservation/details",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "LibrarySystem.Controllers.StaffController",

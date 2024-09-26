@@ -36,4 +36,11 @@ export class Reservations {
       credentials: "include",
     });
   }
+  static GetReservationDetails() {
+    let dataUrl = this.url + "details";
+    return axios.get(dataUrl, {
+      withCredentials: true,
+      credentials: "include",
+    });
+  }
 }

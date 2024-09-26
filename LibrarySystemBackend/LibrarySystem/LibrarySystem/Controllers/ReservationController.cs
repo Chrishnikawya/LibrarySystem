@@ -6,6 +6,7 @@ using LibrarySystem.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using LibrarySystem.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Controllers
 {
@@ -110,6 +111,12 @@ namespace LibrarySystem.Controllers
         {
             var details = await _resevationService.GetReservationDetailsAsync();
             return Ok(details); 
+        }
+        [HttpGet("reservationDetails")]
+        public async Task<ActionResult<List<ReservationDetails>>> GetReservationDetailsView()
+        {
+            var reservationDetails = await _resevationService.GetReservationDetailsViewAsync();
+            return Ok(reservationDetails);
         }
     }
 }

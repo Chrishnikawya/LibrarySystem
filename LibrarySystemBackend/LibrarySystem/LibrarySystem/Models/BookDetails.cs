@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.Models
 {
+    [Keyless]
     public class BookDetails
     {
         public string BookName { get; set; }
-        [Key]
+        
         public int Id { get; set; }
         public int AuthorID { get; set; }
         public string AuthorName { get; set; }

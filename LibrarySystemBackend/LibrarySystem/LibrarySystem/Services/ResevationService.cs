@@ -131,6 +131,12 @@ namespace LibrarySystem.Services
 
             return reservationDetails;
         }
+
+        public async Task<List<ReservationDetails>> GetReservationDetailsViewAsync()
+        {
+            return await _context.Set<ReservationDetails>().FromSqlRaw("SELECT * FROM ReservationDetailsView").ToListAsync();
+        }
+
     }
 }
 

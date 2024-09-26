@@ -125,6 +125,10 @@ namespace LibrarySystem.Services
 
             return bookDetails;
         }
+        public async Task<List<BookDetails>> GetBookDetailsViewAsync()
+        {
+            return await _context.Set<BookDetails>().FromSqlRaw("SELECT * FROM BookDetailsView").ToListAsync();
+        }
     }
 }
 

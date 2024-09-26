@@ -139,6 +139,12 @@ namespace LibrarySystem.Controllers
             var details = await _bookService.GetBookDetailsAsync();
             return Ok(details);
         }
+        [HttpGet("bookDetails")]
+        public async Task<ActionResult<List<BookDetails>>> GetBookDetailsView()
+        {
+            var bookDetails = await _bookService.GetBookDetailsViewAsync();
+            return Ok(bookDetails);
+        }
     }
 }
 

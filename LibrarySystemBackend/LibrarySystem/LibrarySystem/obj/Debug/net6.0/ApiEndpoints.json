@@ -291,6 +291,26 @@
   },
   {
     "ContainingType": "LibrarySystem.Controllers.BookController",
+    "Method": "GetBookDetailsView",
+    "RelativePath": "api/Book/bookDetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[LibrarySystem.Models.BookDetails, LibrarySystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LibrarySystem.Controllers.BookController",
     "Method": "GetBookDetails",
     "RelativePath": "api/Book/details",
     "HttpMethod": "GET",
@@ -700,6 +720,26 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibrarySystem.Controllers.ReservationController",
+    "Method": "GetReservationDetailsView",
+    "RelativePath": "api/Reservation/reservationDetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[LibrarySystem.Models.ReservationDetails, LibrarySystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "LibrarySystem.Controllers.StaffController",

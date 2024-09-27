@@ -45,4 +45,11 @@ export class Books {
       credentials: "include",
     });
   }
+  static GetBookDetails() {
+    let dataUrl = this.url +"details";
+    return axios.get(dataUrl, {
+      withCredentials: true,
+      credentials: "include",
+    });
+  }
 }

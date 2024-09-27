@@ -3,16 +3,20 @@ using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Repositories;
 using LibrarySystem.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using LibrarySystem.DbContext;
 
 namespace LibrarySystem.Services
 {
     public class ResevationService : IResevationService
     {
         private readonly IUnitOfWorkRepository _unitOfWork;
+        private readonly LibraryContext _context;
 
-        public ResevationService(IUnitOfWorkRepository unitOfWork)
+        public ResevationService(IUnitOfWorkRepository unitOfWork,LibraryContext context)
         {
             _unitOfWork = unitOfWork;
+            _context = context;
         }
 
         /// <summary>
@@ -118,7 +122,48 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-       
+        /// <summary>
+        /// Stored procudure
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ReservationDetails>> GetReservationDetailsAsync()
+        {
+            try
+            {
+                var reservationDetails = await _context.ReservationDetails
+               .FromSqlRaw("EXEC GetReservationDetails")
+               .ToListAsync();
+
+                return reservationDetails;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
+        }
+        /// <summary>
+        /// Views
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ReservationDetails>> GetReservationDetailsViewAsync()
+        {
+            try
+            {
+               
+                return await _context.Set<ReservationDetails>(). 
+                FromSqlRaw("SELECT * FROM ReservationDetailsView")
+                .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+        }
+
     }
 }
 

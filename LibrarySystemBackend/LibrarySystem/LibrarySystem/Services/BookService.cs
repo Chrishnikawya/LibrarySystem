@@ -3,14 +3,18 @@ using LibrarySystem.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Repositories;
 using LibrarySystem.ViewModels;
+using LibrarySystem.DbContext;
+
 namespace LibrarySystem.Services
 {
     public class BookService : IBookService
     {
         private readonly IUnitOfWorkRepository _unitOfWork;
-        public BookService(IUnitOfWorkRepository unitOfWork)
+        private readonly LibraryContext _context;
+        public BookService(IUnitOfWorkRepository unitOfWork,LibraryContext context)
         {
             _unitOfWork = unitOfWork;
+            _context = context;
         }
         /// <summary>
         /// Add an Book
@@ -113,7 +117,44 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-       
+        /// <summary>
+        /// Stored Procedure
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<BookDetails>> GetBookDetailsAsync()
+        {
+            try
+            {
+                var bookDetails = await _context.BookDetails
+                 .FromSqlRaw("EXEC BookDetails")
+                 .ToListAsync();
+
+                return bookDetails;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+        }
+        /// <summary>
+        /// Views
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<BookDetails>> GetBookDetailsViewAsync()
+        {
+            try
+            {
+                return await _context.Set<BookDetails>().FromSqlRaw("SELECT * FROM BookDetailsView").ToListAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
+        }
     }
 }
 

@@ -19,9 +19,9 @@
       <tbody>
         <tr v-for="book in books" :key="book.bookID">
           <td>{{ book.bookName }}</td>
-          <td>{{ getCategoryName(book.categoryID) }}</td>
-          <td>{{ getAuthorName(book.authorID) }}</td>
-          <td>{{ getPublisherName(book.publisherID) }}</td>
+          <td>{{ book.categoryName }}</td>
+          <td>{{ book.authorName}}</td>
+          <td>{{ book.publisherName }}</td>
             <td>
               <button @click="openPopup(book)" title="Edit">
                 <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
@@ -104,6 +104,9 @@ export default {
         categoryID: "",
         authorID: "",
         publisherID: "",
+        categoryName: "",
+        authorName: "",
+        publisherName: "",
       },
       authors: [],
       author: {
@@ -128,7 +131,7 @@ export default {
     };
   },
   created: async function () {
-    await this.getBooks();
+    await this.getBookDetails();
     await this.getAuthors();
     await this.getPublishers();
     await this.getCategorys();
@@ -143,6 +146,16 @@ export default {
         console.log(error);
       }
     },
+    //Get Book Details
+    async getBookDetails() {
+      try {
+        let response = await Books.GetBookDetails();
+        this.books = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    
     //Get Authors
     async getAuthors() {
       try {
@@ -193,20 +206,6 @@ export default {
         publisherID: null,
       };
       this.getBooks();
-    },
-
-     getCategoryName(categoryID) {
-      const category = this.categorys.find((cat) => cat.categoryID === categoryID);
-      return category ? category.categoryName : "Unknown Category";
-    },
-    getAuthorName(authorID) {
-      const author = this.authors.find((auth) => auth.authorID === authorID);
-      return author ? author.authorName : "Unknown Author";
-    },
-    
-    getPublisherName(publisherID) {
-      const publisher = this.publishers.find((pub) => pub.publisherID === publisherID);
-      return publisher ? publisher.publisherName : "Unknown Publisher";
     },
     // Edit Books
     async editBook() {

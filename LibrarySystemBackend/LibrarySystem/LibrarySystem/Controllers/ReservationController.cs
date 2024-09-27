@@ -5,6 +5,8 @@ using LibrarySystem.ViewModels;
 using LibrarySystem.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using LibrarySystem.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Controllers
 {
@@ -103,6 +105,36 @@ namespace LibrarySystem.Controllers
             {
                 throw ex;
             }
+        }
+        [HttpGet("details")]
+        public async Task<IActionResult> GetReservationDetails()
+        {
+            try
+            {
+                var details = await _resevationService.GetReservationDetailsAsync();
+                return Ok(details);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
+        }
+        [HttpGet("reservationDetails")]
+        public async Task<IActionResult> GetReservationDetailsView()
+        {
+            try
+            {
+                var reservationDetails = await _resevationService.GetReservationDetailsViewAsync();
+                return Ok(reservationDetails);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
     }
 }

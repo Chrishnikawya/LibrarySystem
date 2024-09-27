@@ -145,9 +145,11 @@ export default {
         let response = await Authors.CreateAuthor(this.author);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+          alert(response.data.Message); 
         } else {
           this.ErrorText = response.data.message || "";
           this.ErrorList = response.data.error || [];
+          alert(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
@@ -162,9 +164,11 @@ export default {
         let response = await Authors.UpdateAuthor(this.author);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+          alert(response.data.Message); 
         } else {
           this.ErrorText = response.data.message || "";
           this.ErrorList = response.data.error || [];
+          alert(this.ErrorText);
         }
       } catch (error) {
         console.log(error);

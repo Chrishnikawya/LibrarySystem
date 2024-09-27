@@ -125,16 +125,37 @@ namespace LibrarySystem.Services
 
         public async Task<List<ReservationDetails>> GetReservationDetailsAsync()
         {
-            var reservationDetails = await _context.ReservationDetails
-                .FromSqlRaw("EXEC GetReservationDetails") 
-                .ToListAsync();
+            try
+            {
+                var reservationDetails = await _context.ReservationDetails
+               .FromSqlRaw("EXEC GetReservationDetails")
+               .ToListAsync();
 
-            return reservationDetails;
+                return reservationDetails;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         public async Task<List<ReservationDetails>> GetReservationDetailsViewAsync()
         {
-            return await _context.Set<ReservationDetails>().FromSqlRaw("SELECT * FROM ReservationDetailsView").ToListAsync();
+            try
+            {
+               
+                return await _context.Set<ReservationDetails>(). 
+                FromSqlRaw("SELECT * FROM ReservationDetailsView")
+                .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
 
     }

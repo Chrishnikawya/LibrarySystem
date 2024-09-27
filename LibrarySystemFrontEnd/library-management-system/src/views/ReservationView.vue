@@ -124,7 +124,7 @@ export default {
         memberID: "",
         staffID: "",
         bookID: "",
-        BookName:"",
+        bookName:"",
         memberName:"",
         staffName:""
       },
@@ -151,7 +151,7 @@ export default {
     };
   },
   created: async function () {
-    await this.getReservations();
+    await this.getReservationDetails();
     await this.getBooks();
     await this.getMembers();
     await this.getStaffs();
@@ -185,7 +185,7 @@ export default {
       }
     },
     //Get ReservationsDetails
-    async getReservations() {
+    async getReservationDetails() {
       try {
         let response = await Reservations.GetReservationDetails();
         this.reservations = response.data.map((reservation) => {
@@ -248,18 +248,6 @@ export default {
       };
       this.getReservations();
     },
-    // getMemberName(memberID) {
-    //   const member = this.members.find((mem) => mem.memberID === memberID);
-    //   return member ? member.memberName : "Unknown Member";
-    // },
-    // getBookName(bookID) {
-    //   const book = this.books.find((bk) => bk.bookID === bookID);
-    //   return book ? book.bookName : "Unknown Book";
-    // },
-    // getStaffName(staffID) {
-    //   const staff = this.staffs.find((sta) => sta.staffID === staffID);
-    //   return staff ? staff.staffName : "Unknown Staff";
-    // },
     //Add Reservations
     async addReservation() {
       this.ErrorText = null;

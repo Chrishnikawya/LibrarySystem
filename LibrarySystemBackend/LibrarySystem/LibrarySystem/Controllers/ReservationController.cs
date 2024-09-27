@@ -109,14 +109,32 @@ namespace LibrarySystem.Controllers
         [HttpGet("details")]
         public async Task<IActionResult> GetReservationDetails()
         {
-            var details = await _resevationService.GetReservationDetailsAsync();
-            return Ok(details); 
+            try
+            {
+                var details = await _resevationService.GetReservationDetailsAsync();
+                return Ok(details);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
         [HttpGet("reservationDetails")]
-        public async Task<ActionResult<List<ReservationDetails>>> GetReservationDetailsView()
+        public async Task<IActionResult> GetReservationDetailsView()
         {
-            var reservationDetails = await _resevationService.GetReservationDetailsViewAsync();
-            return Ok(reservationDetails);
+            try
+            {
+                var reservationDetails = await _resevationService.GetReservationDetailsViewAsync();
+                return Ok(reservationDetails);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
     }
 }

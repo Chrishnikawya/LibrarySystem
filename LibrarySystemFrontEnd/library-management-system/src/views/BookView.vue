@@ -131,7 +131,7 @@ export default {
     };
   },
   created: async function () {
-    await this.getBooks();
+    await this.getBookDetails();
     await this.getAuthors();
     await this.getPublishers();
     await this.getCategorys();
@@ -146,7 +146,7 @@ export default {
         console.log(error);
       }
     },
-    async getBooks() {
+    async getBookDetails() {
       try {
         let response = await Books.GetBookDetails();
         this.books = response.data;
@@ -206,20 +206,6 @@ export default {
       };
       this.getBooks();
     },
-
-    //  getCategoryName(categoryID) {
-    //   const category = this.categorys.find((cat) => cat.categoryID === categoryID);
-    //   return category ? category.categoryName : "Unknown Category";
-    // },
-    // getAuthorName(authorID) {
-    //   const author = this.authors.find((auth) => auth.authorID === authorID);
-    //   return author ? author.authorName : "Unknown Author";
-    // },
-    
-    // getPublisherName(publisherID) {
-    //   const publisher = this.publishers.find((pub) => pub.publisherID === publisherID);
-    //   return publisher ? publisher.publisherName : "Unknown Publisher";
-    // },
     // Edit Books
     async editBook() {
       this.ErrorText = null;

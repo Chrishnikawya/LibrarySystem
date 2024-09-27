@@ -219,13 +219,14 @@ export default {
         let response = await Books.UpdateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+          alert(response.data.Message); 
         } else {
-          if (response.data.message != "") {
+          if (response.data.message != "") 
             this.ErrorText = response.data.message;
-          } else {
+         
             this.ErrorList = response.data.error;
+             alert(this.ErrorText);
           }
-        }
       } catch (error) {
         console.log(error);
       }
@@ -243,14 +244,16 @@ export default {
         let response = await Books.CreateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
-        } else {
-          if (response.data.message != "") {
+          alert(response.data.Message); 
+        } 
+        else {
+          (response.data.message != "") 
             this.ErrorText = response.data.message;
-          } else {
             this.ErrorList = response.data.error;
-          }
-        }
-      } catch (error) {
+             alert(this.ErrorText);
+            } 
+      } 
+      catch (error) {
         console.log(error);
       }
       this.closePopup();

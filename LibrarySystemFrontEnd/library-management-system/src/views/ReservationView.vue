@@ -257,12 +257,12 @@ export default {
         let response = await Reservations.CreateReservation(this.reservation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+          alert(response.data.Message); 
         } else {
-          if (response.data.message != "") {
+            (response.data.message != "")
             this.ErrorText = response.data.message;
-          } else {
             this.ErrorList = response.data.error;
-          }
+             alert(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
@@ -280,12 +280,13 @@ export default {
         let response = await Reservations.UpdateReservation(this.reservation);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+          alert(response.data.Message); 
         } else {
-          if (response.data.message != "") {
+          (response.data.message != "") 
             this.ErrorText = response.data.message;
-          } else {
+          
             this.ErrorList = response.data.error;
-          }
+             alert(this.ErrorText);
         }
       } catch (error) {
         console.log(error);

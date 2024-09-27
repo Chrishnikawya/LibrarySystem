@@ -146,6 +146,7 @@ export default {
         console.log(error);
       }
     },
+    //Get Book Details
     async getBookDetails() {
       try {
         let response = await Books.GetBookDetails();

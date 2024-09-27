@@ -117,6 +117,10 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
+        /// <summary>
+        /// Stored Procedure
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<BookDetails>> GetBookDetailsAsync()
         {
             try
@@ -134,6 +138,10 @@ namespace LibrarySystem.Services
             }
             
         }
+        /// <summary>
+        /// Views
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<BookDetails>> GetBookDetailsViewAsync()
         {
             try

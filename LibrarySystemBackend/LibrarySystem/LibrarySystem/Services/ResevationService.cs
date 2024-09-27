@@ -122,7 +122,10 @@ namespace LibrarySystem.Services
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// Stored procudure
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<ReservationDetails>> GetReservationDetailsAsync()
         {
             try
@@ -140,7 +143,10 @@ namespace LibrarySystem.Services
             }
            
         }
-
+        /// <summary>
+        /// Views
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<ReservationDetails>> GetReservationDetailsViewAsync()
         {
             try

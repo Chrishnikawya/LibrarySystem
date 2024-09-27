@@ -62,7 +62,7 @@ export default {
     },
   },
 };
-0</script>
+</script>
 
 <style scoped>
 .login-container {

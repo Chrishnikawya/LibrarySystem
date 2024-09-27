@@ -1,4 +1,6 @@
-﻿using LibrarySystem.ViewModels;
+﻿using LibrarySystem.Models;
+using LibrarySystem.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Interfaces
 {
@@ -8,6 +10,8 @@ namespace LibrarySystem.Interfaces
         Task<bool> EditBookAsync(BookViewModel bookViewModel);
         Task<bool> RemoveBookAsync(int bookId);
         Task<IList<BookViewModel>> GetBookAsync();
+        Task<List<BookDetails>> GetBookDetailsAsync();
+        Task<List<BookDetails>> GetBookDetailsViewAsync();
 
     }
 }

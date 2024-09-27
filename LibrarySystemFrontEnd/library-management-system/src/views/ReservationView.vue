@@ -22,10 +22,10 @@
           v-for="reservation in reservations"
           :key="reservation.reservationID"
         >
-          <td>{{ getMemberName(reservation.memberID) }}</td>
-          <td>{{ getBookName(reservation.bookID) }}</td>
+          <td>{{ reservation.memberName }}</td>
+          <td>{{ reservation.bookName }}</td>
           <td>{{ reservation.reservationDate }}</td>
-          <td>{{ getStaffName(reservation.staffID) }}</td>
+          <td>{{ reservation.staffName }}</td>
           <td>{{ reservation.status }}</td>
 
            <td>
@@ -124,6 +124,9 @@ export default {
         memberID: "",
         staffID: "",
         bookID: "",
+        bookName:"",
+        memberName:"",
+        staffName:""
       },
       books: [],
       book: {
@@ -148,7 +151,7 @@ export default {
     };
   },
   created: async function () {
-    await this.getReservations();
+    await this.getReservationDetails();
     await this.getBooks();
     await this.getMembers();
     await this.getStaffs();
@@ -181,7 +184,21 @@ export default {
         console.log(error);
       }
     },
-
+    //Get ReservationsDetails
+    async getReservationDetails() {
+      try {
+        let response = await Reservations.GetReservationDetails();
+        this.reservations = response.data.map((reservation) => {
+          const localDateTime = this.getLocalTime(reservation.reservationDate);
+          return {
+            ...reservation,
+            reservationDate: localDateTime,
+          };
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
     //Get Books
     async getBooks() {
       try {
@@ -230,18 +247,6 @@ export default {
         reservationDate: "",
       };
       this.getReservations();
-    },
-    getMemberName(memberID) {
-      const member = this.members.find((mem) => mem.memberID === memberID);
-      return member ? member.memberName : "Unknown Member";
-    },
-    getBookName(bookID) {
-      const book = this.books.find((bk) => bk.bookID === bookID);
-      return book ? book.bookName : "Unknown Book";
-    },
-    getStaffName(staffID) {
-      const staff = this.staffs.find((sta) => sta.staffID === staffID);
-      return staff ? staff.staffName : "Unknown Staff";
     },
     //Add Reservations
     async addReservation() {

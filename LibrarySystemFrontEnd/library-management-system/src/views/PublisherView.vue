@@ -27,7 +27,7 @@
                 <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
               </button>
               
-              <button @click="removePublisher(publisher.publisherID)" title="Remove">
+              <button @click="confirmDelete(publisher.publisherID)" title="Remove">
                 <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
               </button>
           </td>
@@ -78,6 +78,21 @@
         </form>
       </div>
     </div>
+    <div v-if="showDeleteConfirm" class="modal"> 
+        <div class="modal-content"> 
+          <h3>Are you sure you want to delete this Publisher?</h3> 
+          <button @click="deletePublisher(publisherToDelete)">Yes</button> 
+          <button @click="closeDeleteConfirm">No</button> 
+        </div> 
+      </div> 
+     <div v-if="showMessageModal" class="modal">
+        <div class="modal-content message-box">
+          <span class="close" @click="closeMessageModal">&times;</span>
+          <h3>Message</h3>
+          <p>{{ messageText }}</p>
+          <button @click="closeMessageModal">OK</button>
+        </div>
+      </div>
   </div>
 </div>
 </template>
@@ -104,6 +119,10 @@ export default {
       showPopup: false,
       showPopup: false,
       isEditing: false,
+      showMessageModal: false, 
+      messageText: "", 
+      showDeleteConfirm: false, 
+      publisherToDelete: null, 
     };
   },
   created: async function () {
@@ -122,8 +141,9 @@ export default {
 
     //Open Add Popup
     openAddPopup() {
-      this.showPopup = true;
+      
       this.isEditing = false;
+      this.showPopup = true;
     },
     //Open Popup
     openPopup(publisher) {
@@ -152,12 +172,12 @@ export default {
         let response = await Publishers.CreatePublisher(this.publisher);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
-          alert(response.data.Message); 
+          this.showMessage(response.data.Message);
         } else {
-          if (response.data.message != "") 
+           (response.data.message != "") 
             this.ErrorText = response.data.message;
             this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+               this.showMessage(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
@@ -172,26 +192,37 @@ export default {
         let response = await Publishers.UpdatePublisher(this.publisher);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
-          alert(response.data.Message); 
+          this.showMessage(response.data.Message);
         } else {
-           (response.data.message != "") 
+           //(response.data.message != "") 
             this.ErrorText = response.data.message;
             this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+               this.showMessage(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
       }
       this.closePopup();
     },
+    confirmDelete(publisherId) { 
+      this.publisherToDelete = publisherId; 
+      this.showDeleteConfirm = true; 
+    },
+    // Close Delete Confirm Popup
+    closeDeleteConfirm() { 
+      this.showDeleteConfirm = false; 
+      this.publisherToDelete = null;
+    },
     //Remove Publishers
-    async removePublisher(publisherId) {
+    async deletePublisher(publisherId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
         let response = await Publishers.DeletePublisher(publisherId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+          this.messageText = "Publisher successfully deleted!"; 
+          this.showMessageModal = true; 
         } else {
           if (response.data.message != "") {
             this.ErrorText = response.data.message;
@@ -202,7 +233,16 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      this.closeDeleteConfirm(); 
+      //this.getPublishers(); 
       this.closePopup();
+    },
+     showMessage(message) {
+      this.messageText = message;
+      this.showMessageModal = true;
+    },
+    closeMessageModal() {
+      this.showMessageModal = false;
     },
   },
 };

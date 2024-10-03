@@ -4,6 +4,7 @@ using LibrarySystem.Models;
 using LibrarySystem.Repositories;
 using LibrarySystem.ViewModels;
 using LibrarySystem.DbContext;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace LibrarySystem.Services
 {
@@ -121,15 +122,27 @@ namespace LibrarySystem.Services
         /// Stored Procedure
         /// </summary>
         /// <returns></returns>
-        public async Task<List<BookDetails>> GetBookDetailsAsync()
+        public async Task<IList<BookDetailsViewModel>> GetBookDetailsAsync()
         {
             try
             {
                 var bookDetails = await _context.BookDetails
                  .FromSqlRaw("EXEC BookDetails")
                  .ToListAsync();
-
-                return bookDetails;
+                return bookDetails.Select(b => new BookDetailsViewModel
+                {
+                    BookID = b.Id,
+                    BookName = b.BookName,
+                    AuthorID = b.AuthorID,
+                    CategoryID = b.CategoryID,
+                    PublisherID = b.PublisherID,
+                    AuthorName = b.AuthorName,
+                    PublisherName = b.PublisherName,
+                    CategoryName = b.CategoryName
+                })
+                    .OrderBy(b => b.BookName)
+                    .ToList();
+                //return bookDetails;
             }
             catch (Exception ex)
             {

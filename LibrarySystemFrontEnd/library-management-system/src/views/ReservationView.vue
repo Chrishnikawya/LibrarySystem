@@ -33,7 +33,7 @@
                 <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
               </button>
               
-              <button @click="removeReservation(reservation.reservationID)" title="Remove">
+              <button @click="confirmDelete(reservation.reservationID)" title="Remove">
                 <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
               </button>
           </td>
@@ -80,8 +80,7 @@
             <option
               v-for="staff in staffs"
               :key="staff.staffID"
-              :value="staff.staffID"
-            >
+              :value="staff.staffID">
               {{ staff.staffName }}
             </option>
           </select>
@@ -100,6 +99,21 @@
         </form>
       </div>
     </div>
+    <div v-if="showDeleteConfirm" class="modal"> 
+        <div class="modal-content"> 
+          <h3>Are you sure you want to delete this Reservation?</h3> 
+          <button @click="deleteReservation(reservationToDelete)">Yes</button> 
+          <button @click="closeDeleteConfirm">No</button> 
+        </div> 
+      </div> 
+     <div v-if="showMessageModal" class="modal">
+        <div class="modal-content message-box">
+          <span class="close" @click="closeMessageModal">&times;</span>
+          <h3>Message</h3>
+          <p>{{ messageText }}</p>
+          <button @click="closeMessageModal">OK</button>
+        </div>
+      </div>
   </div>
   </div>
 </template>
@@ -148,6 +162,10 @@ export default {
       IsSuccess: false,
       showPopup: false,
       isEditing: false,
+      showMessageModal: false, 
+      messageText: "",  
+      showDeleteConfirm: false, 
+      reservationToDelete: null,
     };
   },
   created: async function () {
@@ -246,7 +264,8 @@ export default {
         bookID: "",
         reservationDate: "",
       };
-      this.getReservations();
+      this.getReservationDetails();
+      
     },
     //Add Reservations
     async addReservation() {
@@ -260,14 +279,14 @@ export default {
         this.reservation.memberID = this.member.memberID;
         this.reservation.reservationDate = this.utcDate;
         let response = await Reservations.CreateReservation(this.reservation);
-        if (response.data.IsSuccess) {
-          this.IsSuccess = true;
-          alert(response.data.Message); 
+        if (response.data.isSuccess) {
+          this.isSuccess = true;
+          this.showMessage(response.data.message);
         } else {
-            (response.data.message != "")
-            this.ErrorText = response.data.message;
-            this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+          //  (response.data.message != "")
+            this.ErrorText = response.data.message || "";
+            this.ErrorList = response.data.error || [];
+               this.showMessage(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
@@ -279,27 +298,37 @@ export default {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
+        const utcDate = this.convertToUtc(this.reservation.reservationDate);
         this.reservation.bookID = this.book.bookID;
         this.reservation.staffID = this.staff.staffID;
         this.reservation.memberID = this.member.memberID;
+        this.reservation.reservationDate = this.utcDate;
         let response = await Reservations.UpdateReservation(this.reservation);
-        if (response.data.IsSuccess) {
-          this.IsSuccess = true;
-          alert(response.data.Message); 
-        } else {
-          (response.data.message != "") 
-            this.ErrorText = response.data.message;
-          
-            this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+        if (response.data.isSuccess) {
+          this.isSuccess = true;
+          this.showMessage(response.data.message); 
+        } else { 
+            this.ErrorText = response.data.message ||"";
+            this.ErrorList = response.data.error ||[];
+               this.showMessage(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
       }
+      this.getReservations();
       this.closePopup();
     },
+    confirmDelete(reservationId) { 
+      this.reservationToDelete = reservationId; 
+      this.showDeleteConfirm = true; 
+    },
+    // Close Delete Confirm Popup
+    closeDeleteConfirm() { 
+      this.showDeleteConfirm = false; 
+      this.reservationToDelete = null;
+    },
     //Remove Reservations
-    async removeReservation(reservationId) {
+    async deleteReservation(reservationId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
@@ -307,19 +336,27 @@ export default {
         this.reservation.staffID = this.staff.staffID;
         this.reservation.memberID = this.member.memberID;
         let response = await Reservations.DeleteReservation(reservationId);
-        if (response.data.IsSuccess) {
-          this.IsSuccess = true;
+        if (response.data.isSuccess) {
+          this.isSuccess = true;
+          this.messageText = "Reservation successfully deleted!"; 
+          this.showMessageModal = true; 
         } else {
-          if (response.data.message != "") {
-            this.ErrorText = response.data.message;
-          } else {
-            this.ErrorList = response.data.error;
-          }
+            this.ErrorText = response.data.message  || "";
+            this.ErrorList = response.data.error  || [];
+          
         }
       } catch (error) {
         console.log(error);
       }
+      this.closeDeleteConfirm(); 
       this.closePopup();
+    },
+     showMessage(message) {
+      this.messageText = message;
+      this.showMessageModal = true;
+    },
+    closeMessageModal() {
+      this.showMessageModal = false;
     },
   },
 };

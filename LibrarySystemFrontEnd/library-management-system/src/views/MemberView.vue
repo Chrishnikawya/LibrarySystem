@@ -25,7 +25,7 @@
                 <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
               </button>
               
-              <button @click="removeMember(member.memberID)" title="Remove">
+              <button @click="confirmDelete(member.memberID)" title="Remove">
                 <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
               </button>
           </td>
@@ -68,6 +68,21 @@
         </form>
       </div>
     </div>
+    <div v-if="showDeleteConfirm" class="modal"> 
+        <div class="modal-content"> 
+          <h3>Are you sure you want to delete this member?</h3> 
+          <button @click="deleteMember(memberToDelete)">Yes</button> 
+          <button @click="closeDeleteConfirm">No</button> 
+        </div> 
+      </div> 
+     <div v-if="showMessageModal" class="modal">
+        <div class="modal-content message-box">
+          <span class="close" @click="closeMessageModal">&times;</span>
+          <h3>Message</h3>
+          <p>{{ messageText }}</p>
+          <button @click="closeMessageModal">OK</button>
+        </div>
+      </div>
   </div>
 </div>
 </template>
@@ -92,6 +107,10 @@ export default {
       IsSuccess: false,
       showPopup: false,
       isEditing: false,
+      showMessageModal: false, 
+      messageText: "",  
+      showDeleteConfirm: false, 
+      memberToDelete: null,
     };
   },
   created: async function () {
@@ -112,6 +131,8 @@ export default {
     openAddPopup() {
       this.isEditing = false;
       this.showPopup = true;
+      
+      
     },
     // Open Popup
     openPopup(member) {
@@ -137,14 +158,13 @@ export default {
       try {
         this.member.memberID = 0;
         let response = await Members.CreateMember(this.member);
-        if (response.data.IsSuccess) {
-          this.IsSuccess = true;
-          alert(response.data.Message); 
+        if (response.data.isSuccess) {
+          this.isSuccess = true; 
+         this.showMessage(response.data.message);
         } else {
-          (response.data.message != "") 
             this.ErrorText = response.data.message;
-            this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+            this.ErrorList = response.data.error; 
+               this.showMessage(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
@@ -157,41 +177,63 @@ export default {
       this.ErrorList = [];
       try {
         let response = await Members.UpdateMember(this.member);
-        if (response.data.IsSuccess) {
-          this.IsSuccess = true;
-          alert(response.data.Message); 
+        if (response.data.isSuccess) {
+          this.isSuccess = true;
+          this.showMessage(response.data.message);
         } else {
-          (response.data.message != "") 
             this.ErrorText = response.data.message;
             this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+               this.showMessage(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
       }
       this.closePopup();
     },
+    confirmDelete(memberId) { 
+      this.memberToDelete = memberId; 
+      this.showDeleteConfirm = true; 
+    },
+    // Close Delete Confirm Popup
+    closeDeleteConfirm() { 
+      this.showDeleteConfirm = false; 
+      this.memberToDelete = null;
+    },
     //Remove Members
-    async removeMember(memberId) {
+    async deleteMember(memberId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
         let response = await Members.DeleteMember(memberId);
-        if (response.data.IsSuccess) {
-          this.IsSuccess = true;
+        if (response.data.isSuccess) {
+          this.isSuccess = true;
+          this.showMessage(response.data.message);
+          this.messageText = "Member successfully deleted!"; 
+          this.showMessageModal = true; 
         } else {
-          if (response.data.message != "") {
+          if (response.data.message != "") 
             this.ErrorText = response.data.message;
-          } else {
             this.ErrorList = response.data.error;
-          }
+            this.showMessage(this.ErrorText);
         }
       } catch (error) {
         console.log(error);
       }
+      this.closeDeleteConfirm(); 
+      //this.getMembers(); 
       this.closePopup();
     },
+     showMessage(message) {
+      this.messageText = message;
+      this.showMessageModal = true;
+       alert(message);
+    },
+    closeMessageModal() {
+      this.showMessageModal = false;
+
+    },
   },
+  
 };
 </script>
 

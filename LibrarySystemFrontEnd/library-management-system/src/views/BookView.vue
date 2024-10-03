@@ -27,7 +27,7 @@
                 <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
               </button>
               
-              <button @click="removeBook(book.bookID)" title="Remove">
+              <button @click="confirmDelete(book.bookID)" title="Remove">
                 <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
               </button>
           </td>
@@ -78,10 +78,25 @@
               {{ isEditing ? "Save Changes" : "Add Book" }}
             </button>
             <button type="button" @click="closePopup">Cancel</button>
-          </div>
-        </form>
+           </div>
+         </form>
+       </div>
       </div>
-    </div>
+      <div v-if="showDeleteConfirm" class="modal"> 
+        <div class="modal-content"> 
+          <h3>Are you sure you want to delete this book?</h3> 
+          <button @click="deleteBook(bookToDelete)">Yes</button> 
+          <button @click="closeDeleteConfirm">No</button> 
+        </div> 
+      </div> 
+     <div v-if="showMessageModal" class="modal">
+        <div class="modal-content message-box">
+          <span class="close" @click="closeMessageModal">&times;</span>
+          <h3>Message</h3>
+          <p>{{ messageText }}</p>
+          <button @click="closeMessageModal">OK</button>
+        </div>
+      </div>
   </div>
 </div>
 </template>
@@ -107,6 +122,7 @@ export default {
         categoryName: "",
         authorName: "",
         publisherName: "",
+
       },
       authors: [],
       author: {
@@ -128,6 +144,10 @@ export default {
       IsSuccess: false,
       showPopup: false,
       isEditing: false,
+      showMessageModal: false, 
+      messageText: "",  
+      showDeleteConfirm: false, 
+      bookToDelete: null,
     };
   },
   created: async function () {
@@ -151,6 +171,7 @@ export default {
       try {
         let response = await Books.GetBookDetails();
         this.books = response.data;
+        console.log(this.books);
       } catch (error) {
         console.log(error);
       }
@@ -185,8 +206,9 @@ export default {
     },
     //Open Popup
     openAddPopup() {
-      this.isEditing = false;
       this.showPopup = true;
+      this.isEditing = false;
+      
     },
 
     //Open popup
@@ -205,7 +227,7 @@ export default {
         authorID: null,
         publisherID: null,
       };
-      this.getBooks();
+      this.getBookDetails();
     },
     // Edit Books
     async editBook() {
@@ -218,13 +240,12 @@ export default {
         let response = await Books.UpdateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
-          alert(response.data.Message); 
+          this.showMessage(response.data.Message);
         } else {
-          if (response.data.message != "") 
+          (response.data.message != "") 
             this.ErrorText = response.data.message;
-         
             this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+               this.showMessage(this.ErrorText);
           }
       } catch (error) {
         console.log(error);
@@ -243,13 +264,13 @@ export default {
         let response = await Books.CreateBook(this.book);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
-          alert(response.data.Message); 
+          this.showMessage(response.data.Message);
         } 
         else {
           (response.data.message != "") 
             this.ErrorText = response.data.message;
             this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+              this.showMessage(this.ErrorText);
             } 
       } 
       catch (error) {
@@ -257,8 +278,17 @@ export default {
       }
       this.closePopup();
     },
+    confirmDelete(bookId) { 
+      this.bookToDelete = bookId; 
+      this.showDeleteConfirm = true; 
+    },
+    // Close Delete Confirm Popup
+    closeDeleteConfirm() { 
+      this.showDeleteConfirm = false; 
+      this.bookToDelete = null;
+    },
     // Remove Books
-    async removeBook(bookId) {
+    async deleteBook(bookId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
@@ -268,17 +298,29 @@ export default {
         let response = await Books.DeleteBook(bookId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+          this.messageText = "Book successfully deleted!"; 
+          this.showMessageModal = true; 
         } else {
-          if (response.data.message != "") {
+         // (response.data.message != "") {
             this.ErrorText = response.data.message;
-          } else {
+            
+          
             this.ErrorList = response.data.error;
-          }
+          
         }
       } catch (error) {
         console.log(error);
       }
+      this.closeDeleteConfirm(); 
+      //this.getBooks(); 
       this.closePopup();
+    },
+     showMessage(message) {
+      this.messageText = message;
+      this.showMessageModal = true;
+    },
+    closeMessageModal() {
+      this.showMessageModal = false;
     },
   },
 };

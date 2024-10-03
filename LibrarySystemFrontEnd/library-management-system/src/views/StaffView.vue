@@ -24,10 +24,12 @@
               <button @click="openPopup(staff)" title="Edit">
                 <i class="fas fa-edit" style="color: blue; font-size: 20px;"></i>
               </button>
-              
-              <button @click="removeStaff(staff.staffID)" title="Remove">
+               <button @click="confirmDelete(staff.staffID)" title="Remove">
                 <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
               </button>
+              <!-- <button @click="deleteStaff(staff.staffID)" title="Remove">
+                <i class="fas fa-trash" style="color: white; font-size: 20px;"></i>
+              </button> -->
           </td>
         </tr>
       </tbody>
@@ -68,6 +70,21 @@
         </form>
       </div>
     </div>
+        <div v-if="showDeleteConfirm" class="modal"> 
+        <div class="modal-content"> 
+          <h3>Are you sure you want to delete this staff member?</h3> 
+          <button @click="deleteStaff(staffToDelete)">Yes</button> 
+          <button @click="closeDeleteConfirm">No</button> 
+        </div> 
+      </div> 
+     <div v-if="showMessageModal" class="modal">
+        <div class="modal-content message-box">
+          <span class="close" @click="closeMessageModal">&times;</span>
+          <h3>Message</h3>
+          <p>{{ messageText }}</p>
+          <button @click="closeMessageModal">OK</button>
+        </div>
+    </div>
   </div>
 </div>
 </template>
@@ -92,7 +109,11 @@ export default {
       IsSuccess: false,
       showPopup: false,
       //staff: { StaffID: null, StaffName: '', StaffEmail: '', StaffPhoneNumber: '' },
-      isEditing: false,
+      isEditing: false, 
+      showMessageModal: false,  
+      messageText: "",  
+      showDeleteConfirm: false, 
+      staffToDelete: null,
     };
   },
   created: async function () {
@@ -158,12 +179,17 @@ export default {
         let response = await Staffs.CreateStaff(this.staff);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
-           alert(response.data.Message); 
+          this.messageText = response.data.Message; 
+          this.showMessageModal = true; 
+           this.showMessage(response.data.Message);
+           
         } else {
            (response.data.message != "") 
             this.ErrorText = response.data.message;
             this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+             this.showMessageModal = true; 
+              this.showMessage(this.ErrorText);
+             
         }
       } catch (error) {
         console.log(error);
@@ -178,26 +204,39 @@ export default {
         let response = await Staffs.UpdateStaff(this.staff);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+           this.showMessage(response.data.Message);
         } else {
            (response.data.message != "") 
             this.ErrorText = response.data.message;
-            alert(response.data.Message); 
             this.ErrorList = response.data.error;
-             alert(this.ErrorText);
+             this.showMessage(this.ErrorText);
+
+            
         }
       } catch (error) {
         console.log(error);
       }
       this.closePopup();
     },
+    confirmDelete(staffId) { 
+      this.staffToDelete = staffId; 
+      this.showDeleteConfirm = true; 
+    },
+    // Close Delete Confirm Popup
+    closeDeleteConfirm() { 
+      this.showDeleteConfirm = false; 
+      this.staffToDelete = null;
+    },
     //remove Staff
-    async removeStaff(staffId) {
+    async deleteStaff(staffId) {
       this.ErrorText = null;
       this.ErrorList = [];
       try {
         let response = await Staffs.DeleteStaff(staffId);
         if (response.data.IsSuccess) {
           this.IsSuccess = true;
+          this.messageText = "Staff successfully deleted!"; 
+          this.showMessageModal = true; 
         } else {
           if (response.data.message != "") {
             this.ErrorText = response.data.message;
@@ -208,8 +247,18 @@ export default {
       } catch (error) {
         console.log(error);
       }
+      this.closeDeleteConfirm(); 
+     // this.getStaffs(); 
       this.closePopup();
     },
+     
+      showMessage(message) {
+      this.messageText = message;
+      this.showMessageModal = true;
+    },
+    closeMessageModal() {
+      this.showMessageModal = false;
+    }, 
   },
 };
 </script>

@@ -10,7 +10,7 @@ namespace LibrarySystem.Interfaces
         Task<bool> EditBookAsync(BookViewModel bookViewModel);
         Task<bool> RemoveBookAsync(int bookId);
         Task<IList<BookViewModel>> GetBookAsync();
-        Task<List<BookDetails>> GetBookDetailsAsync();
+        Task<IList<BookDetailsViewModel>> GetBookDetailsAsync();
         Task<List<BookDetails>> GetBookDetailsViewAsync();
 
     }
